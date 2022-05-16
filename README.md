@@ -47,6 +47,10 @@ https://github.com/List-KR/microShield/raw/main/microShield.user.js
 
 [^1]: https://github.com/AdguardTeam/AdguardForiOS/issues/1542
 
+
+### What is Ad-Shield?
+Please read `/ad-shield.md`.
+
 ### Why List-KR created microShield?
 Unlike license of List-KR Script, microShield is under MIT license that allows other software to use this userscript without using the same license.
 
