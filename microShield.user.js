@@ -45,6 +45,10 @@
 // ==/UserScript==
 
 (() => {
+    if (typeof unsafeWindow === 'undefined') {
+        unsafeWindow = window
+    }
+
     const isAdObject = (content) => {
         return content.indexOf('_id":"') >= 0 ||
             content.indexOf('ad-shield.io') >= 0
