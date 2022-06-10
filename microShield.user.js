@@ -44,8 +44,69 @@
 // @run-at       document-start
 // ==/UserScript==
 
-(function() {
-    'use strict';
-    
-    
-})();
+(() => {
+    const isAdObject = (content) => {
+        return content.indexOf('_id":"') >= 0 ||
+            content.indexOf('ad-shield.io') >= 0
+    }
+
+    const findModifierType = (ref) => {
+        if (ref.click_url) {
+            return 'persist'
+        }
+        if (ref.inventory_id) {
+            return 'internal'
+        }
+
+        return 'noop'
+    }
+
+    const modifiers = {
+        noop: (ref) => ref,
+        persist: (ref) => ref, // no required
+        internal: (ref) => {
+            ref.click_url = '/'
+            ref.inventory_id = '0'
+            ref.tracker_urls2 = []
+
+            return ref
+        }
+    }
+
+    const modify = (ref) => {
+        const type = findModifierType(ref)
+
+        return modifiers[type](ref)
+    }
+
+    unsafeWindow.JSON.parse = new Proxy(
+        unsafeWindow.JSON.parse,
+        {
+            apply(target, thisArg, argsList) {
+                const [source] = argsList
+                const original = Reflect.apply(target, thisArg, argsList)
+
+                if (!isAdObject(source)) {
+                    return original
+                }
+
+                // normalize
+                let ref = original
+
+                while (Array.isArray(ref[0])) {
+                    ref = original[0]
+                }
+
+                if (Array.isArray(ref)) {
+                    for (let i = 0, l = ref.length; i < l; i++) {
+                        ref[i] = modify(ref[i])
+                    }
+                } else {
+                    ref = modify(ref)
+                }
+
+                return original
+            }
+        }
+    )
+})()
