@@ -8,7 +8,7 @@
 // @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
 // @license      MIT
 //
-// @version      0.0.1
+// @version      1.0
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ad-shield.team/*
