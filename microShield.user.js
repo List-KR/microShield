@@ -8,7 +8,7 @@
 // @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
 // @license      MIT
 //
-// @version      1.0
+// @version      1.0.1
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ad-shield.team/*
@@ -40,7 +40,7 @@
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
 //
-// @grant        none
+// @grant        unsafeWindow
 // @run-at       document-start
 // ==/UserScript==
 
