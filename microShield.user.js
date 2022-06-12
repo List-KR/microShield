@@ -40,7 +40,7 @@
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
 //
-// @grant        none
+// @grant        unsafeWindow
 // @run-at       document-start
 // ==/UserScript==
 
