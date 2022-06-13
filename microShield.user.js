@@ -8,7 +8,7 @@
 // @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
 // @license      MIT
 //
-// @version      1.0.1
+// @version      1.0.2
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ad-shield.team/*
@@ -18,6 +18,7 @@
 // @match        *://*.loawa.com/*
 // @match        *://*.inven.co.kr/*
 // @match        *://ygosu.com/*
+// @match        *://m.ygosu.com/*
 // @match        *://ppss.kr/*
 // @match        *://ad-shield.io/*
 // @match        *://sports.donga.com/*
