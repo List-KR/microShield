@@ -1,0 +1,125 @@
+name: Advertisement
+description: Resolve an Ad-Shield leaked advertisement.
+title: "AD: "
+labels: ["advertisement"]
+body:
+
+  - type: textarea
+    id: issue_url
+    attributes:
+      label: "URL"
+      description: "Please write a URL (or URLs) that has an same issue and do NOT attach any file."
+    validations:
+      required: true
+  
+  - type: textarea
+    id: filters
+    attributes:
+      label: "FILTERS"
+      description: Please write your subscribed filters. It is important that reproduce your issue.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: "Browser"
+      description: "What is a browser (or browsers) that the issue is occurred in?"
+      multiple: true
+      options:
+        - Mozilla Firefox
+        - Google Chrome
+        - Microsoft Edge
+        - Naver Whale
+        - Apple Safari
+        - Samsung Internet
+        - Opera
+        - Vivaldi
+        - Brave
+        - (Other)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: "Operating System"
+      description: "What is an operating system (or operating systems) that the issue is occurred with?"
+      multiple: true
+      options:
+        - Microsoft Windows 11
+        - Microsoft Windows 10
+        - Ubuntu
+        - Kubuntu
+        - openSUSE
+        - HamoniKR
+        - Gooroom OS
+        - Pop!_OS
+        - Red Hat Linux
+        - Fedora
+        - Manjaro Linux
+        - Arch Linux
+        - Chromium OS (Chrome OS and WhaleOS are included.)
+        - Qubes OS
+        - Android
+        - Apple macOS
+        - Apple iOS
+        - (Other)
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: adblocker
+    attributes:
+      label: "Ad-Blocker"
+      description: "What is an ad-blocker that the issue is occurred with?"
+      multiple: true
+      options:
+        - AdGuard Browser Extension
+        - AdGuard for Windows
+        - AdGuard for Android
+        - AdGuard for iOS/iOS Pro
+        - AdGuard for Mac
+        - AdGuard for Safari
+        - AdGuard Content Blocker
+        - AdGuard DNS
+        - uBlock Origin
+        - Unicorn PRO for Windows
+        - Unicorn PRO for Android
+        - Unicorn PRO for iPhone
+        - Unicorn PRO for Mac
+        - (Other)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: userscriptmgr
+    attributes:
+      label: "Userscript Manager"
+      description: "What is an userscript manager that Ad-Shield is installed in?"
+      multiple: true
+      options:
+        - Tampermonkey
+        - Greasemonkey
+        - Violentmonkey
+        - AdGuard for Windows
+        - AdGuard for macOS
+        - AdGuard for Android
+        - (Other)
+    validations:
+      required: true
+
+  - type: textarea
+    id: userscript
+    attributes:
+      label: "USERSCRIPT"
+      description: Please write your subscribed userscripts. It is important that reproduce your issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: comment
+    attributes:
+      label: "Comment"
+    validations:
+      required: false
