@@ -96,7 +96,7 @@ body:
     id: userscriptmgr
     attributes:
       label: "Userscript Manager"
-      description: "What is an userscript manager that Ad-Shield is installed in?"
+      description: "What is an userscript manager that microShield is installed in?"
       multiple: true
       options:
         - Tampermonkey
