@@ -8,7 +8,7 @@
 // @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
 // @license      MIT
 //
-// @version      1.0.2
+// @version      1.0.3
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ad-shield.team/*
@@ -31,6 +31,8 @@
 // @match        *://*.reddit.com/*
 // @match        *://*.nytimes.com/*
 // @match        *://*.forbes.com/*
+// @match        *://sportalkorea.com/*
+// @match        *://*.sportalkorea.com/*
 // @exclude      *://myaccount.nytimes.com/*
 // @exclude      *://tgd.kr/member/login_page*
 // @exclude      *://member.op.gg/*
