@@ -43,9 +43,12 @@ https://github.com/List-KR/microShield/raw/main/microShield.user.js
 
     Userscript is not supported currently on AdGuard for iOS.
     However, It will be supported in the future.[^1]
+    Also, you can use an alternative temporally.[^2][^3]
 
 
 [^1]: https://github.com/AdguardTeam/AdguardForiOS/issues/1542
+[^2]: https://github.com/quoid/userscripts
+[^3]: https://apps.apple.com/us/app/userscripts/id1463298887
 
 
 ### What is Ad-Shield?
