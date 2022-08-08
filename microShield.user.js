@@ -9,7 +9,7 @@
 // @license      MIT
 //
 // @version      2.0
-// @author       PiQuark6046 and contributors
+// @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
 // @match        *://algumon.com/*
