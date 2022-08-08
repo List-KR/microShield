@@ -16,30 +16,13 @@
 // @match        *://*.algumon.com/*
 // @match        *://loawa.com/*
 // @match        *://*.loawa.com/*
-// @match        *://*.inven.co.kr/*
 // @match        *://ygosu.com/*
 // @match        *://m.ygosu.com/*
 // @match        *://ppss.kr/*
 // @match        *://ad-shield.io/*
-// @match        *://sports.donga.com/*
-// @match        *://mlbpark.donga.com/*
-// @match        *://etoland.co.kr/*
-// @match        *://*.etoland.co.kr/*
-// @match        *://*.op.gg/*
-// @match        *://tgd.kr/*
 // @match        *://feedclick.net/*
-// @match        *://*.reddit.com/*
-// @match        *://*.nytimes.com/*
-// @match        *://*.forbes.com/*
 // @match        *://sportalkorea.com/*
 // @match        *://*.sportalkorea.com/*
-// @exclude      *://myaccount.nytimes.com/*
-// @exclude      *://tgd.kr/member/login_page*
-// @exclude      *://member.op.gg/*
-// @exclude      *://etoland.co.kr/bbs/register.php
-// @exclude      *://etoland.co.kr/bbs/password_lost.php
-// @exclude      *://secure.donga.com/*
-// @exclude      *://member.inven.co.kr/*
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
 //
