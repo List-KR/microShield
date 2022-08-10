@@ -8,7 +8,7 @@
 // @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
 // @license      MIT
 //
-// @version      2.0
+// @version      2.1
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
@@ -31,276 +31,344 @@
 // ==/UserScript==
 
 (() => {
-    if (typeof unsafeWindow === 'undefined') {
-      unsafeWindow = window
+  if (typeof unsafeWindow === 'undefined') {
+    unsafeWindow = window
+  }
+
+  const secret = (Date.now() * Math.random()).toString(36)
+
+  // Legacy
+  const w = unsafeWindow
+  const _atob = atob
+  const _json_parse = JSON.parse
+
+  // Utils
+  const waitForDomLoad = () => new Promise((resolve, _reject) => {
+    if (document.readyState === 'complete') {
+      resolve(null)
     }
-  
-    const secret = (Date.now() * Math.random()).toString(36)
-  
-    // Optimize
-    if (unsafeWindow[secret]) {
-      return
+
+    // Catch all "interactive" and "complete" state
+    w.document.addEventListener('readystatechange', () => resolve(null))
+  })
+
+  const selectorCallback = (selector = '', callback) => {
+    const node = w.document.querySelector(selector)
+
+    if (node && callback) {
+      callback(node)
     }
-  
-    unsafeWindow[secret] = 1
-  
-    // Legacy
-    const w = unsafeWindow
-    const _atob = atob
-    const _json_parse = JSON.parse
-  
-    // Hash
-    // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
-    const hash = (text) => {
-      let token = 0
-      let length = text.length
-      let i = 0
-  
-      if (length > 0) {
-        while (i < length) {
-          token = (token << 5) - token + text.charCodeAt(i++) | 0
-        }
+  }
+
+  const copyString = (text) => (' ' + text).slice(1)
+
+  const randomString = (length) => {
+    let result = ''
+
+    while (result.length < length) {
+      result += Math.random().toString(36).slice(2)
+    }
+
+    return result.slice(0, length)
+  }
+
+  // Hash
+  // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
+  const hash = (text) => {
+    const length = text.length
+    let token = 0
+    let i = 0
+
+    if (length > 0) {
+      while (i < length) {
+        token = (token << 5) - token + text.charCodeAt(i++) | 0
       }
-  
-      return token
     }
-  
-    /* Static Defuser */
-    // Analysis
-    const analysisCache = {}
-    const analysis = (payload) => {
-      const token = hash(payload)
-  
-      if (typeof analysisCache[token] !== 'undefined') {
+
+    return token
+  }
+
+  // Analysis
+  const analysisCache = {}
+  const analysis = (payload) => {
+    const token = hash(payload)
+
+    if (typeof analysisCache[token] !== 'undefined') {
+      return analysisCache[token]
+    }
+
+    try {
+      payload = decodeURIComponent(escape(_atob(payload)))
+
+      if (
+        payload.includes('<<1')
+        || payload.includes('ad-shield')
+        || payload.includes('scrollWidth')
+        || payload.includes('createDynamicsCompressor')
+        || payload.includes('CanvasCaptureMediaStream')
+        || payload.includes('shield')
+        || payload.includes('innerHeight')
+        || payload.includes('visitor_fingerprint')
+      ) {
+        analysisCache[token] = payload
+
         return analysisCache[token]
       }
-  
-      try {
-        payload = decodeURIComponent(escape(_atob(payload)))
-  
-        if (
-          payload.includes('<<1')
-          || payload.includes('ad-shield')
-          || payload.includes('scrollWidth')
-          || payload.includes('createDynamicsCompressor')
-          || payload.includes('CanvasCaptureMediaStream')
-          || payload.includes('shield')
-          || payload.includes('innerHeight')
-          || payload.includes('visitor_fingerprint')
-        ) {
-          analysisCache[token] = payload
-  
-          return analysisCache[token]
-        }
-      } catch (_error) {
-        analysisCache[token] = false
-  
-        return false
-      }
-    }
-  
-    const extract = (payload) => {
-      if (Array.isArray(payload) && payload.length === 1) {
-        return extract(payload[0])
-      } else if (typeof payload === 'object' && Object.keys(payload).length === 1) {
-        for (const value of payload) {
-          return extract(value)
-        }
-      }
-  
-      return payload
-    }
-  
-    const possibleKeys = ['id', 'class', 'tag_name', 'insert_attrs']
-    const isHostage = (payload) => {
-      for (const key of Object.keys(payload[0])) {
-        if (possibleKeys.indexOf(key)) {
-          return true
-        }
-      }
-  
+    } catch (_error) {
+      analysisCache[token] = false
+
       return false
     }
-  
-    // Parse
-    const parse = (payload) => {
-      const text = _atob(payload)
-      const key = text.charCodeAt(0)
-      let value = ''
-  
-      for (let i = 1; i < text.length; i++) {
-        value += String.fromCharCode(text.charCodeAt(i) ^ key)
+  }
+
+  const extract = (payload) => {
+    if (Array.isArray(payload) && payload.length === 1) {
+      return extract(payload[0])
+    } else if (typeof payload === 'object' && Object.keys(payload).length === 1) {
+      for (const value of payload) {
+        return extract(value)
       }
-  
-      return decodeURIComponent(escape(value))
     }
-  
-    // Defuse
-    const fetcher = (matches) => {
+
+    return payload
+  }
+
+  const possibleKeys = ['id', 'class', 'tag_name', 'insert_attrs']
+  const isHostage = (payload) => {
+    for (const key of Object.keys(payload[0])) {
+      if (possibleKeys.indexOf(key)) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  // Parse
+  const parse = (payload, altKey) => {
+    const text = _atob(payload)
+    let key = altKey
+
+    if (typeof key === 'undefined') {
+      key = text.charCodeAt(0)
+    }
+
+    let value = ''
+
+    for (let i = 1; i < text.length; i++) {
+      value += String.fromCharCode(text.charCodeAt(i) ^ key)
+    }
+
+    return decodeURIComponent(escape(value))
+  }
+
+  // Restore
+  const restore = (data) => {
+    for (const hostage of data) {
+      try {
+        const isElementIdSpecified = !!hostage.id
+        const tagName = hostage.tag_name || ''
+        const selector = isElementIdSpecified
+          ? (tagName + '#' + hostage.id)
+          : (tagName + '.' + (hostage.class || hostage.class_name))
+        const node = w.document.querySelector(selector)
+
+        if (hostage.text) {
+          node.textContent = hostage.text
+        }
+        if (hostage.insert_attrs) {
+          for (const attribute of hostage.insert_attrs) {
+            node.setAttribute(attribute.key, attribute.val)
+          }
+        }
+      } catch (_error) { }
+    }
+  }
+
+  // Fallbacks
+  const fallbacks = [
+    (matches) => {
       console.log(matches)
-    }
-  
-    const defuser = (payload) => {
-      if (!payload) {
-        return
-      }
-  
-      const pattern = /\w+\("([^"\n ]+=?=?)"\)/g
-      const matches = []
-      let match
-      let found
-  
-      while ((match = pattern.exec(payload)) !== null) {
-        try {
-          const [, phrase] = match
-          const decoded = parse(phrase)
-  
-          matches.push(parse(phrase))
-  
-          const data = extract(_json_parse(decoded))
-  
-          if (!isHostage(data)) {
-            console.log(data)
-  
-            continue
-          }
-  
-          found = true
-  
-          for (const hostage of data) {
-            try {
-              const isElementIdSpecified = !!hostage.id
-              const tagName = hostage.tag_name || ''
-              const selector = isElementIdSpecified
-                ? (tagName + '#' + hostage.id)
-                : (tagName + '.' + (hostage.class || hostage.class_name))
-              const node = w.document.querySelector(selector)
-  
-              if (hostage.text) {
-                node.textContent = hostage.text
-              }
-              if (hostage.insert_attrs) {
-                for (const attribute of hostage.insert_attrs) {
-                  node.setAttribute(attribute.key, attribute.val)
-                }
-              }
-            } catch (_error) { }
-          }
-        } catch (_error) { }
-      }
-  
-      document.cookie = 'as_uuid=; expires=-1'
-      document.cookie = 'as_uuid=' + String(Math.random()).slice(2) + ';'
-  
-      if (!found) {
-        // Try to download metadata from remote server
-        // Passing matches are for future use
-        fetcher(matches)
-      }
-    }
-  
-    const updateModuleTypes = async (selector) => {
-      const nodes = Array
-        .from(w.document.querySelectorAll(selector))
-        .sort((a, b) => -(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING || -1))
-  
-      for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i]
-        const scriptElement = w.document.createElement('script')
-  
-        // Defer
-        const scriptElementLoaded = new Promise((resolve, _reject) => {
-          if (!node.hasAttribute('src')) {
-            scriptElement.textContent = node.innerHTML
-  
-            resolve(null)
-          }
-  
-          scriptElement.addEventListener('load', () => resolve(null))
-          scriptElement.addEventListener('error', () => resolve(null))
-        })
-  
-        for (const attribute of node.attributes) {
-          scriptElement.setAttribute(attribute.name, attribute.value)
-        }
-  
-        if (node.hasAttribute('type')) {
-          scriptElement.setAttribute('type', node.getAttribute('type').split('_').pop())
-        }
-  
-        try {
-          node.parentNode.appendChild(scriptElement)
-          node.remove()
-        } catch (_error) { }
-  
-        // Wait for forcibly deferred script
-        await scriptElementLoaded
-      }
-    }
-  
-    const inlineDefuser = (force = w.document.readyState !== 'loading') => {
-      w.document.write = console.log
-      w.document.writeln = console.log
-  
-      if (force) {
-        return updateModuleTypes('script[type*="_"]:not([adshield-skip-harvest])')
-      }
-  
-      w.addEventListener('load', (_event) => {
-        updateModuleTypes('script[type*="_"]:not([adshield-skip-harvest])')
-      })
-    }
-  
-    // For users using UserScript app on App Store
-    const runtimeDefuser = () => {
-      // Make some errors to intercept the running logic
-      // Sure we can use runtimeDefuser everywhere, but it hurts atob at anytime
+    },
+    () => {
       w.atob = new Proxy(
-        w.atob,
+        _atob,
         {
           apply() {
             throw new ReferenceError('atob is not defined for malware')
           }
         }
       )
-  
-      const exposure = document.querySelector('p[style*="display"][style*="none"][id]')
-  
-      if (!exposure) {
-        return
+    }
+  ]
+  const defuserFallback = (matches = []) => {
+    Promise
+      .all(fallbacks.map(f => f(matches)))
+      .catch(console.log)
+  }
+
+  // Defuse
+  const defuser = (payload) => {
+    if (!payload) {
+      return
+    }
+
+    const pattern = /\w+\("([^"\n ]+=?=?)"\)/g
+    const matches = []
+    let match
+    let found
+
+    while ((match = pattern.exec(payload)) !== null) {
+      try {
+        const [, phrase] = match
+        const decoded = parse(phrase)
+
+        matches.push(decoded)
+
+        const data = extract(_json_parse(decoded))
+
+        if (!isHostage(data)) {
+          console.log(data)
+
+          continue
+        }
+
+        found = true
+
+        restore(data)
+      } catch (_error) { }
+    }
+
+    document.cookie = 'as_uuid=; expires=-1'
+    document.cookie = 'as_uuid='
+      + randomString(8) + '-'
+      + randomString(4) + '-'
+      + randomString(4) + '-'
+      + randomString(4) + '-'
+      + randomString(12) + ';'
+
+    if (!found) {
+      // Try to download metadata from remote server
+      // Passing matches are for future use
+      defuserFallback(matches)
+    }
+  }
+
+  const updateModuleTypes = async (selector) => {
+    const nodes = Array
+      .from(w.document.querySelectorAll(selector))
+      .sort((a, b) => -(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING || -1))
+
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i]
+      const scriptElement = w.document.createElement('script')
+
+      // Defer
+      const scriptElementLoaded = new Promise((resolve, _reject) => {
+        if (!node.hasAttribute('src')) {
+          scriptElement.textContent = node.innerHTML
+
+          resolve(null)
+        }
+
+        scriptElement.addEventListener('load', () => resolve(null))
+        scriptElement.addEventListener('error', () => resolve(null))
+      })
+
+      for (const attribute of node.attributes) {
+        scriptElement.setAttribute(attribute.name, attribute.value)
       }
-  
-      setTimeout(() => {
-        defuser(decodeURIComponent(escape(_atob((' ' + exposure.textContent)))).slice(1))
-        inlineDefuser()
-      }, 1)
+
+      if (node.hasAttribute('type')) {
+        scriptElement.setAttribute('type', node.getAttribute('type').split('_').pop())
+      }
+
+      try {
+        node.parentNode.appendChild(scriptElement)
+        node.remove()
+      } catch (_error) { }
+
+      // Wait for forcibly deferred script
+      await scriptElementLoaded
     }
-  
-    // Runner
-    if (document.readyState !== 'loading') {
-      return runtimeDefuser()
+  }
+
+  const inlineDefuser = (force = w.document.readyState !== 'loading') => {
+    w.document.write = console.log
+    w.document.writeln = console.log
+
+    if (force) {
+      return updateModuleTypes('script[type*="_"]:not([adshield-skip-harvest])')
     }
-  
+
+    w.addEventListener('load', (_event) => {
+      updateModuleTypes('script[type*="_"]:not([adshield-skip-harvest])')
+    })
+  }
+
+  // For users using UserScript app on App Store
+  const runtimeDefuser = () => {
+    // Make some errors to intercept the running logic
+    // Sure we can use runtimeDefuser everywhere, but it hurts atob at anytime
     w.atob = new Proxy(
       w.atob,
       {
-        apply(target, thisArg, argsList) {
-          const [source, code] = argsList
-          const original = Reflect.apply(target, thisArg, argsList)
-  
-          const malware = analysis(source)
-  
-          if (!malware || code === secret) {
-            return original
-          }
-  
-          defuser(malware)
-  
+        apply() {
           throw new ReferenceError('atob is not defined for malware')
         }
       }
     )
-  
+
+    // Just give fallback for post-load environment
+    defuserFallback()
     inlineDefuser()
-  })()
-  
+  }
+
+  // Deferred definitions
+  fallbacks.push(
+    async () => {
+      await waitForDomLoad()
+
+      selectorCallback('p[style*="display"][style*="none"][id]', element => {
+        const source = copyString(element.textContent)
+
+        element.remove()
+        defuser(decodeURIComponent(escape(_atob(source))))
+      })
+
+      selectorCallback('script[src][data]', element => {
+        const source = copyString(element.getAttribute('data'))
+
+        restore(extract(_json_parse(parse(source))).hostages)
+        element.remove()
+      })
+    }
+  )
+
+  // Runner
+  if (document.readyState !== 'loading') {
+    return runtimeDefuser()
+  }
+
+  w.atob = new Proxy(
+    w.atob,
+    {
+      apply(target, thisArg, argsList) {
+        const [source, code] = argsList
+        const original = Reflect.apply(target, thisArg, argsList)
+
+        const malware = analysis(source)
+
+        if (!malware || code === secret) {
+          return original
+        }
+
+        defuser(malware)
+
+        throw new ReferenceError('atob is not defined for malware')
+      }
+    }
+  )
+
+  inlineDefuser()
+})()
