@@ -59,3 +59,6 @@ However, Ad-Shield™ Recovery **rejects** your behavior like that.
 Ad-Shield Inc wants to expand their business to reach Reddit and New York Times.
 
 https://www.ad-shield.team/careers/solutions-engineer
+
+## Resources
+https://typed.sh/adshieldyi-modeleun-jisogganeunghaji-anheumyeo-yeoreobunyi-gaeinjeongboreul-wihyeobjeogeuro-galcwiharyeo-habnida/
