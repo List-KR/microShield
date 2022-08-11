@@ -8,7 +8,7 @@
 // @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
 // @license      MIT
 //
-// @version      2.1
+// @version      2.2
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
@@ -174,7 +174,10 @@
         const node = w.document.querySelector(selector)
 
         if (hostage.text) {
-          node.textContent = hostage.text
+          // There is another way to restore the text node by creating DocumentFragment, but it was slower.
+          // document.createRange().createContextualFragment()
+          node.before(hostage.text)
+          node.remove()
         }
         if (hostage.insert_attrs) {
           for (const attribute of hostage.insert_attrs) {
@@ -243,8 +246,8 @@
     document.cookie = 'as_uuid='
       + randomString(8) + '-'
       + randomString(4) + '-'
-      + randomString(4) + '-'
-      + randomString(4) + '-'
+      + '4' + randomString(3) + '-'
+      + [8, 9, 'A', 'B'][Math.floor(Math.random() * 4)] + randomString(4) + '-'
       + randomString(12) + ';'
 
     if (!found) {
