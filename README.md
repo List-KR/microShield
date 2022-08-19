@@ -7,7 +7,7 @@ Just click the following URL to detect this userscript.
 https://github.com/List-KR/microShield/raw/main/microShield.user.js
 
 ### How to install
-- [Violentmonkey](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/) (Recommended) - Browser extension
+- [Violentmonkey](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/) (Recommended if you cannot access AdGuard Premium) - Browser extension
     1. Open `Dashboard`.
     2. Click `New` button.
     3. Click `Install from URL` button.
