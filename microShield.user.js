@@ -24,7 +24,7 @@
 // @match        *://sportalkorea.com/*
 // @match        *://*.sportalkorea.com/*
 //
-// @description        microShield allows the adblock community to resist against Ad-Shield widely.
+// @description  microShield allows the adblock community to resist against Ad-Shield widely.
 //
 // @grant        unsafeWindow
 // @run-at       document-start
