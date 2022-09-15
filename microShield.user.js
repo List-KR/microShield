@@ -8,7 +8,7 @@
 // @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
 // @license      MIT
 //
-// @version      2.2
+// @version      2.2.1
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
@@ -25,6 +25,7 @@
 // @match        *://*.sportalkorea.com/*
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
+// @description:ko     microShield는 애드블록 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
 //
 // @grant        unsafeWindow
 // @run-at       document-start
