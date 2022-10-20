@@ -4,11 +4,11 @@
 // @namespace    https://github.com/List-KR/microShield
 // @homepageURL  https://github.com/List-KR/microShield
 // @supportURL   https://github.com/List-KR/microShield/issues
-// @updateURL    https://github.com/List-KR/microShield/raw/main/microShield.user.js
-// @downloadURL  https://github.com/List-KR/microShield/raw/main/microShield.user.js
+// @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
+// @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
 // @license      MIT
 //
-// @version      2.2.1
+// @version      2.2.2
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
