@@ -49,7 +49,7 @@ However, Ad-Shield™ Recovery **rejects** your behavior like that.
 
 ## Expansionism of Ad-Shield Inc.
 <details>
-<summary>Reddit and New York Times</summmary>
+<summary>Reddit and New York Times</summary>
 
 ![Screens77hot](https://user-images.githubusercontent.com/98787049/168649300-2367958d-3d0c-4e6f-8ec5-af494eba028c.png)
 ![Screensho99t1](https://user-images.githubusercontent.com/98787049/168649342-22d22556-9a7b-4d26-a774-cc23ca84336b.png)
