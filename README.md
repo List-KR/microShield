@@ -22,7 +22,9 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
     ```
     https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
     ```
-    5. Confirm metadata of the userscript and click `Confirm installation`.
+    5. Click `OK` button.
+    6. Confirm metadata of the userscript and click `Confirm installation`.
+    7. Return to a tab opening the website protected by Ad-Shield and reload the tab by pressing F5 or Ctrl + R or clicking the reload button.
 
 - [Tampermonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) - Browser extension
     1. Open settings of Tampermonkey.
@@ -31,7 +33,9 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
         https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
-    4. Confirm metadata of the userscript and click `Install`.
+    4. Click `Install` button.
+    5. Confirm metadata of the userscript and click `Install`.
+    6. Return to a tab opening the website protected by Ad-Shield and reload the tab by pressing F5 or Ctrl + R or clicking the reload button.
 
     <details>
     <summary>Compatibility Table</summary>
@@ -54,6 +58,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
     5. Click `Install`.
     6. Confirm metadata of the userscript and click `Install`.
+    7. Return to a tab opening the website protected by Ad-Shield and reload the tab by pressing F5 or Ctrl + R or clicking the reload button.
 
 
 - AdGuard for Android
@@ -65,6 +70,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
     4. Touch `Next`.
     5. Confirm metadata of the userscript and touch `Add`.
+    6. Return to a tab opening the website protected by Ad-Shield and reload the tab by touching the reload button.
 
 
  - AdGuard for iOS
