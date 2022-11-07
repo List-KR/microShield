@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
 // @license      MIT
 //
-// @version      2.3.0
+// @version      2.3.1
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
@@ -369,7 +369,7 @@
         const key = parseInt(binary.slice(0, 2), 16)
         const data = binary.slice(2)
 
-        restore(extract(_json_parse(decodeURIComponent(escape(parseAlpha(data, key))))))
+        restore(extract(_json_parse(decodeURIComponent(escape(parseAlpha(data, key))))).hostages)
         element.remove()
       })
     }
