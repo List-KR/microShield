@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
 // @license      MIT
 //
-// @version      2.2.3
+// @version      2.3.0
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
@@ -165,6 +165,20 @@
     return decodeURIComponent(escape(value))
   }
 
+  const parseAlpha = (payload, key) => {
+    if (key < 16 || key > 255) {
+      key = Math.abs(key % 239)
+    }
+
+    let value = ''
+
+    for (let i = 0; i < payload.length; i++) {
+      value += String.fromCharCode(payload.charCodeAt(i) ^ key)
+    }
+
+    return value
+  }
+
   // Restore
   const restore = (data) => {
     for (const hostage of data) {
@@ -250,7 +264,7 @@
       + randomString(8) + '-'
       + randomString(4) + '-'
       + '4' + randomString(3) + '-'
-      + [8, 9, 'A', 'B'][Math.floor(Math.random() * 4)] + randomString(4) + '-'
+      + [8, 9, 'a', 'b'][Math.floor(Math.random() * 4)] + randomString(4) + '-'
       + randomString(12) + ';'
 
     if (!found) {
@@ -342,10 +356,20 @@
         defuser(decodeURIComponent(escape(_atob(source))))
       })
 
-      selectorCallback('script[src][data]', element => {
+      selectorCallback('script[src^="/"][data]', element => {
         const source = copyString(element.getAttribute('data'))
 
         restore(extract(_json_parse(parse(source))).hostages)
+        element.remove()
+      })
+
+      selectorCallback('script[src*="recovery"][data]', element => {
+        const source = copyString(element.getAttribute('data'))
+        const binary = _atob(source)
+        const key = parseInt(binary.slice(0, 2), 16)
+        const data = binary.slice(2)
+
+        restore(extract(_json_parse(decodeURIComponent(escape(parseAlpha(data, key))))))
         element.remove()
       })
     }
