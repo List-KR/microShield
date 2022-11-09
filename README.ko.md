@@ -17,7 +17,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
     ```
     5. `확인` 버튼을 클릭하세요.
     6. 유저스크립트의 메타데이터를 확인하시고 `설치 확인`를 클릭하세요.
-    7. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 F5나 Ctrl + R를 누르시거나 리로드 버튼을 클릭함으로써 리로드하세요.
+    7. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 F5나 Ctrl + R를 누르거나 새로 고침 버튼을 눌러서 새로 고침하세요.
 
 - [Tampermonkey](https://addons.mozilla.org/ko/firefox/addon/tampermonkey/) - 브라우저 확장
     1. Tampermonkey의 설정을 여세요.
@@ -28,7 +28,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
     4. `설치` 버튼을 클릭하세요.
     5. 유저스크립트의 메타데이터를 확인하시고 `설치`를 클릭하세요.
-    6. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 F5나 Ctrl + R를 누르시거나 리로드 버튼을 클릭함으로써 리로드하세요.
+    6. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 F5나 Ctrl + R를 누르거나 새로 고침 버튼을 눌러서 새로 고침하세요.
 
     <details>
     <summary>호환성 표</summary>
@@ -51,7 +51,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
     5. `설치`를 클릭하세요.
     6. 유저스크립트의 메타데이터를 확인하시고 `설치`를 클릭하세요.
-    7. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 F5나 Ctrl + R를 누르시거나 리로드 버튼을 클릭함으로써 리로드하세요.
+    7. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 F5나 Ctrl + R를 누르거나 새로 고침 버튼을 눌러서 새로 고침하세요.
 
 
 - Android용 AdGuard
@@ -63,13 +63,13 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
     4. `다음`을 터치하세요.
     5. 유저스크립트의 메타데이터를 확인하시고 `추가`를 클릭하세요.
-    6. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 리로드 버튼을 버튼으로써 리로드하세요.
+    6. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 새로 고침 버튼을 터치해서 새로 고침하세요.
 
 
  - AdGuard for iOS
 
     유저스크립트는 현재 iOS용 AdGuard에서 지원되지 않습니다.
-    그러나, 이 것은 미래에 지원될 될겁니다.[^1]
+    그러나, 미래에 지원될 겁니다.[^1]
     
     몰론, 일시적으로 대안을 사용하실 수 있습니다.[^2][^3]
 
