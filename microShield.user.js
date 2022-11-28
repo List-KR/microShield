@@ -12,19 +12,14 @@
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
-// @match        *://algumon.com/*
-// @match        *://*.algumon.com/*
 // @match        *://loawa.com/*
 // @match        *://*.loawa.com/*
 // @match        *://ygosu.com/*
 // @match        *://m.ygosu.com/*
-// @match        *://ppss.kr/*
 // @match        *://ad-shield.io/*
 // @match        *://feedclick.net/*
 // @match        *://sportalkorea.com/*
 // @match        *://*.sportalkorea.com/*
-// @match        *://ondemandkorea.com/*
-// @match        *://*.ondemandkorea.com/*
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
 // @description:ko     microShield는 애드블록 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
