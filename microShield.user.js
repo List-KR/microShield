@@ -8,17 +8,14 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
 // @license      MIT
 //
-// @version      2.3.1
+// @version      2.3.2
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
 // @match        *://algumon.com/*
 // @match        *://*.algumon.com/*
-// @match        *://loawa.com/*
-// @match        *://*.loawa.com/*
 // @match        *://ygosu.com/*
 // @match        *://m.ygosu.com/*
-// @match        *://ppss.kr/*
 // @match        *://ad-shield.io/*
 // @match        *://feedclick.net/*
 // @match        *://sportalkorea.com/*
