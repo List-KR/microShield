@@ -1,6 +1,6 @@
 ## microShield
 
-[![jsDelivr Stats](https://data.jsdelivr.com/v1/package/gh/List-KR/List-KR/badge)](https://www.jsdelivr.com/package/gh/List-KR/List-KR)
+[![jsDelivr Stats](https://data.jsdelivr.com/v1/package/gh/List-KR/List-KR/badge)](https://www.jsdelivr.com/package/gh/List-KR/microShield)
 
 microShield는 애드쉴드 광고와 안티-애드블록 스크립트를 차단합니다.
 
