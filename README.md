@@ -1,6 +1,6 @@
 ## microShield
 
-[![jsDelivr Stats](https://data.jsdelivr.com/v1/package/gh/List-KR/List-KR/badge)](https://www.jsdelivr.com/package/gh/List-KR/microShield)
+[![jsDelivr Stats](https://data.jsdelivr.com/v1/package/gh/List-KR/microShield/badge)](https://www.jsdelivr.com/package/gh/List-KR/microShield)
 
 microShield blocks Ad-Shield advertisement and anti-adblock script.
 
