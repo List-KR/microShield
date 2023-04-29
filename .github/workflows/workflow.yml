@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: Run CodeQL and purge jsDelivr cache
 
 on:
   push:
@@ -24,7 +24,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze
+    name: Analyze with CodeQL
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -72,3 +72,17 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+
+  jsdelivrpurge:
+    name: Purge jsDelivr cache
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    needs: analyze
+    if: ${{ always() && github.event_name == 'push' && github.ref_name == 'main' }}
+    steps:
+      - name: Run jsDelivr-Purge
+        uses: List-KR/jsdelivr-purge@v4
+        with:
+          branches: "main"
