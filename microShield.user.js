@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
 // @license      MIT
 //
-// @version      3.3.1
+// @version      3.3.2
 // @author       HoJeong Go and contributors
 //
 // @match        *://ad-shield.team/*
@@ -26,6 +26,8 @@
 // @match        *://*.hancinema.net/*
 // @match        *://enetnews.co.kr/*
 // @match        *://*.enetnews.co.kr/*
+// @match        *://edaily.co.kr/*
+// @match        *://*.edaily.co.kr/*
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
 // @description:ko     microShield는 애드블록 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
