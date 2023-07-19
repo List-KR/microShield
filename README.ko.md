@@ -85,11 +85,11 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
     4. iOS 설정 -> Safari -> 확장 프로그램 -> Userscripts -> 모든 웹 사이트에 대해 허용으로 바꿔주세요.
     5. 아래 URL를 Safari로 열어주세요.
         ```
-        https://cdn.jsdelivr.net/gh/List-KR/NamuLink@main/NamuLink.user.js
+        https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
         ```
     6. Safari의 주소 막대에서 확장 프로그램 아이콘을 누르고 Userscripts 앱을 엽니다.
     7.  `Tab to install`을 클릭 후 완료 버튼을 누러주세요.
-    8. 나무위키가 열려진 탭으로 돌아가신 뒤 새로 고침 버튼을 터치해서 새로 고침해주세요.
+    8. 애드쉴드에 의해 보호받는 웹 사이트가 열려있는 탭으로 돌아가신 뒤 새로 고침 버튼을 터치해서 새로 고침해주세요.
 
 
 [^1]: https://github.com/AdguardTeam/AdguardForiOS/issues/1542
