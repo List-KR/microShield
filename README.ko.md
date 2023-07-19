@@ -76,12 +76,25 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
     유저스크립트는 현재 iOS용 AdGuard에서 지원되지 않습니다.
     그러나, 미래에 지원될 겁니다.[^1]
     
-    몰론, 일시적으로 대안을 사용하실 수 있습니다.[^2][^3]
+    몰론, 일시적으로 quoid의 userscripts [^2][^3]을 사용하실 수 있습니다.
+
+ - quoid의 userscripts (iOS) [^2][^3]
+    1. Apple App Store에서 quoid의 Userscript 앱을 설치해주세요.
+    2. 앱을 실행하여 유저스크립트가 저장될 디텍터리를 설정해주세요.
+    3. iOS 설정 -> Safari -> 확장 프로그램 -> Userscripts를 켜주세요.
+    4. iOS 설정 -> Safari -> 확장 프로그램 -> Userscripts -> 모든 웹 사이트에 대해 허용으로 바꿔주세요.
+    5. 아래 URL를 Safari로 열어주세요.
+        ```
+        https://cdn.jsdelivr.net/gh/List-KR/NamuLink@main/NamuLink.user.js
+        ```
+    6. Safari의 주소 막대에서 확장 프로그램 아이콘을 누르고 Userscripts 앱을 엽니다.
+    7.  `Tab to install`을 클릭 후 완료 버튼을 누러주세요.
+    8. 나무위키가 열려진 탭으로 돌아가신 뒤 새로 고침 버튼을 터치해서 새로 고침해주세요.
 
 
 [^1]: https://github.com/AdguardTeam/AdguardForiOS/issues/1542
 [^2]: https://github.com/quoid/userscripts
-[^3]: https://apps.apple.com/us/app/userscripts/id1463298887
+[^3]: https://apps.apple.com/kr/app/userscripts/id1463298887
 
 
 ### List-KR가 microShield를 만든 이유?
