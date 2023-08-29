@@ -1,7 +1,7 @@
 import * as asKit from '../adshield-defuser-libs/baseshower';
 import {useDebug, useDisableMethod, useDocumentReady} from '../utils.js';
 
-const debug = useDebug('[asdefuser:baseshower]');
+const debug = useDebug('[microShield:baseshower]');
 
 const extract = async () => {
 	let data: string | undefined;

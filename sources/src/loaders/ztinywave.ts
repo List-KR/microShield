@@ -3,7 +3,7 @@ import {useDebug, useDisableMethod, useDocumentReady} from '../utils.js';
 
 type Data = Array<{tags: string}>;
 
-const debug = useDebug('[asdefuser:tinywave]');
+const debug = useDebug('[microShield:ztinywave]');
 
 const decode = (payload: string) => {
 	const id = payload.slice(0, 4);

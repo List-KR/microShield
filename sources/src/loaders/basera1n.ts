@@ -1,7 +1,7 @@
 import * as asKit from '../adshield-defuser-libs/basera1n';
 import {useDebug, useDisableMethod, useDocumentReady} from '../utils.js';
 
-const debug = useDebug('[asdefuser:basera1n]');
+const debug = useDebug('[microShield:basera1n]');
 
 const extract = async () => {
 	let data: string | undefined;

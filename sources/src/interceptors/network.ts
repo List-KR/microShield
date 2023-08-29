@@ -1,6 +1,6 @@
 import {useAsSourceFeedback, useDebug, useDisableMethod, useSwapMethod} from '../utils';
 
-const debug = useDebug('[asdefuser:networkInterceptor]');
+const debug = useDebug('[microShield:networkInterceptor]');
 
 export const useNetworkInterceptor = () => {
 	useDisableMethod(window, 'fetch');

@@ -4,7 +4,7 @@ export const useDebug = (namespace: string) => new Proxy(console.debug, {
 	},
 });
 
-const debug = useDebug('[asdefuser:__utils__]');
+const debug = useDebug('[microShield:utils]');
 
 export const secret = Math.random().toString(36).slice(2);
 

@@ -3,7 +3,7 @@ import {ProtobufWireTypes} from '../adshield-defuser-libs/protobuf';
 import * as cache from '../__generated__/shortwave.cache.js';
 import {useDebug, useDisableMethod, useDocumentReady} from '../utils.js';
 
-const debug = useDebug('[asdefuser:shortwave]');
+const debug = useDebug('[microShield:shortwave]');
 
 const extract = async () => {
 	let source: {
