@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "pnpm bundle",
-    "shortwave:cache": "OUTPUT=$(readlink -f ./src/__generated__/shortwave.cache.ts) node scripts/generateShortwaveCache.mjs",
-    "bundle": "esbuild src/index.ts --bundle --minify --define:global=window --inject:./esbuild.inject.ts --banner:js=\"$(cat ./banner.txt)\" --target=es2018,chrome68,safari13,firefox88 --outfile=./out/asdefuser.user.js"
+    "shortwave:cache": "OUTPUT=$(readlink -f ./sources/src/__generated__/shortwave.cache.ts) node sources/scripts/generateShortwaveCache.mjs",
+    "bundle": "esbuild sources/src/index.ts --bundle --minify --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2018,chrome68,safari13,firefox88 --outfile=./microShield.user.js"
   },
   "keywords": [],
   "author": {"name": "PiQuark6046", "email": "piquark6046@proton.me", "url": "https://github.com/PiQuark6046"},
