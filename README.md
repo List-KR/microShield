@@ -4,8 +4,6 @@
 
 microShield blocks Ad-Shield advertisement and anti-adblock script.
 
-Its original source code is available at [seia-soto/adshield-defuser](https://github.com/seia-soto/adshield-defuser).
-
 <details>
 <summary>Other Language - 다른 언어</summary>
 
