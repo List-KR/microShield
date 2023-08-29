@@ -1,6 +1,6 @@
 {
-  "name": "asdefuser",
-  "version": "0.10.0",
+  "name": "microshield",
+  "version": "3.7.0",
   "description": "",
   "type": "module",
   "scripts": {
@@ -9,7 +9,11 @@
     "bundle": "esbuild src/index.ts --bundle --minify --define:global=window --inject:./esbuild.inject.ts --banner:js=\"$(cat ./banner.txt)\" --target=es2018,chrome68,safari13,firefox88 --outfile=./out/asdefuser.user.js"
   },
   "keywords": [],
-  "author": "HoJeong Go <seia@outlook.kr>",
+  "author": {"name": "PiQuark6046", "email": "piquark6046@proton.me", "url": "https://github.com/PiQuark6046"},
+  "contributors": [
+    {"name": "HoJeong Go", "email": "seia@outlook.kr"},
+    {"name": "green1052"}
+  ],
   "license": "MIT",
   "dependencies": {
     "buffer": "^6.0.3",
