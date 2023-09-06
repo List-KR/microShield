@@ -45,7 +45,7 @@
 // @match        *://viva100.com/*
 // @match        *://*.viva100.com/*
 // @match        *://joongdo.co.kr/*
-// @match        *://*.joongdo.co.kr/*
+// @match        *://*.joongdo.co.kr/
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
 // @description:ko     microShield는 애드블록 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
