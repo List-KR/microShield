@@ -206,3 +206,5 @@ export const useDocumentReady = async (document: Document) => {
 		});
 	});
 };
+
+export const useBannedKeywords = (data: string) => data.includes('loader.min.js') && data.includes('as-async') && /try(.|\n)*{(.|\n)*}(.|\n)*catch(.|\n)*{(.|\n)*}/.test(data);
