@@ -1,0 +1,58 @@
+// ==UserScript==
+// @name         microShield
+// @encoding     utf-8
+// @namespace    https://github.com/List-KR/microShield
+// @homepageURL  https://github.com/List-KR/microShield
+// @supportURL   https://github.com/List-KR/microShield/issues
+// @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
+// @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
+// @license      MIT
+//
+// @version      3.7.0
+// @author       PiQuark6046 and contributors
+//
+// @match        *://ad-shield.team/*
+// @match        *://algumon.com/*
+// @match        *://*.algumon.com/*
+// @match        *://ygosu.com/*
+// @match        *://m.ygosu.com/*
+// @match        *://ad-shield.io/*
+// @match        *://feedclick.net/*
+// @match        *://sportalkorea.com/*
+// @match        *://*.sportalkorea.com/*
+// @match        *://ondemandkorea.com/*
+// @match        *://*.ondemandkorea.com/*
+// @match        *://hancinema.net/*
+// @match        *://*.hancinema.net/*
+// @match        *://enetnews.co.kr/*
+// @match        *://*.enetnews.co.kr/*
+// @match        *://edaily.co.kr/*
+// @match        *://*.edaily.co.kr/*
+// @match        *://economist.co.kr/*
+// @match        *://*.economist.co.kr/*
+// @match        *://etoday.co.kr/*
+// @match        *://*.etoday.co.kr/*
+// @match        *://hankyung.com/*
+// @match        *://*.hankyung.com/*
+// @match        *://isplus.com/*
+// @match        *://*.isplus.com/*
+// @match        *://hometownstation.com/*
+// @match        *://*.hometownstation.com/*
+// @match        *://inven.co.kr/*
+// @match        *://*.inven.co.kr/*
+// @match        *://loawa.com/*
+// @match        *://*.loawa.com/*
+// @match        *://viva100.com/*
+// @match        *://*.viva100.com/*
+// @match        *://joongdo.co.kr/*
+// @match        *://*.joongdo.co.kr/*
+//
+// @description        microShield allows the adblock community to resist against Ad-Shield widely.
+// @description:ko     microShield는 애드블록 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
+//
+// @grant        unsafeWindow
+// @run-at       document-start
+// ==/UserScript==
+// Original Srouce Code:
+// Libraries: please see 'https://github.com/List-KR/microShield/package.json'.
+// Originated from https://github.com/seia-soto/adshield-defuser and https://github.com/seia-soto/userscripts.

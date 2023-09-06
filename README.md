@@ -4,8 +4,6 @@
 
 microShield blocks Ad-Shield advertisement and anti-adblock script.
 
-Its original source code is available at [seia-soto/adshield-defuser](https://github.com/seia-soto/adshield-defuser).
-
 <details>
 <summary>Other Language - 다른 언어</summary>
 
@@ -98,3 +96,8 @@ Please read `/ad-shield.md`.
 Unlike license of List-KR Script, microShield is licensed under MIT license that allows other software to use this userscript without using the same license.
 
 So, the adblock community can resist against Ad-Shield widely.
+
+### Original Source Code
+microShield userscript was brought from source code of the following projects:
+ - https://github.com/seia-soto/userscript-composer
+ - https://github.com/seia-soto/userscripts

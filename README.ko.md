@@ -4,8 +4,6 @@
 
 microShield는 애드쉴드 광고와 안티-애드블록 스크립트를 차단합니다.
 
-원본 소스 코드는 [seia-soto/adshield-defuser](https://github.com/seia-soto/adshield-defuser)에서 이용하실 수 있습니다.
-
 ### 빠른 시작
 이 유저스크립트를 감지시키기 위해 아래 URL를 클릭하세요.
 
@@ -101,3 +99,8 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
 List-KR Script의 라이선스와 달리, microShield는 다른 소프트웨어가 같은 라이선스 사용 없이 이 유저스크립트를 사용할 수 있도록 허용하는 MIT 라이선스하에 라이선스됩니다.
 
 그래서, 애드블럭 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
+
+### 원본 소스 코드
+microShield 유저스크립트는 다음 프로젝트들의 소스 코드에서 가져왔습니다:
+ - https://github.com/seia-soto/userscript-composer
+ - https://github.com/seia-soto/userscripts
