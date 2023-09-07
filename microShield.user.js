@@ -6,9 +6,9 @@
 // @supportURL   https://github.com/List-KR/microShield/issues
 // @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
-// @license      MIT
+// @license      GPLv3
 //
-// @version      3.7.0
+// @version      3.7.1
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ad-shield.team/*
