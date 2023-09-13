@@ -187,6 +187,13 @@ export const useDisableMethod = <Root extends PermitableAsRoot>(
 			shouldDisable = feedback(name, caller);
 		}
 
+		// eslint-disable-next-line no-mixed-operators
+		if (name === 'remove' && (caller.includes('@')) || caller.includes('Error:') || caller.includes('injectedScript')) {
+			shouldDisable ||= ((caller.match(/eval/g)?.length ?? -1) >= 4) && (caller.includes('NodeList.forEach') ?? false); // Chromium Browser
+			shouldDisable ||= /injectedScript line [0-9]+ > eval$/.exec(caller) !== null; // Firefox Browser
+			shouldDisable ||= ((caller.match(/\n@/g)?.length ?? -1) >= 2) && (caller.includes('forEach@[native code]') ?? false); // Safari Browser
+		}
+
 		if (shouldDisable) {
 			throw new TypeError(`${name} is not accessible`);
 		}
