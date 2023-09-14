@@ -15,7 +15,7 @@
     {"name": "HoJeong Go", "email": "seia@outlook.kr"},
     {"name": "green1052"}
   ],
-  "license": "MIT",
+  "license": "GPLv3",
   "dependencies": {
     "buffer": "^6.0.3",
     "protobufjs": "^7.2.5"
