@@ -15,6 +15,8 @@ const bootstrap = () => {
 	useDisableMethod(Element.prototype, 'insertBefore');
 	useDisableMethod(Element.prototype, 'attachShadow');
 	useDisableMethod(document, 'createElement');
+	useDisableMethod(Object, 'defineProperty');
+	useDisableMethod(Object, 'defineProperties');
 
 	if (useIsSubframe()) {
 		return;
