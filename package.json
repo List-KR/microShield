@@ -10,10 +10,19 @@
     "debug": "esbuild sources/src/index.ts --bundle --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-debug.user.js"
   },
   "keywords": [],
-  "author": {"name": "PiQuark6046", "email": "piquark6046@proton.me", "url": "https://github.com/PiQuark6046"},
+  "author": {
+    "name": "PiQuark6046",
+    "email": "piquark6046@proton.me",
+    "url": "https://github.com/PiQuark6046"
+  },
   "contributors": [
-    {"name": "HoJeong Go", "email": "seia@outlook.kr"},
-    {"name": "green1052"}
+    {
+      "name": "HoJeong Go",
+      "email": "seia@outlook.kr"
+    },
+    {
+      "name": "green1052"
+    }
   ],
   "license": "GPLv3",
   "dependencies": {
@@ -21,13 +30,13 @@
     "protobufjs": "^7.2.5"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
-    "esbuild": "^0.19.2",
-    "eslint": "^8.48.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "esbuild": "^0.19.3",
+    "eslint": "^8.49.0",
     "eslint-config-xo": "^0.43.1",
     "eslint-config-xo-typescript": "^1.0.1",
-    "terser": "^5.19.3",
+    "terser": "^5.19.4",
     "ts-node": "^10.9.1"
   }
 }
