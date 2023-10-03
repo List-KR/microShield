@@ -63,7 +63,7 @@ export const useAsSourceFeedback = (name: string, caller: string) => {
 		return false;
 	}
 
-	if (caller.includes('script.min.js') || caller.includes('loader.min.js')) {
+	if (caller.includes('script.min.js') || caller.includes('loader.min.js') || caller.includes('07c225f3.online')) {
 		debug(`useAsSourceFeedback name=${name} caller=${caller}`);
 
 		return true;

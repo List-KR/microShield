@@ -17,6 +17,7 @@ const bootstrap = () => {
 	useDisableMethod(document, 'createElement');
 	useDisableMethod(Object, 'defineProperty');
 	useDisableMethod(Object, 'defineProperties');
+	useDisableMethod(window, 'Promise');
 
 	if (useIsSubframe()) {
 		return;
