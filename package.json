@@ -24,7 +24,7 @@
       "name": "green1052"
     }
   ],
-  "license": "GPLv3",
+  "license": "Apache-2.0",
   "dependencies": {
     "buffer": "^6.0.3",
     "protobufjs": "^7.2.5"
