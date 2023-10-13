@@ -1,13 +1,15 @@
 {
   "name": "microshield",
-  "version": "3.7.12",
+  "version": "3.7.13",
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "pnpm bundle",
+    "build": "pnpm bundle && pnpm bundle-quoid",
     "shortwave:cache": "OUTPUT=$(readlink -f ./sources/src/__generated__/shortwave.cache.ts) node sources/scripts/generateShortwaveCache.mjs",
     "bundle": "esbuild sources/src/index.ts --bundle --minify --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield.user.js",
-    "debug": "esbuild sources/src/index.ts --bundle --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-debug.user.js"
+    "bundle-quoid": "esbuild sources/src/index.ts --bundle --minify --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-quoid.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-quoid.user.js",
+    "debug": "esbuild sources/src/index.ts --bundle --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-debug.user.js",
+    "debug-quoid": "esbuild sources/src/index.ts --bundle --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-quoid.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-quoid.user.js"
   },
   "keywords": [],
   "author": {

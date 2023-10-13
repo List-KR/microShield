@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         microShield
+// @name         microShield for quoid Userscripts
 // @encoding     utf-8
 // @namespace    https://github.com/List-KR/microShield
 // @homepageURL  https://github.com/List-KR/microShield
 // @supportURL   https://github.com/List-KR/microShield/issues
-// @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
-// @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
+// @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield-quoid.user.js
+// @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield-quoid.user.js
 // @license      Apache-2.0
 //
 // @version      3.7.13
@@ -66,7 +66,7 @@
 // @description:ko     microShield는 애드블록 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
 //
 // @grant        unsafeWindow
-// @run-at       document-start
+// @inject-into  content
 // ==/UserScript==
 // Original Srouce Code:
 // Libraries: please see 'https://github.com/List-KR/microShield/package.json'.
