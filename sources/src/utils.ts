@@ -190,9 +190,13 @@ export const useDisableMethod = <Root extends PermitableAsRoot>(
 		const errorSrack = new Error().stack ?? '';
 		if (name === 'remove' && (/(@|Error:|injectedScript)/.test(caller) || (/(@|^Error|injectedScript)/.test(errorSrack) && location.href.includes(caller)))) { // Safari Chromium Firefox
 			[caller, errorSrack].forEach(logger => {
+				// Eval case.
 				shouldDisable ||= ((logger.match(/eval/g)?.length ?? -1) >= 4) && (logger.includes('NodeList.forEach') ?? false); // Chromium Browser
 				shouldDisable ||= /injectedScript line [0-9]+ > eval$/.exec(logger) !== null; // Firefox Browser
 				shouldDisable ||= ((logger.match(/\n@/g)?.length ?? -1) >= 2) && (logger.includes('forEach@[native code]') ?? false); // Safari Browser
+				// Element.prototype.appendChild case.
+				shouldDisable ||= ((logger.includes('HTMLLinkElement.get [as remove]') ?? false) && (logger.match(/<anonymous>:1:/g)?.length ?? -1) >= 2); // Chromium Browser
+				shouldDisable ||= ((logger.includes('get@moz-extension://') ?? false) && (/async\*@https?:\/\/.+ line [0-9]+ > injectedScript:1:/.exec(logger) !== null) && (logger.match(/> injectedScript:1:/g)?.length ?? -1) >= 4); // Firefox Browser
 			});
 		}
 
