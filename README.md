@@ -99,5 +99,5 @@ So, the adblock community can resist against Ad-Shield widely.
 
 ### Original Source Code
 microShield userscript was brought from source code of the following projects:
- - https://github.com/seia-soto/userscript-composer
+ - https://github.com/seia-soto/adshield-defuser
  - https://github.com/seia-soto/userscripts
