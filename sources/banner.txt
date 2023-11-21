@@ -4,11 +4,11 @@
 // @namespace    https://github.com/List-KR/microShield
 // @homepageURL  https://github.com/List-KR/microShield
 // @supportURL   https://github.com/List-KR/microShield/issues
-// @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
-// @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@main/microShield.user.js
+// @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
+// @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.7.15
+// @version      3.7.16
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ad-shield.team/*
