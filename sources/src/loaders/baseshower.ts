@@ -1,7 +1,7 @@
 import * as asKit from '../adshield-defuser-libs/baseshower';
-import {useDebug, useDisableMethod, useDocumentReady} from '../utils.js';
+import {createDebug, documentReady} from '../utils.js';
 
-const debug = useDebug('[microShield:baseshower]');
+const debug = createDebug('[microShield:baseshower]');
 
 const extract = async () => {
 	let data: string | undefined;
@@ -22,7 +22,7 @@ const extract = async () => {
 	useSelector();
 
 	if (!data) {
-		await useDocumentReady(document);
+		await documentReady(document);
 
 		debug('html:post');
 		useSelector();
@@ -71,13 +71,11 @@ const restore = (source: ReturnType<typeof asKit.decode>) => {
 };
 
 export const baseshower = async () => {
-	useDisableMethod(window, 'atob');
-
 	const payload = await extract();
 
 	debug('payload', payload);
 
-	await useDocumentReady(document);
+	await documentReady(document);
 
 	restore(payload);
 };

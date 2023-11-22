@@ -51,10 +51,11 @@ export const source = [
     "reserved1": 119,
     "reserved1Input": "QCABV\"]#0jb&Wo6t:UuiHg1rPD4%)RlNk-",
     "reserved1Output": "le4971m5irpukxjv3sq2o8y60gnbzthwfa",
-    "reserved2":102,
+    "reserved2": 102,
     "reserved2Input": "G752e`LXx'Zm}9<\t{?F",
     "reserved2Output": "plbi21cxfmo36tn50uq"
-  }, {
+  },
+  {
     "id": "fwbh",
     "input": "x5A8hE9=\nQG1\"CuJ'oV(I)>lbW4D#e L6",
     "output": "wr275yogsj4kv03izcnx1uaqb8pflm6th",
@@ -64,7 +65,8 @@ export const source = [
     "reserved2": 101,
     "reserved2Input": "}qB<z`PZ[YH:0sjvaOp",
     "reserved2Output": "6m7kwe3qaohu5g4bz8i"
-  },{
+  },
+  {
     "id": "qbuw",
     "input": "i;Uj'[<w\"DT0lZLgS8f#hxsMV}ty:E-)`",
     "output": "3c51goq40pzal9r6xuvtkey2swnj7mihb",
@@ -74,9 +76,10 @@ export const source = [
     "reserved2": 56,
     "reserved2Input": "{eF%OXrQ2>np3JN]47u",
     "reserved2Output": "9jmanwyqx0s54zuto6h"
-  },{
-    "id":"nloc",
-    "input":"x<[ykY%1-sK9_C0Raj#8OLl]/HwhqFU\t3",
+  },
+  {
+    "id": "nloc",
+    "input": "x<[ykY%1-sK9_C0Raj#8OLl]/HwhqFU\t3",
     "output": "0ozupkrx6qjwnygl34m7i9th1f8v2bec5",
     "reserved1": 97,
     "reserved1Input": "&m2GT5IrP\" .B(o=:igbJpWnz7tcvNZ`>\n",
@@ -85,4 +88,4 @@ export const source = [
     "reserved2Input": "uV6})Q'?D{SeAMX4;Ef",
     "reserved2Output": "91ysxe8luorn6vpciwq"
   }
-]
+];

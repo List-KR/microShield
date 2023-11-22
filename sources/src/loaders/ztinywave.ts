@@ -1,9 +1,9 @@
 import * as cache from '../__generated__/ztinywave.cache.js';
-import {useDebug, useDisableMethod, useDocumentReady} from '../utils.js';
+import {createDebug, documentReady} from '../utils.js';
 
 type Data = Array<{tags: string}>;
 
-const debug = useDebug('[microShield:ztinywave]');
+const debug = createDebug('[microShield:tinywave]');
 
 const decode = (payload: string) => {
 	const id = payload.slice(0, 4);
@@ -119,7 +119,7 @@ const extract = async () => {
 	useSelector();
 
 	if (!source) {
-		await useDocumentReady(document);
+		await documentReady(document);
 
 		debug('html:post');
 		useSelector();
@@ -134,8 +134,16 @@ const extract = async () => {
 	return decode(source.data);
 };
 
+export const style = () => {
+	const sheet = document.createElement('style');
+
+	sheet.textContent = '[style]>iframe[src="about:blank"],[style="display:none"]+[style] {display:none !important}';
+
+	document.head.appendChild(sheet);
+};
+
 export const tinywave = async () => {
-	useDisableMethod(window, 'atob');
+	style();
 
 	const payload = await extract();
 
