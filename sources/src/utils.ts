@@ -14,8 +14,6 @@ export const isSubFrame = () => {
 	}
 };
 
-const isSafari = navigator.userAgent.includes('Safari') && navigator.userAgent.includes(') Version/');
-
 export const getStackTrace = () => {
 	const e = new Error();
 
@@ -23,10 +21,8 @@ export const getStackTrace = () => {
 		throw new Error('Stack trace is not available!');
 	}
 
-	const href = location.origin + location.pathname;
-
-	if (isSafari) {
-		const trace = e.stack.split('\n').slice(-10);
+	if (e.stack.includes('@')) {
+		const trace = e.stack.split('\n');
 		const stack: string[] = [];
 
 		for (const line of trace) {
@@ -34,10 +30,7 @@ export const getStackTrace = () => {
 			const lastColon = line.lastIndexOf(':');
 			const dump = lastColon < 0 ? line.slice(start) : line.slice(start, line.lastIndexOf(':', lastColon - 1));
 
-			if (
-				dump.startsWith('[')
-				|| href === dump
-			) {
+			if (dump.startsWith('[') || dump.startsWith('moz')) {
 				continue;
 			}
 
@@ -47,8 +40,7 @@ export const getStackTrace = () => {
 		return stack;
 	}
 
-	// Not Apple
-	const trace = e.stack.slice(6).split('\n').slice(-10);
+	const trace = e.stack.slice(6).split('\n');
 	const stack: string[] = [];
 
 	for (const line of trace) {
@@ -57,10 +49,7 @@ export const getStackTrace = () => {
 			line.lastIndexOf(':', line.lastIndexOf(':') - 1),
 		);
 
-		if (
-			dump.startsWith('<')
-			|| href === dump
-		) {
+		if (dump.startsWith('<')) {
 			continue;
 		}
 
@@ -74,42 +63,49 @@ export type FeedbackFunction = () => unknown;
 
 const isAsCall = (line: string) => line.includes('/script.min.js') || line.includes('loader.min.js');
 
+const isInlineCall = (line: string, fullpath: string) => line === fullpath;
+
 export const isAsSource: FeedbackFunction = () => {
 	const stack = getStackTrace();
 
-	if (!stack.length) {
-		return;
-	}
-
 	if (
-		stack[0].startsWith('https://local.adguard.com/')
+		stack[0].startsWith('https://local.adguard.org/')
 		|| stack[0].startsWith('webkit')
 		|| stack[0].startsWith('chrome')
 	) {
-		debug('isAsSource trusted stack=internal');
-
 		return;
 	}
 
-	const report = stack.map(line => isAsCall(line));
-	const rating = report.reduce((state, item) => state + Number(item), 0);
+	const fullpath = location.origin + location.pathname;
+	const report = stack.map(line => {
+		if (isInlineCall(line, fullpath)) {
+			return 1;
+		}
 
-	if (!rating) {
-		debug('isAsSource trusted stack=clean');
+		if (isAsCall(line)) {
+			return 2;
+		}
 
+		return 0;
+	});
+
+	const firstPositive = report.indexOf(2);
+
+	if (firstPositive < 0) {
 		return;
 	}
 
-	if (
-		report[report.length - 1]
-		&& rating - 1 < 0
-	) {
-		debug('isAsSource trusted stack=modified');
+	if (report.slice(0, firstPositive).reduce<number>((state, test) => state + test, 0) === firstPositive) {
+		debug('isAsSource stack=dumped', stack);
 
-		return;
+		return true;
 	}
 
-	return true;
+	if (report.reduce<number>((state, test) => state + test, 0) === report.length * 2) {
+		debug('isAsSource stack=clean', stack);
+
+		return true;
+	}
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types

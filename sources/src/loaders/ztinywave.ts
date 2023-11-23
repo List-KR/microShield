@@ -134,7 +134,9 @@ const extract = async () => {
 	return decode(source.data);
 };
 
-export const style = () => {
+export const style = async () => {
+	await documentReady(document);
+
 	const sheet = document.createElement('style');
 
 	sheet.textContent = '[style]>iframe[src="about:blank"],[style="display:none"]+[style] {display:none !important}';
@@ -143,7 +145,7 @@ export const style = () => {
 };
 
 export const tinywave = async () => {
-	style();
+	void style();
 
 	const payload = await extract();
 

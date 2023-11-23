@@ -5,6 +5,10 @@ import {tinywave} from './loaders/ztinywave.js';
 import {isAsSource, isSubFrame, makeProxy} from './utils.js';
 
 const bootstrap = () => {
+	if (isSubFrame()) {
+		return;
+	}
+
 	interceptNetwork();
 	interceptStorage();
 	Element.prototype.remove = makeProxy(Element.prototype.remove, isAsSource);
@@ -19,10 +23,6 @@ const bootstrap = () => {
 	Object.defineProperty = makeProxy(Object.defineProperty, isAsSource);
 	Object.defineProperties = makeProxy(Object.defineProperties, isAsSource);
 	document.createElement = makeProxy(document.createElement, isAsSource);
-
-	if (isSubFrame()) {
-		return;
-	}
 
 	void basedrop();
 	void tinywave();
