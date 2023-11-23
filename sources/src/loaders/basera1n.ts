@@ -1,7 +1,7 @@
 import * as asKit from '../adshield-defuser-libs/basera1n';
-import {createDebug, documentReady} from '../utils.js';
+import {useDebug, useDocumentReady} from '../utils.js';
 
-const debug = createDebug('[microShield:basera1n]');
+const debug = useDebug('[microShield:basera1n]');
 
 const extract = async () => {
 	let data: string | undefined;
@@ -22,7 +22,7 @@ const extract = async () => {
 	useSelector();
 
 	if (!data) {
-		await documentReady(document);
+		await useDocumentReady(document);
 
 		debug('html:post');
 		useSelector();
@@ -103,7 +103,7 @@ export const basera1n = async () => {
 
 	debug('payload', payload);
 
-	await documentReady(document);
+	await useDocumentReady(document);
 
 	restore(payload);
 };

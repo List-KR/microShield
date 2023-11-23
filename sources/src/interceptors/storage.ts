@@ -1,6 +1,6 @@
-import {createDebug} from '../utils';
+import {useDebug} from '../utils';
 
-const debug = createDebug('[microShield:storageInterceptor]');
+const debug = useDebug('[microShield:storageInterceptor]');
 
 export const interceptStorage = () => {
 	localStorage.removeItem('as_profile_cache');

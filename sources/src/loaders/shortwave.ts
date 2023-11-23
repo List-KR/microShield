@@ -1,9 +1,9 @@
 import * as asKit from '../adshield-defuser-libs/shortwave';
 import {ProtobufWireTypes} from '../adshield-defuser-libs/protobuf';
 import * as cache from '../__generated__/shortwave.cache.js';
-import {createDebug, documentReady} from '../utils.js';
+import {useDebug, useDocumentReady} from '../utils.js';
 
-const debug = createDebug('[microShield:shortwave]');
+const debug = useDebug('[microShield:shortwave]');
 
 const extract = async () => {
 	let source: {
@@ -31,7 +31,7 @@ const extract = async () => {
 	useSelector();
 
 	if (!source) {
-		await documentReady(document);
+		await useDocumentReady(document);
 
 		debug('html:post');
 		useSelector();
@@ -93,7 +93,7 @@ export const shortwave = async () => {
 		throw new Error('DEFUSER_SHORTWAVE_UNSUPPORTED_PAYLOAD_VERSION');
 	}
 
-	await documentReady(document);
+	await useDocumentReady(document);
 
 	switch (payload.meta.version.value) {
 		case 1: {

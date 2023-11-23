@@ -4,9 +4,9 @@ declare const unsafeWindow: unsafeWindowType;
 // eslint-disable-next-line no-negated-condition
 const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
 /* eslint-disable no-eval */
-import {createDebug, useBannedKeywords} from '../utils';
+import {useDebug, useBannedKeywords} from '../utils';
 
-const debug = createDebug('[microShield:evalInterceptors]');
+const debug = useDebug('[microShield:evalInterceptors]');
 
 export const interceptEval = () => {
 	const evalProxy = new Proxy(eval, {

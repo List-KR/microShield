@@ -1,9 +1,9 @@
-import {createDebug, documentReady} from '../utils';
+import {useDebug, useDocumentReady} from '../utils';
 
-const debug = createDebug('[microShield:basedrop]');
+const debug = useDebug('[microShield:basedrop]');
 
 export const basedrop = async () => {
-	await documentReady(document);
+	await useDocumentReady(document);
 
 	let appendant = '';
 

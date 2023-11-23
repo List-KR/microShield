@@ -1,17 +1,28 @@
-import {isAsSource, makeProxy} from '../utils';
+import {useAsSourceFeedback, useDebug, useDisableMethod, useSwapMethod} from '../utils';
 
-export const interceptNetwork = () => {
-	window.fetch = makeProxy(window.fetch, isAsSource);
+const debug = useDebug('[microShield:networkInterceptor]');
 
-	window.XMLHttpRequest = new Proxy(window.XMLHttpRequest, {
-		construct(target, argArray, newTarget) {
-			const alt = isAsSource();
+export const useNetworkInterceptor = () => {
+	useDisableMethod(window, 'fetch');
+	useSwapMethod(window, 'XMLHttpRequest', (Original: new () => XMLHttpRequest, _root, name, caller) => {
+		if (!useAsSourceFeedback(name, caller)) {
+			return false;
+		}
 
-			if (typeof alt === 'undefined') {
-				return Reflect.construct(target, argArray, newTarget) as XMLHttpRequest;
-			}
+		return new Proxy(Original, {
+			construct(target, argArray, newTarget) {
+				const xhr = Reflect.construct(target, argArray, newTarget) as XMLHttpRequest;
 
-			return {};
-		},
+				xhr.open = (method: string, url: string) => {
+					debug(`XMLHttpRequest:open:null ${method} ${url}`);
+				};
+
+				xhr.send = () => {
+					debug('XMLHttpRequest:send:null');
+				};
+
+				return xhr;
+			},
+		});
 	});
 };
