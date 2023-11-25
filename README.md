@@ -4,12 +4,7 @@
 
 microShield blocks Ad-Shield advertisement and anti-adblock script.
 
-<details>
-<summary>Other Language - 다른 언어</summary>
-
-한국어: https://github.com/List-KR/microShield/blob/main/README.ko.md
-
-</details>
+한국어: https://community.list-kr.com/docs/AdGuard/Userscripts/microShield
 
 ### Quick Start
 Just click the following URL to detect this userscript.
