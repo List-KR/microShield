@@ -99,7 +99,7 @@ const extract = async () => {
 		data: string;
 	} | undefined;
 
-	const useSelector = () => {
+	const pick = () => {
 		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!;
 
 		if (target) {
@@ -115,38 +115,22 @@ const extract = async () => {
 		}
 	};
 
-	debug('html:pre');
-	useSelector();
+	pick();
 
 	if (!source) {
 		await useDocumentReady(document);
 
-		debug('html:post');
-		useSelector();
+		pick();
 	}
 
 	if (!source) {
 		throw new Error('DEFUSER_SHORTWAVE_TARGET_NOT_FOUND');
 	}
 
-	debug('bin:cached');
-
 	return decode(source.data);
 };
 
-export const style = async () => {
-	await useDocumentReady(document);
-
-	const sheet = document.createElement('style');
-
-	sheet.textContent = '[style]>iframe[src="about:blank"],[style="display:none"]+[style] {display:none !important}';
-
-	document.head.appendChild(sheet);
-};
-
 export const tinywave = async () => {
-	void style();
-
 	const payload = await extract();
 
 	debug('payload', payload);
