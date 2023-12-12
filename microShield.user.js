@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.11.9
+// @version      3.11.10
 // @author       PiQuark6046 and contributors
 //
 // @match        *://algumon.com/*
@@ -86,6 +86,8 @@
 // @match        *://*.gamingdeputy.com/*
 // @match        *://thestockmarketwatch.com/*
 // @match        *://*.thestockmarketwatch.com/*
+// @match        *://thesaurus.net/*
+// @match        *://*.thesaurus.net/*
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
 // @description:ko     microShield는 애드블록 커뮤니티가 애드쉴드에 널리 저항할 수 있도록 합니다.
