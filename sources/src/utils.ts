@@ -1,14 +1,14 @@
-export const useDebug = (namespace: string) => new Proxy(console.debug, {
+import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites';
+
+export const createDebug = (namespace: string) => new Proxy(console.debug, {
 	apply(target, thisArg, argArray) {
-		Reflect.apply(target, thisArg, [`${namespace} (${location.href})`, ...argArray as unknown[]]);
+		Reflect.apply(target, thisArg, [`${namespace}`, ...argArray as unknown[]]);
 	},
 });
 
-const debug = useDebug('[microShield:utils]');
+const debug = createDebug('[asdefuser:__utils__]');
 
-export const secret = Math.random().toString(36).slice(2);
-
-export const useIsSubframe = () => {
+export const isSubFrame = () => {
 	try {
 		return window.self !== window.top;
 	} catch (_error) {
@@ -16,199 +16,85 @@ export const useIsSubframe = () => {
 	}
 };
 
-export const useCaller = () => {
-	try {
-		throw new Error('feedback');
-	} catch (error: unknown) {
-		if (!(error instanceof Error) || !error.stack) {
-			throw new Error('Failed to validate feedback function or stack trace is not available!');
+export const getCallStack = () => {
+	const e = new Error();
+
+	if (!e.stack) {
+		throw new Error('Stack trace is not available!');
+	}
+
+	if (e.stack.includes('@')) {
+		const raw = e.stack.split('\n').slice(2);
+		const trace: string[] = [];
+
+		if (navigator.userAgent.includes('Firefox/')) {
+			raw.splice(-1, 1);
 		}
 
-		let self = '';
+		for (const line of raw) {
+			const start = line.indexOf('@') + 1;
+			const lastColon = line.lastIndexOf(':');
+			const dump = lastColon < 0 ? line.slice(start) : line.slice(start, line.lastIndexOf(':', lastColon - 1));
 
-		for (const line of error.stack.split('\n').slice(1)) {
-			const protocolEndAt = line.indexOf('//');
-
-			if (protocolEndAt < 0) {
-				continue;
-			}
-
-			const endAt = line.indexOf(':', protocolEndAt);
-
-			if (endAt < 0) {
-				continue;
-			}
-
-			const source = line.slice(protocolEndAt + 2, endAt);
-
-			if (!self) {
-				self = source;
-
-				continue;
-			}
-
-			if (source === self) {
-				continue;
-			}
-
-			return source;
+			trace.push(dump);
 		}
 
-		return error.stack;
-	}
-};
-
-export const useAsSourceFeedback = (name: string, caller: string) => {
-	if (caller.includes(location.host)) {
-		return false;
+		return {
+			trace,
+			raw,
+		};
 	}
 
-	if (caller.includes('script.min.js') || caller.includes('loader.min.js') || caller.includes('07c225f3.online')) {
-		debug(`useAsSourceFeedback name=${name} caller=${caller}`);
+	const raw = e.stack.slice(6).split('\n').slice(2);
+	const trace: string[] = [];
 
-		return true;
+	for (const line of raw) {
+		const dump = line.slice(
+			(line.indexOf('(') + 1) || line.indexOf('at') + 3,
+			line.lastIndexOf(':', line.lastIndexOf(':') - 1),
+		);
+
+		trace.push(dump);
 	}
 
-	return false;
-};
-
-type ThisWindow = Window & typeof globalThis;
-type PermitableAsRoot = Record<PropertyKey, unknown> | ThisWindow | Document | Element | Node | ObjectConstructor;
-
-const createMethodHookEntries = (): Array<{root: PermitableAsRoot; name: PropertyKey; descriptor?: PropertyDescriptor}> => [];
-
-const __useSwapMethodEntries = createMethodHookEntries();
-
-export const usePropertyDescriptor = () => {
-	const alt = (root: PermitableAsRoot, name: PropertyKey) => {
-		debug(`usePropertyDescriptor name=${name.toString()}`);
-
-		// @ts-expect-error Use secret to filter out
-		return Object.getOwnPropertyDescriptor(root, name, secret);
+	return {
+		trace,
+		raw,
 	};
+};
 
-	if (__useSwapMethodEntries.length) {
-		return alt;
-	}
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const makeProxy = <F extends Function>(f: F, name = f.name) => {
+	const proxy = new Proxy(f, {
+		apply(target, thisArg, argArray) {
+			const callStack = getCallStack();
 
-	const original = Object.getOwnPropertyDescriptor;
+			if (adShieldOriginCheck(callStack)) {
+				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
 
-	__useSwapMethodEntries.push({
-		root: Object,
-		name: 'getOwnPropertyDescriptor',
-		descriptor: original(Object, 'getOwnPropertyDescriptor'),
-	});
+				throw new Error('asdefuser');
+			}
 
-	Object.defineProperties(Object, {
-		getOwnPropertyDescriptor: {
-			get() {
-				return new Proxy(original, {
-					apply(target, thisArg, argArray) {
-						const [o, p, access] = argArray as [PermitableAsRoot, PropertyKey, string];
+			return Reflect.apply(target, thisArg, argArray) as F;
+		},
+		// Prevent ruining the call stack with "explicit" checks
+		setPrototypeOf(target, v) {
+			const callStack = getCallStack();
 
-						if (access === secret) {
-							return Reflect.apply(target, thisArg, [o, p]);
-						}
+			if (adShieldStrictCheck(callStack)) {
+				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
 
-						for (const entry of __useSwapMethodEntries) {
-							if (entry.descriptor && entry.root === o && entry.name === p) {
-								debug(`usePropertyDescriptor name=${entry.name.toString()} mocked=true`);
+				throw new Error('asdefuser');
+			}
 
-								return entry.descriptor ?? Reflect.apply(target, thisArg, [o, p]);
-							}
-						}
-
-						return Reflect.apply(target, thisArg, [o, p]);
-					},
-				});
-			},
+			return Reflect.setPrototypeOf(target, v);
 		},
 	});
 
-	return alt;
+	return proxy;
 };
 
-export const useSwapMethod = <Root extends PermitableAsRoot>(
-	root: Root,
-	name: keyof Root,
-	feedback: (original: Root[keyof Root], root: Root, name: string, caller: string) => false | Root[keyof Root],
-) => {
-	const getOwnPropertyDescriptor = usePropertyDescriptor();
-
-	for (const entry of __useSwapMethodEntries) {
-		if (entry.root === root && entry.name === name) {
-			debug(`useSwapMethod name=${name.toString()} duplicated=true`);
-
-			return;
-		}
-	}
-
-	let target = root[name];
-
-	Object.defineProperty(root, name, {
-		get() {
-			if (typeof feedback !== 'function') {
-				return target;
-			}
-
-			const useSwap = feedback(target, root, name.toString(), useCaller());
-
-			if (!useSwap) {
-				return target;
-			}
-
-			return useSwap;
-		},
-		set(v: Root[keyof Root]) {
-			if (typeof feedback === 'function' && feedback(target, root, name.toString(), useCaller())) {
-				target = v;
-			}
-		},
-	});
-
-	__useSwapMethodEntries.push({
-		root,
-		name,
-		descriptor: getOwnPropertyDescriptor(root, name),
-	});
-
-	debug(`useSwapMethod name=${name.toString()}`);
-};
-
-export const useDisableMethod = <Root extends PermitableAsRoot>(
-	root: Root,
-	name: keyof Root,
-	feedback: (name: string, caller: string) => boolean = useAsSourceFeedback,
-) => {
-	useSwapMethod(root, name, (_original, _root, name, caller) => {
-		let shouldDisable = true;
-
-		if (typeof feedback === 'function') {
-			shouldDisable = feedback(name, caller);
-		}
-
-		const errorSrack = new Error().stack ?? '';
-		if (name === 'remove' && (/(@|Error:|injectedScript)/.test(caller) || (/(@|^Error|injectedScript)/.test(errorSrack) && location.href.includes(caller)))) { // Safari Chromium Firefox
-			[caller, errorSrack].forEach(logger => {
-				// Eval case.
-				shouldDisable ||= ((logger.match(/eval/g)?.length ?? -1) >= 4) && (logger.includes('NodeList.forEach') ?? false); // Chromium Browser
-				shouldDisable ||= /injectedScript line [0-9]+ > eval$/.exec(logger) !== null; // Firefox Browser
-				shouldDisable ||= ((logger.match(/\n@/g)?.length ?? -1) >= 2) && (logger.includes('forEach@[native code]') ?? false); // Safari Browser
-				// Element.prototype.appendChild case.
-				shouldDisable ||= ((logger.includes('HTMLLinkElement.get [as remove]') ?? false) && (logger.match(/<anonymous>:1:/g)?.length ?? -1) >= 2); // Chromium Browser
-				shouldDisable ||= ((logger.includes('get@moz-extension://') ?? false) && (/async\*@https?:\/\/.+ line [0-9]+ > injectedScript:1:/.exec(logger) !== null) && (logger.match(/> injectedScript:1:/g)?.length ?? -1) >= 4); // Firefox Browser
-			});
-		}
-
-		if (shouldDisable) {
-			throw new TypeError(`${name} is not accessible`);
-		}
-
-		return false;
-	});
-};
-
-export const useDocumentReady = async (document: Document) => {
+export const documentReady = async (document: Document) => {
 	if (document.readyState !== 'loading') {
 		return true;
 	}
@@ -219,5 +105,3 @@ export const useDocumentReady = async (document: Document) => {
 		});
 	});
 };
-
-export const useBannedKeywords = (data: string) => data.includes('loader.min.js') && data.includes('as-async') && /try(.|\n)*{(.|\n)*}(.|\n)*catch(.|\n)*{(.|\n)*}/.test(data);

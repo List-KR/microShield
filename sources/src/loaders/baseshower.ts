@@ -1,7 +1,7 @@
 import * as asKit from '../adshield-defuser-libs/baseshower';
-import {useDebug, useDocumentReady} from '../utils.js';
+import {createDebug, documentReady} from '../utils.js';
 
-const debug = useDebug('[microShield:baseshower]');
+const debug = createDebug('[microShield:baseshower]');
 
 const extract = async () => {
 	let data: string | undefined;
@@ -22,7 +22,7 @@ const extract = async () => {
 	useSelector();
 
 	if (!data) {
-		await useDocumentReady(document);
+		await documentReady(document);
 
 		debug('html:post');
 		useSelector();
@@ -75,7 +75,7 @@ export const baseshower = async () => {
 
 	debug('payload', payload);
 
-	await useDocumentReady(document);
+	await documentReady(document);
 
 	restore(payload);
 };
