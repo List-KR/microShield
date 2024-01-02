@@ -92,6 +92,8 @@
 // @match        *://*.fmkorea.com/*
 // @match        *://forexlive.com/*
 // @match        *://*.forexlive.com/*
+// @match        *://thephoblographer.com/*
+// @match        *://*.thephoblographer.com/*
 // @exclude      *://m.inven.co.kr/imart/imarble/*
 //
 // @description        microShield allows the adblock community to resist against Ad-Shield widely.
