@@ -29,6 +29,8 @@ export const extensionCallAnalyzer = new MemoizedCallAnalyzer(line => line.start
 const knownAdShieldOrigins = [
 	'https://07c225f3.online',
 	'https://css-load.com',
+	'https://html-load',
+	'https://content-loader.com',
 ];
 
 export const adShieldCallAnalyzer = new MemoizedCallAnalyzer(line => {
