@@ -1,9 +1,9 @@
 import * as cache from '../__generated__/ztinywave.cache.js';
-import {useDocumentReady, useDebug} from '../utils.js';
+import {documentReady, createDebug} from '../utils.js';
 
 type Data = Array<{tags: string}>;
 
-const debug = useDebug('[microShield:tinywave]');
+const debug = createDebug('[microShield:tinywave]');
 
 const decode = (payload: string) => {
 	const id = payload.slice(0, 4);
@@ -118,7 +118,7 @@ const extract = async () => {
 	pick();
 
 	if (!source) {
-		await useDocumentReady(document);
+		await documentReady(document);
 
 		pick();
 	}
