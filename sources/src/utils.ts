@@ -1,5 +1,13 @@
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type unsafeWindow = typeof window;
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+declare const unsafeWindow: unsafeWindow;
+
+// eslint-disable-next-line no-negated-condition
+const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+
 export const createDebug = (namespace: string) => new Proxy(console.debug, {
 	apply(target, thisArg, argArray) {
 		Reflect.apply(target, thisArg, [`${namespace}`, ...argArray as unknown[]]);
@@ -10,7 +18,7 @@ const debug = createDebug('[asdefuser:__utils__]');
 
 export const isSubFrame = () => {
 	try {
-		return window.self !== window.top;
+		return win.self !== win.top;
 	} catch (_error) {
 		return true;
 	}
