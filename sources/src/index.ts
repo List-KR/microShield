@@ -4,24 +4,32 @@ import {documentReady, getCallStack, makeProxy} from './utils.js';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
 import {isAdShieldObj} from './obj-validators/index.js';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type unsafeWindow = typeof window;
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+declare const unsafeWindow: unsafeWindow;
+
+// eslint-disable-next-line no-negated-condition
+const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+
 const bootstrap = () => {
-	Element.prototype.remove = makeProxy(Element.prototype.remove, 'Element.prototype.remove');
-	Element.prototype.removeChild = makeProxy(Element.prototype.removeChild, 'Element.prototype.removeChild');
-	Element.prototype.insertAdjacentHTML = makeProxy(Element.prototype.insertAdjacentHTML, 'Element.prototype.insertAdjacentHTML');
-	Element.prototype.setAttribute = makeProxy(Element.prototype.setAttribute, 'Element.prototype.setAttribute');
-	EventTarget.prototype.addEventListener = makeProxy(EventTarget.prototype.addEventListener, 'EventTarget.prototype.addEventListener');
+	win.Element.prototype.remove = makeProxy(win.Element.prototype.remove, 'Element.prototype.remove');
+	win.Element.prototype.removeChild = makeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
+	win.Element.prototype.insertAdjacentHTML = makeProxy(win.Element.prototype.insertAdjacentHTML, 'Element.prototype.insertAdjacentHTML');
+	win.Element.prototype.setAttribute = makeProxy(win.Element.prototype.setAttribute, 'Element.prototype.setAttribute');
+	win.EventTarget.prototype.addEventListener = makeProxy(win.EventTarget.prototype.addEventListener, 'EventTarget.prototype.addEventListener');
 	// Prevent messaging to inline
-	MessagePort.prototype.postMessage = makeProxy(MessagePort.prototype.postMessage, 'MessagePort.prototype.postMessage');
-	document.createElement = makeProxy(document.createElement, 'document.createElement');
+	win.MessagePort.prototype.postMessage = makeProxy(win.MessagePort.prototype.postMessage, 'MessagePort.prototype.postMessage');
+	win.document.createElement = makeProxy(win.document.createElement, 'document.createElement');
 	// Prevent useless timer apis for performance
-	window.setInterval = makeProxy(setInterval, 'setInterval');
-	window.setTimeout = makeProxy(setTimeout, 'setInterval');
+	win.setInterval = makeProxy(win.setInterval, 'setInterval');
+	win.setTimeout = makeProxy(win.setTimeout, 'setInterval');
 
 	// Local Storage
 	localStorage.removeItem('as_profile_cache');
 	localStorage.removeItem('adshield-analytics-uuid');
 
-	Storage.prototype.setItem = new Proxy(Storage.prototype.setItem, {
+	win.Storage.prototype.setItem = new Proxy(win.Storage.prototype.setItem, {
 		apply(target, thisArg, argArray) {
 			const [key] = argArray as [string, string];
 
@@ -34,8 +42,8 @@ const bootstrap = () => {
 	});
 
 	// Network/XHR
-	window.fetch = makeProxy(fetch, 'fetch');
-	window.XMLHttpRequest = new Proxy(XMLHttpRequest, {
+	win.fetch = makeProxy(win.fetch, 'fetch');
+	win.XMLHttpRequest = new Proxy(win.XMLHttpRequest, {
 		construct(target, argArray, newTarget) {
 			if (adShieldStrictCheck(getCallStack())) {
 				return {};
@@ -46,7 +54,7 @@ const bootstrap = () => {
 	});
 
 	// Error prototype
-	window.Error = new Proxy(Error, {
+	win.Error = new Proxy(win.Error, {
 		set() {
 			throw new Error('Overriding Error is not allowed!');
 		},
@@ -55,9 +63,9 @@ const bootstrap = () => {
 		},
 	});
 
-	if (navigator.vendor.includes('Apple')) {
+	if (win.navigator.vendor.includes('Apple')) {
 		// Deserialization
-		JSON.parse = new Proxy(JSON.parse, {
+		win.JSON.parse = new Proxy(win.JSON.parse, {
 			apply(target, thisArg, argArray) {
 				const obj = Reflect.apply(target, thisArg, argArray) as unknown;
 
