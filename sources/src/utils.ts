@@ -14,7 +14,7 @@ export const createDebug = (namespace: string) => new Proxy(console.debug, {
 	},
 });
 
-const debug = createDebug('[asdefuser:__utils__]');
+const debug = createDebug('[microShield:__utils__]');
 
 export const isSubFrame = () => {
 	try {
@@ -80,7 +80,7 @@ export const makeProxy = <F extends Function>(f: F, name = f.name) => {
 			if (adShieldOriginCheck(callStack)) {
 				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
 
-				throw new Error('asdefuser');
+				throw new Error('microShield');
 			}
 
 			return Reflect.apply(target, thisArg, argArray) as F;
@@ -92,7 +92,7 @@ export const makeProxy = <F extends Function>(f: F, name = f.name) => {
 			if (adShieldStrictCheck(callStack)) {
 				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
 
-				throw new Error('asdefuser');
+				throw new Error('microShield');
 			}
 
 			return Reflect.setPrototypeOf(target, v);
