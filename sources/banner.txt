@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.12.5
+// @version      3.12.6
 // @author       PiQuark6046 and contributors
 //
 // @match        *://algumon.com/*
@@ -88,8 +88,6 @@
 // @match        *://*.thestockmarketwatch.com/*
 // @match        *://thesaurus.net/*
 // @match        *://*.thesaurus.net/*
-// @match        *://fmkorea.com/*
-// @match        *://*.fmkorea.com/*
 // @match        *://forexlive.com/*
 // @match        *://*.forexlive.com/*
 // @match        *://thephoblographer.com/*
