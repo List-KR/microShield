@@ -1,3 +1,4 @@
+import {isNotResourceInfectedByAdShield} from './call-validators/analyzers';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -77,7 +78,7 @@ export const makeProxy = <F extends Function>(f: F, name = f.name) => {
 		apply(target, thisArg, argArray) {
 			const callStack = getCallStack();
 
-			if (adShieldOriginCheck(callStack)) {
+			if (adShieldOriginCheck(callStack) && isNotResourceInfectedByAdShield(callStack)) {
 				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
 
 				throw new Error('microShield');
