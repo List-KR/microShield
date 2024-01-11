@@ -1,6 +1,6 @@
 import {basedrop} from './loaders/basedrop.js';
 import {tinywave} from './loaders/ztinywave.js';
-import {documentReady, getCallStack, makeProxy} from './utils.js';
+import {documentReady, getCallStack, makeProxy, makeProxyError} from './utils.js';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
 import {isAdShieldObj} from './obj-validators/index.js';
 
@@ -54,14 +54,7 @@ const bootstrap = () => {
 	});
 
 	// Error prototype
-	win.Error = new Proxy(win.Error, {
-		set() {
-			throw new Error('Overriding Error is not allowed!');
-		},
-		setPrototypeOf() {
-			throw new Error('Overriding prototype of Error is not allowed!');
-		},
-	});
+	win.Error = makeProxyError(win.Error, 'Error');
 
 	if (win.navigator.vendor.includes('Apple')) {
 		// Deserialization

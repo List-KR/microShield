@@ -114,3 +114,34 @@ export const documentReady = async (document: Document) => {
 		});
 	});
 };
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const makeProxyError = <F extends Function>(f: F, name = f.name) => {
+	const proxy = new Proxy(f, {
+		set(target, p, newValue, receiver) {
+			const callStack = getCallStack();
+
+			if (adShieldOriginCheck(callStack) && isNotResourceInfectedByAdShield(callStack)) {
+				debug(`set name=${name} argArray=`, newValue, 'stack=', callStack.raw);
+
+				throw new Error('Overriding Error is not allowed!');
+			}
+
+			return Reflect.set(target, p, newValue, receiver);
+		},
+		// Prevent ruining the call stack with "explicit" checks
+		setPrototypeOf(target, v) {
+			const callStack = getCallStack();
+
+			if (adShieldStrictCheck(callStack)) {
+				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
+
+				throw new Error('Overriding prototype of Error is not allowed!');
+			}
+
+			return Reflect.setPrototypeOf(target, v);
+		},
+	});
+
+	return proxy;
+};
