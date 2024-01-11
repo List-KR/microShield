@@ -3,6 +3,7 @@ import {tinywave} from './loaders/ztinywave.js';
 import {documentReady, getCallStack, makeProxy, makeProxyError} from './utils.js';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
 import {isAdShieldObj} from './obj-validators/index.js';
+import {isNotResourceInfectedByAdShield} from './call-validators/analyzers.js';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type unsafeWindow = typeof window;
@@ -45,7 +46,7 @@ const bootstrap = () => {
 	win.fetch = makeProxy(win.fetch, 'fetch');
 	win.XMLHttpRequest = new Proxy(win.XMLHttpRequest, {
 		construct(target, argArray, newTarget) {
-			if (adShieldStrictCheck(getCallStack())) {
+			if (adShieldStrictCheck(getCallStack()) && isNotResourceInfectedByAdShield(getCallStack())) {
 				return {};
 			}
 
