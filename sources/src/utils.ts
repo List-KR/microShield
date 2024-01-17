@@ -145,3 +145,47 @@ export const makeProxyError = <F extends Function>(f: F, name = f.name) => {
 
 	return proxy;
 };
+
+const isEvalFunction = (callStacks: string[]) => {
+	const callStack = callStacks.join('\n');
+	let shouldDisable = false;
+	shouldDisable ||= ((callStack.match(/eval/g)?.length ?? -1) >= 4) && (callStack.includes('NodeList.forEach') ?? false); // Chromium Browser
+	shouldDisable ||= /injectedScript line [0-9]+ > eval$/.exec(callStack) !== null; // Firefox Browser
+	shouldDisable ||= ((callStack.match(/\n@/g)?.length ?? -1) >= 2) && (callStack.includes('forEach@[native code]') ?? false); // Safari Browser
+	// Element.prototype.appendChild case.
+	shouldDisable ||= ((callStack.includes('HTMLLinkElement.get [as remove]') ?? false) && (callStack.match(/<anonymous>:1:/g)?.length ?? -1) >= 2); // Chromium Browser
+	shouldDisable ||= ((callStack.includes('get@moz-extension://') ?? false) && (/async\*@https?:\/\/.+ line [0-9]+ > injectedScript:1:/.exec(callStack) !== null) && (callStack.match(/> injectedScript:1:/g)?.length ?? -1) >= 4); // Firefox Browser
+	return shouldDisable;
+};
+
+// Function makeProxy + eval
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const makeUnsafeProxy = <F extends Function>(f: F, name = f.name) => {
+	const proxy = new Proxy(f, {
+		apply(target, thisArg, argArray) {
+			const callStack = getCallStack();
+
+			if (isEvalFunction(callStack.raw) || (adShieldOriginCheck(callStack) && isNotResourceInfectedByAdShield(callStack))) {
+				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
+
+				throw new Error('microShield');
+			}
+
+			return Reflect.apply(target, thisArg, argArray) as F;
+		},
+		// Prevent ruining the call stack with "explicit" checks
+		setPrototypeOf(target, v) {
+			const callStack = getCallStack();
+
+			if (adShieldStrictCheck(callStack)) {
+				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
+
+				throw new Error('microShield');
+			}
+
+			return Reflect.setPrototypeOf(target, v);
+		},
+	});
+
+	return proxy;
+};
