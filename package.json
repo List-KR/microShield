@@ -19,10 +19,12 @@
   "contributors": [
     {
       "name": "HoJeong Go",
-      "email": "seia@outlook.kr"
+      "email": "seia@outlook.kr",
+      "url": "https://github.com/seia-soto"
     },
     {
-      "name": "green1052"
+      "name": "green1052",
+      "url": "https://github.com/green1052"
     }
   ],
   "license": "Apache-2.0",
