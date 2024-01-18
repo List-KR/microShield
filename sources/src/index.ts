@@ -1,6 +1,6 @@
 import {basedrop} from './loaders/basedrop.js';
 import {tinywave} from './loaders/ztinywave.js';
-import {documentReady, getCallStack, makeProxy, makeProxyError, makeUnsafeProxy} from './utils.js';
+import {documentReady, getCallStack, makeProxy, makeProxyError} from './utils.js';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
 import {isAdShieldObj} from './obj-validators/index.js';
 import {isNotResourceInfectedByAdShield} from './call-validators/analyzers.js';
@@ -14,12 +14,12 @@ declare const unsafeWindow: unsafeWindow;
 const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
 
 const bootstrap = () => {
-	win.Element.prototype.remove = makeUnsafeProxy(win.Element.prototype.remove, 'Element.prototype.remove');
+	win.Element.prototype.remove = makeProxy(win.Element.prototype.remove, 'Element.prototype.remove');
 	win.Element.prototype.removeChild = makeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
 	win.Element.prototype.insertAdjacentHTML = makeProxy(win.Element.prototype.insertAdjacentHTML, 'Element.prototype.insertAdjacentHTML');
 	win.Element.prototype.setAttribute = makeProxy(win.Element.prototype.setAttribute, 'Element.prototype.setAttribute');
 	win.EventTarget.prototype.addEventListener = makeProxy(win.EventTarget.prototype.addEventListener, 'EventTarget.prototype.addEventListener');
-	win.Object.create = makeProxy(win.Object.create, 'Object.create');
+	win.Function.prototype.apply = makeProxy(win.Function.prototype.apply, 'Function.prototype.apply');
 	// Prevent messaging to inline
 	win.MessagePort.prototype.postMessage = makeProxy(win.MessagePort.prototype.postMessage, 'MessagePort.prototype.postMessage');
 	win.document.createElement = makeProxy(win.document.createElement, 'document.createElement');
