@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create a Release
-        uses: List-KR/semver-release@1.0.0
+        uses: List-KR/semver-release@2.0.0
   jsdelivrpurge:
     name: Purge jsDelivr cache
     runs-on: ubuntu-latest
