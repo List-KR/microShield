@@ -1,1 +1,5 @@
 blank_issues_enabled: true
+contact_links:
+  - name: Do you use Unicorn Pro adblocker?
+    url: https://support.getunicorn.app/hc/ko/community/topics
+    about: Redirect to create new request that blocks the Ad-Shield script via Unicorn official support page.
