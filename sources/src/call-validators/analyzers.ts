@@ -32,6 +32,7 @@ const knownAdShieldOrigins = [
 	'https://css-load.com',
 	'https://html-load.com',
 	'https://content-loader.com',
+	'https://fb.content-loader.com',
 ];
 
 export const adShieldCallAnalyzer = new MemoizedCallAnalyzer(line => {
