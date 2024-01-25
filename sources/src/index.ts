@@ -15,7 +15,7 @@ const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
 
 const bootstrap = () => {
 	win.Element.prototype.remove = makeUnsafeProxy(win.Element.prototype.remove, 'Element.prototype.remove');
-	win.Element.prototype.removeChild = makeUnsafeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
+	win.Element.prototype.removeChild = makeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
 	win.Element.prototype.insertAdjacentHTML = makeProxy(win.Element.prototype.insertAdjacentHTML, 'Element.prototype.insertAdjacentHTML');
 	win.Element.prototype.setAttribute = makeProxy(win.Element.prototype.setAttribute, 'Element.prototype.setAttribute');
 	win.EventTarget.prototype.addEventListener = makeProxy(win.EventTarget.prototype.addEventListener, 'EventTarget.prototype.addEventListener');
