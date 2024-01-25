@@ -150,7 +150,7 @@ const isEvalFunction = (callStacks: string[]) => {
 	const callStack = callStacks.join('\n');
 	let shouldDisable = false;
 	shouldDisable ||= ((callStack.match(/eval/g)?.length ?? -1) >= 4) && (callStack.includes('NodeList.forEach') ?? false); // Chromium Browser
-	shouldDisable ||= ((callStack.match(/@https:\/\/.+ line [0-9]+ > eval/g)?.length ?? -1) >= 3); // Firefox Browser
+	shouldDisable ||= (((/^[A-Za-z0-9/<>]+@https:\/\/.+ line [0-9]+ > eval/.exec(callStack))?.length ?? -1) >= 1 && (callStack.match(/\n([a-zA-Z0-9]+)?@https:\/\/.+ line [0-9]+ > eval/g)?.length ?? -1) >= 2); // Firefox Browser
 	shouldDisable ||= ((callStack.match(/\n([a-zA-Z0-9]+)?@\n/g)?.length ?? -1) >= 2) && (callStack.includes('forEach@[native code]') ?? false); // Safari Browser
 	return shouldDisable;
 };
