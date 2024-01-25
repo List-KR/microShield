@@ -2,6 +2,7 @@ import {basedrop} from './loaders/basedrop.js';
 import {tinywave} from './loaders/ztinywave.js';
 import {documentReady, getCallStack, makeProxy, makeProxyError, makeUnsafeProxy} from './utils.js';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
+import {adShieldCallAnalyzer, knownAdShieldOrigins} from './call-validators/analyzers.js';
 import {isAdShieldObj} from './obj-validators/index.js';
 import {isNotResourceInfectedByAdShield} from './call-validators/analyzers.js';
 
@@ -15,9 +16,23 @@ const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
 
 const bootstrap = () => {
 	win.Element.prototype.remove = makeUnsafeProxy(win.Element.prototype.remove, 'Element.prototype.remove');
-	win.Element.prototype.removeChild = makeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
+	win.Element.prototype.removeChild = makeUnsafeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
 	win.Element.prototype.insertAdjacentHTML = makeProxy(win.Element.prototype.insertAdjacentHTML, 'Element.prototype.insertAdjacentHTML');
 	win.Element.prototype.setAttribute = makeProxy(win.Element.prototype.setAttribute, 'Element.prototype.setAttribute');
+	win.HTMLScriptElement.prototype.setAttribute = new Proxy(win.HTMLScriptElement.prototype.setAttribute, {
+		apply(target, thisArg, argArray: [string, string]) {
+			if (argArray[0] === 'src' && typeof argArray[1] === 'string') {
+				if (adShieldCallAnalyzer.analyze(argArray[1])) {
+					return;
+				}
+			}
+
+			Reflect.apply(target, thisArg, argArray);
+		},
+		setPrototypeOf(_target, _v) {
+			return false;
+		},
+	});
 	win.EventTarget.prototype.addEventListener = makeProxy(win.EventTarget.prototype.addEventListener, 'EventTarget.prototype.addEventListener');
 	win.Function.prototype.apply = makeProxy(win.Function.prototype.apply, 'Function.prototype.apply');
 	// Prevent messaging to inline
@@ -26,6 +41,19 @@ const bootstrap = () => {
 	// Prevent useless timer apis for performance
 	win.setInterval = makeProxy(win.setInterval, 'setInterval');
 	win.setTimeout = makeProxy(win.setTimeout, 'setInterval');
+	win.decodeURIComponent = new Proxy(win.decodeURIComponent, {
+		apply(target, thisArg, argArray: [string]) {
+			const payload = Reflect.apply(target, thisArg, argArray);
+
+			for (const domain of knownAdShieldOrigins) {
+				if (payload.includes(domain)) {
+					return '';
+				}
+			}
+
+			return payload;
+		},
+	});
 
 	// Local Storage
 	localStorage.removeItem('as_profile_cache');
