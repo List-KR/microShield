@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.13.0
+// @version      3.13.1
 // @author       PiQuark6046 and contributors
 //
 // @match        *://algumon.com/*
