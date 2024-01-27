@@ -101,6 +101,7 @@ body:
         - AdGuard for Windows
         - AdGuard for macOS
         - AdGuard for Android
+        - quoid/userscripts
         - (Other)
     validations:
       required: true
