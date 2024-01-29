@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.13.2
+// @version      3.13.3
 // @author       PiQuark6046 and contributors
 //
 // @match        *://algumon.com/*
@@ -94,8 +94,6 @@
 // @match        *://*.thephoblographer.com/*
 // @match        *://tweaksforgeeks.com/*
 // @match        *://*.tweaksforgeeks.com/*
-// @match        *://meeco.kr/*
-// @match        *://*.meeco.kr/*
 // @match        *://alle-tests.nl/*
 // @match        *://*.alle-tests.nl/*
 // @match        *://allthetests.com/*
