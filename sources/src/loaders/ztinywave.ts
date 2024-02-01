@@ -5,7 +5,7 @@ type Data = Array<{tags: string}>;
 
 const debug = createDebug('[microShield:tinywave]');
 
-const decode = (payload: string) => {
+const decode = (payload: string, scriptURL: string) => {
 	const id = payload.slice(0, 4);
 	const key = cache.source.find(store => store.id === id);
 
@@ -28,7 +28,7 @@ const decode = (payload: string) => {
 
 	let mode = 0;
 
-	const data = payload
+	let data = payload
 		.slice(4)
 		.split('')
 		.map(char => {
@@ -69,6 +69,12 @@ const decode = (payload: string) => {
 			return unwrap(key.input, key.output, char);
 		})
 		.join('');
+
+	if (data.includes('resources://') && key.remoteResourceToken) {
+		debug('downloading remote resource from Ad-Shield is required', data);
+		const scriptHostname = new URL(scriptURL.startsWith('//') ? `https:${scriptURL}` : scriptURL).hostname;
+		data = data.replace(/resources:\/\/[a-zA-Z0-9-]+/, (`https://${scriptHostname}/resources/${/(?<=resources:\/\/)[a-zA-Z0-9-]+/.exec(data) as unknown as string}?token=${key.remoteResourceToken}`));
+	}
 
 	return JSON.parse(data) as Data;
 };
@@ -127,7 +133,7 @@ const extract = async () => {
 		throw new Error('DEFUSER_SHORTWAVE_TARGET_NOT_FOUND');
 	}
 
-	return decode(source.data);
+	return decode(source.data, source.script);
 };
 
 export const tinywave = async () => {

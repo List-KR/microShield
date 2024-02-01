@@ -97,7 +97,8 @@ export const source = [
     "reserved1Output": "phm21v9cw4b73yglnfxotazsuj8qrk650i",
     "reserved2": 104,
     "reserved2Input": "Qj^ NCUv54le\"VMm_30GL",
-    "reserved2Output": "bixqrhwn9zjm54o12fe0s"
+    "reserved2Output": "bixqrhwn9zjm54o12fe0s",
+    "remoteResourceToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MDY4NzE0NzAsImlhdCI6MTcwNjc4NTA3MH0.1QXRNAUaB2o1XNMK3P_EZIynfhvvZFHupvFi8S8QhB4"
   },
   {
     "id": "svmm",
