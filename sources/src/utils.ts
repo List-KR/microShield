@@ -168,6 +168,30 @@ export const makeUnsafeProxy = <F extends Function>(f: F, name = f.name) => {
 				throw new Error('microShield');
 			}
 
+			return Reflect.apply(target, thisArg, argArray) as F;
+		},
+		// Prevent ruining the call stack with "explicit" checks
+		setPrototypeOf(target, v) {
+			const callStack = getCallStack();
+
+			if (adShieldStrictCheck(callStack)) {
+				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
+
+				throw new Error('microShield');
+			}
+
+			return Reflect.setPrototypeOf(target, v);
+		},
+	});
+
+	return proxy;
+};
+
+// Function argArray
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const makeInlineProxy = <F extends Function>(f: F, name = f.name) => {
+	const proxy = new Proxy(f, {
+		apply(target, thisArg, argArray) {
 			if (argArray.length > 0 && knownAdShieldOrigins.some(Origin => argArray.join('\n').includes(Origin))) {
 				throw new Error('microShield');
 			}

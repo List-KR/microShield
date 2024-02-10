@@ -1,6 +1,6 @@
 import {basedrop} from './loaders/basedrop.js';
 import {tinywave} from './loaders/ztinywave.js';
-import {documentReady, getCallStack, makeProxy, makeProxyError, makeUnsafeProxy} from './utils.js';
+import {documentReady, getCallStack, makeProxy, makeProxyError, makeUnsafeProxy, makeInlineProxy} from './utils.js';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
 import {adShieldCallAnalyzer, knownAdShieldOrigins} from './call-validators/analyzers.js';
 import {isAdShieldObj} from './obj-validators/index.js';
@@ -19,7 +19,7 @@ const bootstrap = () => {
 	win.Element.prototype.removeChild = makeUnsafeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
 	win.Element.prototype.insertAdjacentHTML = makeProxy(win.Element.prototype.insertAdjacentHTML, 'Element.prototype.insertAdjacentHTML');
 	win.Element.prototype.setAttribute = makeProxy(win.Element.prototype.setAttribute, 'Element.prototype.setAttribute');
-	win.alert = makeUnsafeProxy(win.alert, 'alert');
+	win.alert = makeInlineProxy(win.alert, 'alert');
 	win.HTMLScriptElement.prototype.setAttribute = new Proxy(win.HTMLScriptElement.prototype.setAttribute, {
 		apply(target, thisArg, argArray: [string, string]) {
 			if (argArray[0] === 'src' && typeof argArray[1] === 'string') {
