@@ -19,6 +19,7 @@ const bootstrap = () => {
 	win.Element.prototype.removeChild = makeUnsafeProxy(win.Element.prototype.removeChild, 'Element.prototype.removeChild');
 	win.Element.prototype.insertAdjacentHTML = makeProxy(win.Element.prototype.insertAdjacentHTML, 'Element.prototype.insertAdjacentHTML');
 	win.Element.prototype.setAttribute = makeProxy(win.Element.prototype.setAttribute, 'Element.prototype.setAttribute');
+	win.alert = makeUnsafeProxy(win.alert, 'alert');
 	win.HTMLScriptElement.prototype.setAttribute = new Proxy(win.HTMLScriptElement.prototype.setAttribute, {
 		apply(target, thisArg, argArray: [string, string]) {
 			if (argArray[0] === 'src' && typeof argArray[1] === 'string') {
