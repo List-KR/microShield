@@ -88,9 +88,9 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 Please read `/ad-shield.md`.
 
 ### Why List-KR created microShield?
-Unlike license of List-KR Script, microShield is licensed under MIT license that allows other software to use this userscript without using the same license.
+Unlike license of List-KR Script, microShield is licensed under Apache 2.0 license that allows other software to use this userscript without using the same license.
 
-So, the adblock community can resist against Ad-Shield widely.
+So, AdGuard, uBlock Origin, Brave and ABP can resist against Ad-Shield widely.
 
 ### Original Source Code
 microShield userscript was brought from source code of the following projects:
