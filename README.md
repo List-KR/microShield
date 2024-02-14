@@ -6,6 +6,16 @@ microShield blocks Ad-Shield advertisement and anti-adblock script.
 
 한국어: https://community.list-kr.com/docs/AdGuard/Userscripts/microShield
 
+> [!IMPORTANT]
+> microShield userscript maintainer recommends using one of the following adblockers with microShield userscript:
+> - AdGuard
+> - uBlock Origin
+> - Brave web browser's Shield
+> - AdBlock Plus
+> - Ghostery
+>
+> Supporting other adblockers is not guaranteed.
+
 ### Quick Start
 Just click the following URL to detect this userscript.
 
