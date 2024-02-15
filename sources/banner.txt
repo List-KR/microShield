@@ -78,8 +78,6 @@
 // @match        *://*.honkailab.com/*
 // @match        *://warcraftrumbledeck.com/*
 // @match        *://*.warcraftrumbledeck.com/*
-// @match        *://golf-live.at/*
-// @match        *://*.golf-live.at/*
 // @match        *://mlbpark.donga.com/*
 // @match        *://*.mlbpark.donga.com/*
 // @match        *://gamingdeputy.com/*
