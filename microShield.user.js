@@ -8,19 +8,15 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.15.5
+// @version      3.15.6
 // @author       PiQuark6046 and contributors
 //
-// @match        *://algumon.com/*
-// @match        *://*.algumon.com/*
 // @match        *://ygosu.com/*
 // @match        *://m.ygosu.com/*
 // @match        *://ad-shield.io/*
 // @match        *://feedclick.net/*
 // @match        *://sportalkorea.com/*
 // @match        *://*.sportalkorea.com/*
-// @match        *://hancinema.net/*
-// @match        *://*.hancinema.net/*
 // @match        *://enetnews.co.kr/*
 // @match        *://*.enetnews.co.kr/*
 // @match        *://edaily.co.kr/*
@@ -47,16 +43,6 @@
 // @match        *://*.kagit.kr/*
 // @match        *://jjang0u.com/*
 // @match        *://*.jjang0u.com/*
-// @match        *://tvreport.co.kr/*
-// @match        *://*.tvreport.co.kr/*
-// @match        *://newautopost.co.kr/*
-// @match        *://*.newautopost.co.kr/*
-// @match        *://tenbizt.com/*
-// @match        *://*.tenbizt.com/*
-// @match        *://mememedia.co.kr/*
-// @match        *://*.mememedia.co.kr/*
-// @match        *://mobilitytv.co.kr/*
-// @match        *://*.mobilitytv.co.kr/*
 // @match        *://cboard.net/*
 // @match        *://*.cboard.net/*
 // @match        *://issue.dcinside.com/*
