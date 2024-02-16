@@ -43,8 +43,6 @@
 // @match        *://*.kagit.kr/*
 // @match        *://jjang0u.com/*
 // @match        *://*.jjang0u.com/*
-// @match        *://mememedia.co.kr/*
-// @match        *://*.mememedia.co.kr/*
 // @match        *://mobilitytv.co.kr/*
 // @match        *://*.mobilitytv.co.kr/*
 // @match        *://cboard.net/*
