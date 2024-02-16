@@ -43,8 +43,6 @@
 // @match        *://*.kagit.kr/*
 // @match        *://jjang0u.com/*
 // @match        *://*.jjang0u.com/*
-// @match        *://tvreport.co.kr/*
-// @match        *://*.tvreport.co.kr/*
 // @match        *://newautopost.co.kr/*
 // @match        *://*.newautopost.co.kr/*
 // @match        *://mememedia.co.kr/*
