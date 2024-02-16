@@ -17,8 +17,6 @@
 // @match        *://feedclick.net/*
 // @match        *://sportalkorea.com/*
 // @match        *://*.sportalkorea.com/*
-// @match        *://hancinema.net/*
-// @match        *://*.hancinema.net/*
 // @match        *://enetnews.co.kr/*
 // @match        *://*.enetnews.co.kr/*
 // @match        *://edaily.co.kr/*
