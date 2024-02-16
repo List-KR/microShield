@@ -37,7 +37,6 @@ const bootstrap = () => {
 		},
 	});
 	win.EventTarget.prototype.addEventListener = makeProxy(win.EventTarget.prototype.addEventListener, 'EventTarget.prototype.addEventListener');
-	win.Function.prototype.apply = makeProxy(win.Function.prototype.apply, 'Function.prototype.apply');
 	// Prevent messaging to inline
 	win.MessagePort.prototype.postMessage = makeProxy(win.MessagePort.prototype.postMessage, 'MessagePort.prototype.postMessage');
 	win.document.createElement = makeProxy(win.document.createElement, 'document.createElement');
