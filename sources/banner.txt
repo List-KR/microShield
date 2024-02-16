@@ -11,8 +11,6 @@
 // @version      3.15.6
 // @author       PiQuark6046 and contributors
 //
-// @match        *://algumon.com/*
-// @match        *://*.algumon.com/*
 // @match        *://ygosu.com/*
 // @match        *://m.ygosu.com/*
 // @match        *://ad-shield.io/*
