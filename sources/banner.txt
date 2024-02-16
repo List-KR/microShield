@@ -47,8 +47,6 @@
 // @match        *://*.tvreport.co.kr/*
 // @match        *://newautopost.co.kr/*
 // @match        *://*.newautopost.co.kr/*
-// @match        *://tenbizt.com/*
-// @match        *://*.tenbizt.com/*
 // @match        *://mememedia.co.kr/*
 // @match        *://*.mememedia.co.kr/*
 // @match        *://mobilitytv.co.kr/*
