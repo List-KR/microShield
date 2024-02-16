@@ -1,6 +1,6 @@
 {
   "name": "microshield",
-  "version": "3.15.6",
+  "version": "3.16.0",
   "description": "",
   "type": "module",
   "scripts": {
@@ -26,6 +26,10 @@
     {
       "name": "green1052",
       "url": "https://github.com/green1052"
+    },
+    {
+      "name": "Adguard Software Ltd.",
+      "url": "https://adguard.com/"
     }
   ],
   "license": "Apache-2.0",
