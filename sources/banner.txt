@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.16.1
+// @version      3.16.2
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
@@ -45,7 +45,6 @@
 // @match        *://*.jjang0u.com/*
 // @match        *://cboard.net/*
 // @match        *://*.cboard.net/*
-// @match        *://issue.dcinside.com/*
 // @match        *://a-ha.io/*
 // @match        *://*.a-ha.io/*
 // @match        *://interfootball.co.kr/*
