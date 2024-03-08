@@ -33,6 +33,7 @@ export const knownAdShieldOrigins = [
 	'html-load.com',
 	'content-loader.com',
 	'22d2d4d9-0c15-4a3a-9562-384f2c100146.xyz',
+	'f97ae142.online',
 ];
 
 export const adShieldCallAnalyzer = new MemoizedCallAnalyzer(line => {
