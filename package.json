@@ -1,6 +1,6 @@
 {
   "name": "microshield",
-  "version": "3.16.5",
+  "version": "3.16.6",
   "description": "",
   "type": "module",
   "scripts": {
@@ -34,19 +34,19 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/node": "^20.11.23",
+    "@types/node": "^20.11.25",
     "buffer": "^6.0.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
     "acorn-walk": "^8.3.2",
     "esbuild": "^0.20.1",
     "eslint": "^8.57.0",
     "eslint-config-xo": "^0.44.0",
     "eslint-config-xo-typescript": "^3.0.0",
-    "playwright": "^1.42.0",
+    "playwright": "^1.42.1",
     "pnpm": "^8.15.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }
