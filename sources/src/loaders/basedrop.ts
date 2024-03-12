@@ -1,4 +1,4 @@
-import {createDebug, documentReady} from '../utils';
+import {createDebug, documentReady} from '../utils.js';
 
 const debug = createDebug('[microShield:basedrop]');
 

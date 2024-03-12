@@ -1,4 +1,4 @@
-import * as asKit from '../adshield-defuser-libs/baseshower';
+import * as asKit from '../adshield-defuser-libs/baseshower.js';
 import {createDebug, documentReady} from '../utils.js';
 
 const debug = createDebug('[microShield:baseshower]');

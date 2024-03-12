@@ -1,4 +1,4 @@
-import * as asKit from '../adshield-defuser-libs/basera1n';
+import * as asKit from '../adshield-defuser-libs/basera1n.js';
 import {createDebug, documentReady} from '../utils.js';
 
 const debug = createDebug('[microShield:basera1n]');
