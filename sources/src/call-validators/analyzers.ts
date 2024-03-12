@@ -1,4 +1,4 @@
-import type {getCallStack} from '../utils';
+import type {getCallStack} from '../utils.js';
 type Analyzer = (line: string) => boolean;
 
 class MemoizedCallAnalyzer {

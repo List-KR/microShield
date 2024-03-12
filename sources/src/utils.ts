@@ -1,5 +1,5 @@
-import {isNotResourceInfectedByAdShield, knownAdShieldOrigins} from './call-validators/analyzers';
-import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites';
+import {isNotResourceInfectedByAdShield, knownAdShieldOrigins} from './call-validators/analyzers.js';
+import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type unsafeWindow = typeof window;

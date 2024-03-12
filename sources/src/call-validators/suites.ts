@@ -1,5 +1,5 @@
-import {type getCallStack} from '../utils';
-import {adShieldCallAnalyzer} from './analyzers';
+import {type getCallStack} from '../utils.js';
+import {adShieldCallAnalyzer} from './analyzers.js';
 
 export type ValidatorFunction = (callStack: ReturnType<typeof getCallStack>) => boolean;
 
