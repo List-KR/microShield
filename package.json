@@ -34,7 +34,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/node": "^20.11.25",
+    "@types/node": "^20.11.26",
     "buffer": "^6.0.3"
   },
   "devDependencies": {
