@@ -1,30 +1,16 @@
 module.exports = {
-	env: {
-		browser: true,
-		es2021: true,
-	},
 	extends: [
-		'xo',
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
 	],
-	overrides: [
-		{
-			extends: [
-				'xo-typescript',
-			],
-			files: [
-				'*.ts',
-				'*.tsx',
-			],
-		},
-	],
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
-		ecmaVersion: 'latest',
-		sourceType: 'module',
+		tsconfigRootDir: __dirname,
+		project: '../tsconfig.json'
 	},
+	plugins: ['@typescript-eslint'],
 	rules: {
+		'@typescript-eslint/no-unused-vars': 'off'
 	},
-	ignorePatterns: [
-		'loader.min.js',
-		'script.min.js',
-	],
-};
+	ignorePatterns: ['dist', 'node_modules', '.eslintrc.cjs']
+}
