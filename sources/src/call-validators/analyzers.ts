@@ -38,10 +38,6 @@ export const knownAdShieldOrigins = [
 ];
 
 export const adShieldCallAnalyzer = new MemoizedCallAnalyzer(line => {
-	if (line.endsWith('/script.min.js') || line.endsWith('/loader.min.js')) {
-		return true;
-	}
-
 	for (const origin of knownAdShieldOrigins) {
 		if (line.includes(origin)) {
 			return true;
