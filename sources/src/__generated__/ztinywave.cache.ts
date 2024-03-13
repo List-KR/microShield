@@ -75,7 +75,7 @@ export const source = [
     "reserved1Output": "mteqh0ys62p1fxj589ro4aunzlig3c7wbk",
     "reserved2": 56,
     "reserved2Input": "{eF%OXrQ2>np3JN]47u",
-    "reserved2Output": "9jmanwyqx0s54zuto6h"
+    "reserved2Output": "9jmanwyqx0s54zuto6h",
   },
   {
     "id": "nloc",
@@ -130,6 +130,7 @@ export const source = [
     "reserved1Output": "ou7ercvw9l01yghnfip685bzxqtak3sjm4",
     "reserved2": 57,
     "reserved2Input": "=6a0G>POo37nv?x&1`]2t",
-    "reserved2Output": "crxmjf7yhgt6o3p8l09iv"
+    "reserved2Output": "crxmjf7yhgt6o3p8l09iv",
+    "remoteResourceToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MTAzOTUxODYsImlhdCI6MTcxMDMwODc4Nn0.BRHKI7P9e4iCc-_PfmxTEb-7vQbo40kKuLPtnfIeIvw&20240313",
   }
 ];
