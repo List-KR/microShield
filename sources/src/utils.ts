@@ -1,4 +1,4 @@
-import {isNotResourceInfectedByAdShield, knownAdShieldOrigins} from './call-validators/analyzers.js';
+import {knownAdShieldOrigins} from './call-validators/analyzers.js';
 import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -78,7 +78,7 @@ export const makeProxy = <F extends Function>(f: F, name = f.name) => {
 		apply(target, thisArg, argArray) {
 			const callStack = getCallStack();
 
-			if (adShieldOriginCheck(callStack) && isNotResourceInfectedByAdShield(callStack)) {
+			if (adShieldOriginCheck(callStack)) {
 				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
 
 				throw new Error('microShield');
@@ -121,7 +121,7 @@ export const makeProxyError = <F extends Function>(f: F, name = f.name) => {
 		set(target, p, newValue, receiver) {
 			const callStack = getCallStack();
 
-			if (adShieldOriginCheck(callStack) && isNotResourceInfectedByAdShield(callStack)) {
+			if (adShieldOriginCheck(callStack)) {
 				debug(`set name=${name} argArray=`, newValue, 'stack=', callStack.raw);
 
 				throw new Error('Overriding Error is not allowed!');
@@ -162,7 +162,7 @@ export const makeUnsafeProxy = <F extends Function>(f: F, name = f.name) => {
 		apply(target, thisArg, argArray) {
 			const callStack = getCallStack();
 
-			if (isEvalFunction(callStack.raw) || (adShieldOriginCheck(callStack) && isNotResourceInfectedByAdShield(callStack))) {
+			if (isEvalFunction(callStack.raw) || adShieldOriginCheck(callStack)) {
 				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
 
 				throw new Error('microShield');
