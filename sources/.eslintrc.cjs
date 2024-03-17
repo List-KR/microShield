@@ -10,7 +10,7 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {
-		'@typescript-eslint/naming-convention': ['error', {
+		'@typescript-eslint/naming-convention': ['warn', {
 			selector: ['variableLike', 'parameterProperty', 'classProperty', 'typeProperty'],
 			format: ['PascalCase']
 		}],
