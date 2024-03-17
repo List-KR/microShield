@@ -1,6 +1,7 @@
 import {parse} from 'acorn'
 import * as walker from 'acorn-walk'
 import {chromium} from 'playwright'
+import cryptoRandomString from 'crypto-random-string'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type Data = Array<{tags: string}>;
@@ -88,7 +89,7 @@ export const getKeys__Node__ = async (source: string) => {
 		}
 	})
 
-	const Secret = (crypto.getRandomValues(new Uint32Array(1))[0] * crypto.getRandomValues(new Uint32Array(1))[0]).toString(36).slice(2)
+	const Secret = cryptoRandomString({length: 10, type: 'numeric'})
 	const Header = `const ${Secret} = (id, source) => {
 	const el = document.createElement('code')
 	el.setAttribute('data-${Secret}', id)
