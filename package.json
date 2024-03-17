@@ -1,6 +1,6 @@
 {
   "name": "microshield",
-  "version": "3.18.0",
+  "version": "3.19.0",
   "description": "",
   "type": "module",
   "scripts": {
@@ -35,7 +35,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/node": "^20.11.26",
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "crypto-random-string": "^5.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.1.1",

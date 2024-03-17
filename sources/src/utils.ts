@@ -1,216 +1,215 @@
-import {knownAdShieldOrigins} from './call-validators/analyzers.js';
-import {adShieldOriginCheck, adShieldStrictCheck} from './call-validators/suites.js';
+import {KnownAdShieldOrigins} from './call-validators/analyzers.js'
+import {AdShieldOriginCheck, AdShieldStrictCheck} from './call-validators/suites.js'
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 type unsafeWindow = typeof window;
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-declare const unsafeWindow: unsafeWindow;
+// eslint-disable-next-line @typescript-eslint/naming-convention
+declare const unsafeWindow: unsafeWindow
 
 // eslint-disable-next-line no-negated-condition
-const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+const Win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window
 
-export const createDebug = (namespace: string) => new Proxy(console.debug, {
-	apply(target, thisArg, argArray) {
-		Reflect.apply(target, thisArg, [`${namespace}`, ...argArray as unknown[]]);
+export const CreateDebug = (Namespace: string) => new Proxy(console.debug, {
+	apply(Target, ThisArg, Args) {
+		Reflect.apply(Target, ThisArg, [`${Namespace}`, ...Args as unknown[]])
 	},
-});
+})
 
-const debug = createDebug('[microShield:__utils__]');
+const Debug = CreateDebug('[microShield:__utils__]')
 
-export const isSubFrame = () => {
+export const IsSubFrame = () => {
 	try {
-		return win.self !== win.top;
+		return Win.self !== Win.top
 	} catch (_error) {
-		return true;
+		return true
 	}
-};
+}
 
-export const getCallStack = () => {
-	const e = new Error();
+export const GetCallStack = () => {
+	const ErrorInstance = new Error()
 
-	if (!e.stack) {
-		throw new Error('Stack trace is not available!');
+	if (!ErrorInstance.stack) {
+		throw new Error('Stack trace is not available!')
 	}
 
-	if (e.stack.includes('@')) {
-		const raw = e.stack.split('\n').slice(2);
-		const trace: string[] = [];
+	if (ErrorInstance.stack.includes('@')) {
+		const Raw = ErrorInstance.stack.split('\n').slice(2)
+		const Trace: string[] = []
 
 		if (navigator.userAgent.includes('Firefox/')) {
-			raw.splice(-1, 1);
+			Raw.splice(-1, 1)
 		}
 
-		for (const line of raw) {
-			const start = line.indexOf('@') + 1;
-			const lastColon = line.lastIndexOf(':');
-			const dump = lastColon < 0 ? line.slice(start) : line.slice(start, line.lastIndexOf(':', lastColon - 1));
+		for (const Line of Raw) {
+			const Start = Line.indexOf('@') + 1
+			const LastColon = Line.lastIndexOf(':')
+			const Dump = LastColon < 0 ? Line.slice(Start) : Line.slice(Start, Line.lastIndexOf(':', LastColon - 1))
 
-			trace.push(dump);
+			Trace.push(Dump)
 		}
 
 		return {
-			trace,
-			raw,
-		};
+			Trace,
+			Raw,
+		}
 	}
 
-	const raw = e.stack.slice(6).split('\n').slice(2);
-	const trace: string[] = [];
+	const Raw = ErrorInstance.stack.slice(6).split('\n').slice(2)
+	const Trace: string[] = []
 
-	for (const line of raw) {
-		const dump = line.slice(
-			(line.indexOf('(') + 1) || line.indexOf('at') + 3,
-			line.lastIndexOf(':', line.lastIndexOf(':') - 1),
-		);
+	for (const Line of Raw) {
+		const Dump = Line.slice(
+			(Line.indexOf('(') + 1) || Line.indexOf('at') + 3,
+			Line.lastIndexOf(':', Line.lastIndexOf(':') - 1),
+		)
 
-		trace.push(dump);
+		Trace.push(Dump)
 	}
 
 	return {
-		trace,
-		raw,
-	};
-};
+		Trace,
+		Raw,
+	}
+}
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const makeProxy = <F extends Function>(f: F, name = f.name) => {
-	const proxy = new Proxy(f, {
-		apply(target, thisArg, argArray) {
-			const callStack = getCallStack();
+export const MakeProxy = <F extends Function>(F: F, Name = F.name) => {
+	const ProxyInstance = new Proxy(F, {
+		apply(Target, ThisArg, Args) {
+			const CallStack = GetCallStack()
 
-			if (adShieldOriginCheck(callStack)) {
-				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
+			if (AdShieldOriginCheck(CallStack)) {
+				Debug(`apply name=${Name} Args=`, Args, 'stack=', CallStack.Raw)
 
-				throw new Error('microShield');
+				throw new Error('microShield')
 			}
 
-			return Reflect.apply(target, thisArg, argArray) as F;
+			return Reflect.apply(Target, ThisArg, Args) as F
 		},
 		// Prevent ruining the call stack with "explicit" checks
-		setPrototypeOf(target, v) {
-			const callStack = getCallStack();
+		setPrototypeOf(Target, Value) {
+			const CallStack = GetCallStack()
 
-			if (adShieldStrictCheck(callStack)) {
-				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
+			if (AdShieldStrictCheck(CallStack)) {
+				Debug(`setPrototypeOf name=${Name} stack=`, CallStack.Raw)
 
-				throw new Error('microShield');
+				throw new Error('microShield')
 			}
 
-			return Reflect.setPrototypeOf(target, v);
+			return Reflect.setPrototypeOf(Target, Value)
 		},
-	});
+	})
 
-	return proxy;
-};
+	return ProxyInstance
+}
 
-export const documentReady = async (document: Document) => {
-	if (document.readyState !== 'loading') {
-		return true;
+export const DocumentReady = async (DocumentParameter: Document) => {
+	if (DocumentParameter.readyState !== 'loading') {
+		return true
 	}
 
-	return new Promise(resolve => {
-		document.addEventListener('readystatechange', () => {
-			resolve(true);
-		});
-	});
-};
+	return new Promise(Resolve => {
+		DocumentParameter.addEventListener('readystatechange', () => {
+			Resolve(true)
+		})
+	})
+}
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const makeProxyError = <F extends Function>(f: F, name = f.name) => {
-	const proxy = new Proxy(f, {
-		set(target, p, newValue, receiver) {
-			const callStack = getCallStack();
+export const MakeProxyError = <F extends Function>(F: F, Name = F.name) => {
+	const ProxyInstance = new Proxy(F, {
+		set(Target, Property, NewValue, Receiver) {
+			const CallStack = GetCallStack()
 
-			if (adShieldOriginCheck(callStack)) {
-				debug(`set name=${name} argArray=`, newValue, 'stack=', callStack.raw);
+			if (AdShieldOriginCheck(CallStack)) {
+				Debug(`set name=${Name} Args=`, NewValue, 'stack=', CallStack.Raw)
 
-				throw new Error('Overriding Error is not allowed!');
+				throw new Error('Overriding Error is not allowed!')
 			}
 
-			return Reflect.set(target, p, newValue, receiver);
+			return Reflect.set(Target, Property, NewValue, Receiver)
 		},
 		// Prevent ruining the call stack with "explicit" checks
-		setPrototypeOf(target, v) {
-			const callStack = getCallStack();
+		setPrototypeOf(Target, Value) {
+			const CallStack = GetCallStack()
 
-			if (adShieldStrictCheck(callStack)) {
-				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
+			if (AdShieldStrictCheck(CallStack)) {
+				Debug(`setPrototypeOf name=${Name} stack=`, CallStack.Raw)
 
-				throw new Error('Overriding prototype of Error is not allowed!');
+				throw new Error('Overriding prototype of Error is not allowed!')
 			}
 
-			return Reflect.setPrototypeOf(target, v);
+			return Reflect.setPrototypeOf(Target, Value)
 		},
-	});
+	})
 
-	return proxy;
-};
+	return ProxyInstance
+}
 
-const isEvalFunction = (callStacks: string[]) => {
-	const callStack = callStacks.join('\n');
-	let shouldDisable = false;
-	shouldDisable ||= ((callStack.match(/eval/g)?.length ?? -1) >= 4) && (callStack.includes('NodeList.forEach') ?? false); // Chromium Browser
-	shouldDisable ||= (((/^[A-Za-z0-9/<>]+@https:\/\/.+ line [0-9]+ > eval/.exec(callStack))?.length ?? -1) >= 1 && (callStack.match(/\n([a-zA-Z0-9]+)?@https:\/\/.+ line [0-9]+ > eval/g)?.length ?? -1) >= 2); // Firefox Browser
-	shouldDisable ||= ((callStack.match(/\n([a-zA-Z0-9]+)?@\n/g)?.length ?? -1) >= 2) && (callStack.includes('forEach@[native code]') ?? false); // Safari Browser
-	return shouldDisable;
-};
+const IsEvalFunction = (CallStacks: string[]) => {
+	const CallStack = CallStacks.join('\n')
+	let ShouldDisable = false
+	ShouldDisable ||= ((CallStack.match(/eval/g)?.length ?? -1) >= 4) && (CallStack.includes('NodeList.forEach') ?? false) // Chromium Browser
+	ShouldDisable ||= (((/^[A-Za-z0-9/<>]+@https:\/\/.+ line [0-9]+ > eval/.exec(CallStack))?.length ?? -1) >= 1 && (CallStack.match(/\n([a-zA-Z0-9]+)?@https:\/\/.+ line [0-9]+ > eval/g)?.length ?? -1) >= 2) // Firefox Browser
+	ShouldDisable ||= ((CallStack.match(/\n([a-zA-Z0-9]+)?@\n/g)?.length ?? -1) >= 2) && (CallStack.includes('forEach@[native code]') ?? false) // Safari Browser
+	return ShouldDisable
+}
 
 // Function makeProxy + eval
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const makeUnsafeProxy = <F extends Function>(f: F, name = f.name) => {
-	const proxy = new Proxy(f, {
-		apply(target, thisArg, argArray) {
-			const callStack = getCallStack();
+export const MakeUnsafeProxy = <F extends Function>(F: F, Name = F.name) => {
+	const ProxyInstance = new Proxy(F, {
+		apply(Target, ThisArg, Args) {
+			const CallStack = GetCallStack()
 
-			if (isEvalFunction(callStack.raw) || adShieldOriginCheck(callStack)) {
-				debug(`apply name=${name} argArray=`, argArray, 'stack=', callStack.raw);
+			if (IsEvalFunction(CallStack.Raw) || AdShieldOriginCheck(CallStack)) {
+				Debug(`apply name=${Name} Args=`, Args, 'stack=', CallStack.Raw)
 
-				throw new Error('microShield');
+				throw new Error('microShield')
 			}
 
-			return Reflect.apply(target, thisArg, argArray) as F;
+			return Reflect.apply(Target, ThisArg, Args) as F
 		},
 		// Prevent ruining the call stack with "explicit" checks
-		setPrototypeOf(target, v) {
-			const callStack = getCallStack();
+		setPrototypeOf(Target, Value) {
+			const CallStack = GetCallStack()
 
-			if (adShieldStrictCheck(callStack)) {
-				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
+			if (AdShieldStrictCheck(CallStack)) {
+				Debug(`setPrototypeOf name=${Name} stack=`, CallStack.Raw)
 
-				throw new Error('microShield');
+				throw new Error('microShield')
 			}
 
-			return Reflect.setPrototypeOf(target, v);
+			return Reflect.setPrototypeOf(Target, Value)
 		},
-	});
+	})
 
-	return proxy;
-};
+	return ProxyInstance
+}
 
-// Function argArray
+// Function Args
 // eslint-disable-next-line @typescript-eslint/ban-types
-export const makeInlineProxy = <F extends Function>(f: F, name = f.name) => {
-	const proxy = new Proxy(f, {
-		apply(target, thisArg, argArray) {
-			if (argArray.length > 0 && knownAdShieldOrigins.some(Origin => argArray.join('\n').includes(Origin))) {
-				throw new Error('microShield');
+export const MakeInlineProxy = <F extends Function>(F: F, Name = F.name) => {
+	const ProxyInstance = new Proxy(F, {
+		apply(Target, ThisArg, Args) {
+			if (Args.length > 0 && KnownAdShieldOrigins.some(Origin => Args.join('\n').includes(Origin))) {
+				throw new Error('microShield')
 			}
 
-			return Reflect.apply(target, thisArg, argArray) as F;
+			return Reflect.apply(Target, ThisArg, Args) as F
 		},
 		// Prevent ruining the call stack with "explicit" checks
-		setPrototypeOf(target, v) {
-			const callStack = getCallStack();
+		setPrototypeOf(Target, Value) {
+			const CallStack = GetCallStack()
 
-			if (adShieldStrictCheck(callStack)) {
-				debug(`setPrototypeOf name=${name} stack=`, callStack.raw);
+			if (AdShieldStrictCheck(CallStack)) {
+				Debug(`setPrototypeOf name=${Name} stack=`, CallStack.Raw)
 
-				throw new Error('microShield');
+				throw new Error('microShield')
 			}
 
-			return Reflect.setPrototypeOf(target, v);
+			return Reflect.setPrototypeOf(Target, Value)
 		},
-	});
+	})
 
-	return proxy;
-};
+	return ProxyInstance
+}

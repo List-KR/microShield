@@ -1,81 +1,81 @@
-import * as asKit from '../adshield-defuser-libs/baseshower.js';
-import {createDebug, documentReady} from '../utils.js';
+import * as AsKit from '../adshield-defuser-libs/baseshower.js'
+import {CreateDebug, DocumentReady} from '../utils.js'
 
-const debug = createDebug('[microShield:baseshower]');
+const Debug = CreateDebug('[microShield:baseshower]')
 
-const extract = async () => {
-	let data: string | undefined;
+const Extract = async () => {
+	let Data: string | undefined
 
-	const useSelector = () => {
-		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!;
+	const UseSelector = () => {
+		const Target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
 
-		if (target) {
-			const dataProperty = target.getAttribute('data');
+		if (Target) {
+			const DataProperty = Target.getAttribute('data')
 
-			if (dataProperty) {
-				data = dataProperty;
+			if (DataProperty) {
+				Data = DataProperty
 			}
 		}
-	};
-
-	debug('html:pre');
-	useSelector();
-
-	if (!data) {
-		await documentReady(document);
-
-		debug('html:post');
-		useSelector();
 	}
 
-	if (!data) {
-		throw new Error('DEFUSER_BASESHOWER_TARGET_NOT_FOUND');
+	Debug('html:pre')
+	UseSelector()
+
+	if (!Data) {
+		await DocumentReady(document)
+
+		Debug('html:post')
+		UseSelector()
 	}
 
-	return asKit.decode(data);
-};
+	if (!Data) {
+		throw new Error('DEFUSER_BASESHOWER_TARGET_NOT_FOUND')
+	}
 
-const restore = (source: ReturnType<typeof asKit.decode>) => {
-	debug('restore', JSON.stringify(source));
+	return AsKit.Decode(Data)
+}
 
-	let failed = 0;
+const Restore = (Source: ReturnType<typeof AsKit.Decode>) => {
+	Debug('restore', JSON.stringify(Source))
 
-	for (const entry of source) {
+	let Failed = 0
+
+	for (const Entry of Source) {
 		try {
-			if (asKit.isTag(entry)) {
-				document.head.insertAdjacentHTML('beforeend', entry.tags);
+			if (AsKit.IsTag(Entry)) {
+				document.head.insertAdjacentHTML('beforeend', Entry.tags)
 
-				continue;
+				continue
 			}
 
-			if (asKit.isText(entry)) {
-				const node = document.getElementById(entry.text_id);
+			if (AsKit.IsText(Entry)) {
+				const TargetedNode = document.getElementById(Entry.text_id)
 
-				if (!node) {
-					continue;
+				if (!TargetedNode) {
+					continue
 				}
 
-				node.before(entry.text_value);
-				node.remove();
+				TargetedNode.before(Entry.text_value)
+				TargetedNode.remove()
 
-				continue;
+				continue
 			}
 		} catch (error) {
-			debug('restore:v1 error=', error);
+			Debug('restore:v1 error=', error)
 
-			failed++;
+			Failed++
 		}
 	}
 
-	debug(`restore total=${source.length} failed=${failed}`);
-};
+	Debug(`restore total=${Source.length} failed=${Failed}`)
+}
 
-export const baseshower = async () => {
-	const payload = await extract();
+export const Baseshower = async () => {
+	const Payload = await Extract()
 
-	debug('payload', payload);
+	Debug('payload', Payload)
 
-	await documentReady(document);
+	await DocumentReady(document)
 
-	restore(payload);
-};
+	Restore(Payload)
+}
