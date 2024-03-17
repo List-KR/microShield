@@ -46,19 +46,3 @@ export const adShieldCallAnalyzer = new MemoizedCallAnalyzer(line => {
 
 	return false;
 });
-
-export const isNotResourceInfectedByAdShield = (callstack: ReturnType<typeof getCallStack>): boolean => {
-	let result = false;
-
-	for (let i = 0; i < callstack.trace.length; i++) {
-		if ((i === (callstack.trace.length - 1)) && knownAdShieldOrigins.every(origin => !callstack.trace[i].startsWith(origin))) {
-			result ||= true;
-		}
-
-		if ((i !== (callstack.trace.length - 1) && i !== 0) && knownAdShieldOrigins.some(origin => callstack.trace[i].startsWith(origin))) {
-			result ||= true;
-		}
-	}
-
-	return result;
-};
