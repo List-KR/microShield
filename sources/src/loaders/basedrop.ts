@@ -1,43 +1,43 @@
-import {createDebug, documentReady} from '../utils.js';
+import {createDebug, documentReady} from '../utils.js'
 
-const debug = createDebug('[microShield:basedrop]');
+const debug = createDebug('[microShield:basedrop]')
 
 export const basedrop = async () => {
-	await documentReady(document);
+	await documentReady(document)
 
-	let appendant = '';
+	let appendant = ''
 
 	for (const node of document.querySelectorAll('script[wp-data]')) {
-		const attribute = node.getAttribute('wp-data');
+		const attribute = node.getAttribute('wp-data')
 
 		if (!attribute) {
-			debug('empty attribute', node);
+			debug('empty attribute', node)
 
-			continue;
+			continue
 		}
 
-		let decoded: string;
+		let decoded: string
 
 		try {
-			decoded = Buffer.from(attribute, 'base64').toString('utf-8');
+			decoded = Buffer.from(attribute, 'base64').toString('utf-8')
 		} catch (e) {
-			debug('failed to decode b64 stream', e);
+			debug('failed to decode b64 stream', e)
 
-			continue;
+			continue
 		}
 
 		if (!decoded.startsWith('<')) {
-			debug('failed to decode encoded text', decoded);
+			debug('failed to decode encoded text', decoded)
 
-			continue;
+			continue
 		}
 
-		appendant += decoded;
+		appendant += decoded
 	}
 
 	if (!appendant) {
-		return;
+		return
 	}
 
-	document.head.insertAdjacentHTML('beforeend', appendant);
-};
+	document.head.insertAdjacentHTML('beforeend', appendant)
+}

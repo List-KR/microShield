@@ -1,42 +1,42 @@
-import * as asKit from '../adshield-defuser-libs/basera1n.js';
-import {createDebug, documentReady} from '../utils.js';
+import * as asKit from '../adshield-defuser-libs/basera1n.js'
+import {createDebug, documentReady} from '../utils.js'
 
-const debug = createDebug('[microShield:basera1n]');
+const debug = createDebug('[microShield:basera1n]')
 
 const extract = async () => {
-	let data: string | undefined;
+	let data: string | undefined
 
 	const useSelector = () => {
-		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!;
+		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
 
 		if (target) {
-			const dataProperty = target.getAttribute('data');
+			const dataProperty = target.getAttribute('data')
 
 			if (dataProperty) {
-				data = dataProperty;
+				data = dataProperty
 			}
 		}
-	};
+	}
 
-	debug('html:pre');
-	useSelector();
+	debug('html:pre')
+	useSelector()
 
 	if (!data) {
-		await documentReady(document);
+		await documentReady(document)
 
-		debug('html:post');
-		useSelector();
+		debug('html:post')
+		useSelector()
 	}
 
 	if (!data) {
-		throw new Error('DEFUSER_BASERA1N_TARGET_NOT_FOUND');
+		throw new Error('DEFUSER_BASERA1N_TARGET_NOT_FOUND')
 	}
 
-	return asKit.decode(data);
-};
+	return asKit.decode(data)
+}
 
 const restore = (source: string) => {
-	debug('restore', source);
+	debug('restore', source)
 
 	const data = JSON.parse(source) as {
 		api: {
@@ -74,36 +74,36 @@ const restore = (source: string) => {
 				value: string;
 			}>;
 		}>;
-	};
+	}
 
-	let failed = 0;
+	let failed = 0
 
 	for (const entry of data.hostages) {
 		try {
-			const node = document.getElementById(entry.id);
+			const node = document.getElementById(entry.id)
 
 			if (!node) {
-				continue;
+				continue
 			}
 
-			node.before(entry.text);
-			node.remove();
+			node.before(entry.text)
+			node.remove()
 		} catch (error) {
-			debug('restore:v1 error=', error);
+			debug('restore:v1 error=', error)
 
-			failed++;
+			failed++
 		}
 	}
 
-	debug(`restore total=${data.hostages.length} failed=${failed}`);
-};
+	debug(`restore total=${data.hostages.length} failed=${failed}`)
+}
 
 export const basera1n = async () => {
-	const payload = await extract();
+	const payload = await extract()
 
-	debug('payload', payload);
+	debug('payload', payload)
 
-	await documentReady(document);
+	await documentReady(document)
 
-	restore(payload);
-};
+	restore(payload)
+}

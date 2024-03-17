@@ -1,81 +1,81 @@
-import * as asKit from '../adshield-defuser-libs/baseshower.js';
-import {createDebug, documentReady} from '../utils.js';
+import * as asKit from '../adshield-defuser-libs/baseshower.js'
+import {createDebug, documentReady} from '../utils.js'
 
-const debug = createDebug('[microShield:baseshower]');
+const debug = createDebug('[microShield:baseshower]')
 
 const extract = async () => {
-	let data: string | undefined;
+	let data: string | undefined
 
 	const useSelector = () => {
-		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!;
+		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
 
 		if (target) {
-			const dataProperty = target.getAttribute('data');
+			const dataProperty = target.getAttribute('data')
 
 			if (dataProperty) {
-				data = dataProperty;
+				data = dataProperty
 			}
 		}
-	};
+	}
 
-	debug('html:pre');
-	useSelector();
+	debug('html:pre')
+	useSelector()
 
 	if (!data) {
-		await documentReady(document);
+		await documentReady(document)
 
-		debug('html:post');
-		useSelector();
+		debug('html:post')
+		useSelector()
 	}
 
 	if (!data) {
-		throw new Error('DEFUSER_BASESHOWER_TARGET_NOT_FOUND');
+		throw new Error('DEFUSER_BASESHOWER_TARGET_NOT_FOUND')
 	}
 
-	return asKit.decode(data);
-};
+	return asKit.decode(data)
+}
 
 const restore = (source: ReturnType<typeof asKit.decode>) => {
-	debug('restore', JSON.stringify(source));
+	debug('restore', JSON.stringify(source))
 
-	let failed = 0;
+	let failed = 0
 
 	for (const entry of source) {
 		try {
 			if (asKit.isTag(entry)) {
-				document.head.insertAdjacentHTML('beforeend', entry.tags);
+				document.head.insertAdjacentHTML('beforeend', entry.tags)
 
-				continue;
+				continue
 			}
 
 			if (asKit.isText(entry)) {
-				const node = document.getElementById(entry.text_id);
+				const node = document.getElementById(entry.text_id)
 
 				if (!node) {
-					continue;
+					continue
 				}
 
-				node.before(entry.text_value);
-				node.remove();
+				node.before(entry.text_value)
+				node.remove()
 
-				continue;
+				continue
 			}
 		} catch (error) {
-			debug('restore:v1 error=', error);
+			debug('restore:v1 error=', error)
 
-			failed++;
+			failed++
 		}
 	}
 
-	debug(`restore total=${source.length} failed=${failed}`);
-};
+	debug(`restore total=${source.length} failed=${failed}`)
+}
 
 export const baseshower = async () => {
-	const payload = await extract();
+	const payload = await extract()
 
-	debug('payload', payload);
+	debug('payload', payload)
 
-	await documentReady(document);
+	await documentReady(document)
 
-	restore(payload);
-};
+	restore(payload)
+}
