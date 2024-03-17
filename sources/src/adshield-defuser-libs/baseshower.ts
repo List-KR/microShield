@@ -1,33 +1,37 @@
 export type Tag = {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	tags: string;
 };
 
 export type Text = {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	text_id: string;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	text_value: string;
 };
 
 export type Payload = Tag | Text;
 
 // @ts-expect-error Known properties
-export const isTag = (payload: Payload): payload is Tag => typeof payload.tags === 'string'
+export const IsTag = (Payload: Payload): Payload is Tag => typeof Payload.tags === 'string'
 
 // @ts-expect-error Known properties
-export const isText = (payload: Payload): payload is Text => typeof payload.text_id === 'string' && typeof payload.text_value === 'string'
+export const IsText = (Payload: Payload): Payload is Text => typeof Payload.text_id === 'string' && typeof Payload.text_value === 'string'
 
-export const decode = (binary: string) => {
-	binary = Buffer.from(binary, 'base64').toString('binary')
+export const Decode = (Binary: string) => {
+	Binary = Buffer.from(Binary, 'base64').toString('binary')
 
-	const key = binary.charCodeAt(0)
-	const buffer = new Uint8Array(binary.length - 1)
+	const Key = Binary.charCodeAt(0)
+	const BufferInstance = new Uint8Array(Binary.length - 1)
 
-	for (let i = 1; i < binary.length; i++) {
+	for (let I = 1; I < Binary.length; I++) {
 		// eslint-disable-next-line no-bitwise
-		buffer[i - 1] = binary.charCodeAt(i) ^ key
+		BufferInstance[I - 1] = Binary.charCodeAt(I) ^ Key
 	}
 
-	const decoder = new TextDecoder()
-	const out = decoder.decode(buffer)
+	const Decoder = new TextDecoder()
+	const Out = Decoder.decode(BufferInstance)
 
-	return JSON.parse(decodeURIComponent(out)) as Array<{tags: string} | {text_id: string; text_value: string}>
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	return JSON.parse(decodeURIComponent(Out)) as Array<{tags: string} | {text_id: string; text_value: string}>
 }

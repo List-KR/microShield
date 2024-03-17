@@ -1,33 +1,32 @@
-import type {getCallStack} from '../utils.js'
 type Analyzer = (line: string) => boolean;
 
 class MemoizedCallAnalyzer {
-	private readonly cache: Map<string, boolean>
-	private readonly analyzer: Analyzer
+	private readonly Cache: Map<string, boolean>
+	private readonly Analyzer: Analyzer
 
-	constructor(analyzer: Analyzer) {
-		this.cache = new Map()
-		this.analyzer = analyzer
+	constructor(Analyzer: Analyzer) {
+		this.Cache = new Map()
+		this.Analyzer = Analyzer
 	}
 
-	analyze(line: string) {
-		if (this.cache.has(line)) {
-			return this.cache.get(line)!
+	analyze(Line: string) {
+		if (this.Cache.has(Line)) {
+			return this.Cache.get(Line)!
 		}
 
-		const result = this.analyzer(line)
+		const Result = this.Analyzer(Line)
 
-		this.cache.set(line, result)
+		this.Cache.set(Line, Result)
 
-		return result
+		return Result
 	}
 }
 
-export const annoymousCallAnalyzer = new MemoizedCallAnalyzer(line => line.startsWith('[') || line.startsWith('<'))
+export const AnnoymousCallAnalyzer = new MemoizedCallAnalyzer(Line => Line.startsWith('[') || Line.startsWith('<'))
 
-export const extensionCallAnalyzer = new MemoizedCallAnalyzer(line => line.startsWith('chrome') || line.startsWith('webkit') || line.startsWith('moz'))
+export const ExtensionCallAnalyzer = new MemoizedCallAnalyzer(Line => Line.startsWith('chrome') || Line.startsWith('webkit') || Line.startsWith('moz'))
 
-export const knownAdShieldOrigins = [
+export const KnownAdShieldOrigins = [
 	'07c225f3.online',
 	'css-load.com',
 	'html-load.com',
@@ -37,9 +36,9 @@ export const knownAdShieldOrigins = [
 	'html-load.cc'
 ]
 
-export const adShieldCallAnalyzer = new MemoizedCallAnalyzer(line => {
-	for (const origin of knownAdShieldOrigins) {
-		if (line.includes(origin)) {
+export const AdShieldCallAnalyzer = new MemoizedCallAnalyzer(Line => {
+	for (const Origin of KnownAdShieldOrigins) {
+		if (Line.includes(Origin)) {
 			return true
 		}
 	}

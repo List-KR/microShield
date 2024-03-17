@@ -1,145 +1,149 @@
-import * as cache from '../__generated__/ztinywave.cache.js'
-import {documentReady, createDebug} from '../utils.js'
+import * as Cache from '../__generated__/ztinywave.cache.js'
+import {DocumentReady, CreateDebug} from '../utils.js'
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 type Data = Array<{tags: string}>;
 
-const debug = createDebug('[microShield:tinywave]')
+const Debug = CreateDebug('[microShield:tinywave]')
 
-const decode = (payload: string, scriptURL: string) => {
-	const id = payload.slice(0, 4)
-	const key = cache.source.find(store => store.id === id)
+const Decode = (Payload: string, ScriptURL: string) => {
+	const Id = Payload.slice(0, 4)
+	const Key = Cache.source.find(Store => Store.id === Id)
 
-	if (!key) {
+	if (!Key) {
 		throw new Error('DEFUSER_TINYWAVE_KEY_NOT_FOUND')
 	}
 
-	const ra = String.fromCharCode(key.reserved1)
-	const rb = String.fromCharCode(key.reserved2)
+	const Ra = String.fromCharCode(Key.reserved1)
+	const Rb = String.fromCharCode(Key.reserved2)
 
-	const unwrap = (input: string, output: string, char: string) => {
-		const index = output.indexOf(char)
+	const Unwrap = (Input: string, Output: string, Char: string) => {
+		const Index = Output.indexOf(Char)
 
-		if (index >= 0) {
-			return input[index]
+		if (Index >= 0) {
+			return Input[Index]
 		}
 
-		return char
+		return Char
 	}
 
-	let mode = 0
+	let Mode = 0
 
-	let data = payload
+	let Data = Payload
 		.slice(4)
 		.split('')
-		.map(char => {
-			if (!mode) {
-				if (char === ra) {
-					mode = 1
+		.map(Char => {
+			if (!Mode) {
+				if (Char === Ra) {
+					Mode = 1
 
 					return ''
 				}
 
-				if (char === rb) {
-					mode = 2
+				if (Char === Rb) {
+					Mode = 2
 
 					return ''
 				}
 			}
 
-			if (mode === 1) {
-				mode = 0
+			if (Mode === 1) {
+				Mode = 0
 
-				if (key.reserved1Output.includes(char)) {
-					return unwrap(key.reserved1Input, key.reserved1Output, char)
+				if (Key.reserved1Output.includes(Char)) {
+					return Unwrap(Key.reserved1Input, Key.reserved1Output, Char)
 				}
 
-				return unwrap(key.input, key.output, char) + char
+				return Unwrap(Key.input, Key.output, Char) + Char
 			}
 
-			if (mode === 2) {
-				mode = 0
+			if (Mode === 2) {
+				Mode = 0
 
-				if (key.reserved2Output.includes(char)) {
-					return unwrap(key.reserved2Input, key.reserved2Output, char)
+				if (Key.reserved2Output.includes(Char)) {
+					return Unwrap(Key.reserved2Input, Key.reserved2Output, Char)
 				}
 
-				return unwrap(key.input, key.output, char) + char
+				return Unwrap(Key.input, Key.output, Char) + Char
 			}
 
-			return unwrap(key.input, key.output, char)
+			return Unwrap(Key.input, Key.output, Char)
 		})
 		.join('')
 
-	if (data.includes('resources://') && key.remoteResourceToken) {
-		debug('downloading remote resource from Ad-Shield is required', data)
-		const scriptHostname = new URL(scriptURL.startsWith('//') ? `https:${scriptURL}` : scriptURL).hostname
-		data = data.replace(/resources:\/\/[a-zA-Z0-9-.]+/, (`https://${scriptHostname}/resources/${/(?<=resources:\/\/)[a-zA-Z0-9-.]+/.exec(data) as unknown as string}?token=${key.remoteResourceToken}`))
+	if (Data.includes('resources://') && Key.remoteResourceToken) {
+		Debug('downloading remote resource from Ad-Shield is required', Data)
+		const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
+		Data = Data.replace(/resources:\/\/[a-zA-Z0-9-.]+/, (`https://${ScriptHostname}/resources/${/(?<=resources:\/\/)[a-zA-Z0-9-.]+/.exec(Data) as unknown as string}?token=${Key.remoteResourceToken}`))
 	}
 
-	return JSON.parse(data) as Data
+	return JSON.parse(Data) as Data
 }
 
-const restore = (data: Data) => {
-	debug('restore')
+const Restore = (Data: Data) => {
+	Debug('restore')
 
-	let failed = 0
+	let Failed = 0
 
-	for (const entry of data) {
+	for (const Entry of Data) {
 		try {
-			if (entry.tags) {
-				document.head.insertAdjacentHTML('beforeend', entry.tags)
+			if (Entry.tags) {
+				document.head.insertAdjacentHTML('beforeend', Entry.tags)
 			}
 		} catch (error) {
-			debug('restore error=', error)
+			Debug('restore error=', error)
 
-			failed++
+			Failed++
 		}
 	}
 
-	debug(`restore total=${data.length} failed=${failed}`)
+	Debug(`restore total=${Data.length} failed=${Failed}`)
 }
 
-const extract = async () => {
+const Extract = async () => {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	let source: {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		script: string;
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		data: string;
 	} | undefined
 
-	const pick = () => {
-		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
+	const Pick = () => {
+		const Target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
 
-		if (target) {
-			const script = target.getAttribute('src')
-			const data = target.getAttribute('data')
+		if (Target) {
+			const Script = Target.getAttribute('src')
+			const Data = Target.getAttribute('data')
 
-			if (script && data) {
+			if (Script && Data) {
 				source = {
-					script,
-					data,
+					script: Script,
+					data: Data,
 				}
 			}
 		}
 	}
 
-	pick()
+	Pick()
 
 	if (!source) {
-		await documentReady(document)
+		await DocumentReady(document)
 
-		pick()
+		Pick()
 	}
 
 	if (!source) {
 		throw new Error('DEFUSER_SHORTWAVE_TARGET_NOT_FOUND')
 	}
 
-	return decode(source.data, source.script)
+	return Decode(source.data, source.script)
 }
 
-export const tinywave = async () => {
-	const payload = await extract()
+export const Tinywave = async () => {
+	const Payload = await Extract()
 
-	debug('payload', payload)
+	Debug('payload', Payload)
 
-	restore(payload)
+	Restore(Payload)
 }

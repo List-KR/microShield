@@ -1,27 +1,27 @@
 // We need to refactor this function for easier future use
-const knownAdShieldPropertyNames = [
-	['inventories', (obj: unknown) => Array.isArray(obj) && Object.getOwnPropertyNames(obj[0]).includes('originalAds')],
-	['key', (obj: unknown) => typeof obj === 'string' && obj.startsWith('as')],
+const KnownAdShieldPropertyNames = [
+	['inventories', (Obj: unknown) => Array.isArray(Obj) && Object.getOwnPropertyNames(Obj[0]).includes('originalAds')],
+	['key', (Obj: unknown) => typeof Obj === 'string' && Obj.startsWith('as')],
 ] as const
 
-export const isAdShieldObj = (obj: unknown) => {
-	if (typeof obj !== 'object') {
+export const IsAdShieldObj = (Obj: unknown) => {
+	if (typeof Obj !== 'object') {
 		return false
 	}
 
-	if (Array.isArray(obj)) {
-		for (const item of obj) {
-			if (isAdShieldObj(item)) {
+	if (Array.isArray(Obj)) {
+		for (const Item of Obj) {
+			if (IsAdShieldObj(Item)) {
 				return true
 			}
 		}
 	}
 
-	const propertyNames = Object.getOwnPropertyNames(obj)
+	const PropertyNames = Object.getOwnPropertyNames(Obj)
 
-	for (const [name, check] of knownAdShieldPropertyNames) {
+	for (const [Name, Check] of KnownAdShieldPropertyNames) {
 		// @ts-expect-error obj[name] checked by getOwnPropertyNames
-		if (propertyNames.includes(name) && check(obj[name])) {
+		if (PropertyNames.includes(Name) && Check(Obj[Name])) {
 			return true
 		}
 	}

@@ -1,13 +1,13 @@
-import {type getCallStack} from '../utils.js'
-import {adShieldCallAnalyzer} from './analyzers.js'
+import {type GetCallStack} from '../utils.js'
+import {AdShieldCallAnalyzer} from './analyzers.js'
 
-export type ValidatorFunction = (callStack: ReturnType<typeof getCallStack>) => boolean;
+export type ValidatorFunction = (callStack: ReturnType<typeof GetCallStack>) => boolean;
 
-export const hasOriginOfAdShield: ValidatorFunction = ({trace}) => adShieldCallAnalyzer.analyze(trace[trace.length - 1])
+export const HasOriginOfAdShield: ValidatorFunction = ({Trace}) => AdShieldCallAnalyzer.analyze(Trace[Trace.length - 1])
 
-export const hasAdShield: ValidatorFunction = ({trace}) => {
-	for (const line of trace) {
-		if (adShieldCallAnalyzer.analyze(line)) {
+export const HasAdShield: ValidatorFunction = ({Trace}) => {
+	for (const Line of Trace) {
+		if (AdShieldCallAnalyzer.analyze(Line)) {
 			return true
 		}
 	}
@@ -15,9 +15,9 @@ export const hasAdShield: ValidatorFunction = ({trace}) => {
 	return false
 }
 
-export const createValidationSuite = (validators: ValidatorFunction[]) => (callStack: ReturnType<typeof getCallStack>) => {
-	for (const validator of validators) {
-		if (validator(callStack)) {
+export const CreateValidationSuite = (Validators: ValidatorFunction[]) => (CallStack: ReturnType<typeof GetCallStack>) => {
+	for (const Validator of Validators) {
+		if (Validator(CallStack)) {
 			return true
 		}
 	}
@@ -25,6 +25,6 @@ export const createValidationSuite = (validators: ValidatorFunction[]) => (callS
 	return false
 }
 
-export const adShieldOriginCheck = createValidationSuite([hasOriginOfAdShield])
+export const AdShieldOriginCheck = CreateValidationSuite([HasOriginOfAdShield])
 
-export const adShieldStrictCheck = createValidationSuite([hasAdShield])
+export const AdShieldStrictCheck = CreateValidationSuite([HasAdShield])

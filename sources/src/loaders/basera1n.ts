@@ -1,109 +1,136 @@
-import * as asKit from '../adshield-defuser-libs/basera1n.js'
-import {createDebug, documentReady} from '../utils.js'
+import * as AsKit from '../adshield-defuser-libs/basera1n.js'
+import {CreateDebug, DocumentReady} from '../utils.js'
 
-const debug = createDebug('[microShield:basera1n]')
+const Debug = CreateDebug('[microShield:basera1n]')
 
-const extract = async () => {
-	let data: string | undefined
+const Extract = async () => {
+	let Data: string | undefined
 
-	const useSelector = () => {
-		const target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
+	const UseSelector = () => {
+		const Target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
 
-		if (target) {
-			const dataProperty = target.getAttribute('data')
+		if (Target) {
+			const DataProperty = Target.getAttribute('data')
 
-			if (dataProperty) {
-				data = dataProperty
+			if (DataProperty) {
+				Data = DataProperty
 			}
 		}
 	}
 
-	debug('html:pre')
-	useSelector()
+	Debug('html:pre')
+	UseSelector()
 
-	if (!data) {
-		await documentReady(document)
+	if (!Data) {
+		await DocumentReady(document)
 
-		debug('html:post')
-		useSelector()
+		Debug('html:post')
+		UseSelector()
 	}
 
-	if (!data) {
+	if (!Data) {
 		throw new Error('DEFUSER_BASERA1N_TARGET_NOT_FOUND')
 	}
 
-	return asKit.decode(data)
+	return AsKit.Decode(Data)
 }
 
-const restore = (source: string) => {
-	debug('restore', source)
+const Restore = (Source: string) => {
+	Debug('restore', Source)
 
-	const data = JSON.parse(source) as {
+	const Data = JSON.parse(Source) as {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		api: {
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'/ads/bid': string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'/ads/opt-out': string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'/analytics/adb': string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'/analytics/ads': string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'/log': string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'/negotiate/dummy-image': string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			data: {
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				'/negotiate/dummy-image/rgb': string;
 			};
 		};
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		hostages: Array<{
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			id: string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			text: string;
 		}>;
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		inventories: Array<{
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			id: string;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			width: number;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			height: number;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			position: {
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				selector: string;
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				'position-rule': string;
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				'insert-rule': Array<{
+					// eslint-disable-next-line @typescript-eslint/naming-convention
 					rule: string;
+					// eslint-disable-next-line @typescript-eslint/naming-convention
 					value: string;
 				}>;
 			};
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'original-ads': Array<{
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				selector: string;
 			}>;
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			attributes: Array<{
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				key: string;
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				value: string;
 			}>;
 		}>;
 	}
 
-	let failed = 0
+	let Failed = 0
 
-	for (const entry of data.hostages) {
+	for (const Entry of Data.hostages) {
 		try {
-			const node = document.getElementById(entry.id)
+			const TargetedNode = document.getElementById(Entry.id)
 
-			if (!node) {
+			if (!TargetedNode) {
 				continue
 			}
 
-			node.before(entry.text)
-			node.remove()
+			TargetedNode.before(Entry.text)
+			TargetedNode.remove()
 		} catch (error) {
-			debug('restore:v1 error=', error)
+			Debug('restore:v1 error=', error)
 
-			failed++
+			Failed++
 		}
 	}
 
-	debug(`restore total=${data.hostages.length} failed=${failed}`)
+	Debug(`restore total=${Data.hostages.length} failed=${Failed}`)
 }
 
-export const basera1n = async () => {
-	const payload = await extract()
+export const Basera1n = async () => {
+	const Payload = await Extract()
 
-	debug('payload', payload)
+	Debug('payload', Payload)
 
-	await documentReady(document)
+	await DocumentReady(document)
 
-	restore(payload)
+	Restore(Payload)
 }

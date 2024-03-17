@@ -2,17 +2,27 @@ import {parse} from 'acorn'
 import * as walker from 'acorn-walk'
 import {chromium} from 'playwright'
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export type Data = Array<{tags: string}>;
 
 export type KeyEntry = {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	id: string;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	input: string;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	output: string;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	reserved1: number;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	reserved1Input: string;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	reserved1Output: string;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	reserved2: number;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	reserved2Input: string;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	reserved2Output: string;
 };
 
@@ -25,172 +35,176 @@ export const getKeys__Node__ = async (source: string) => {
 		throw new Error('This code cannot be run on browser environment!')
 	}
 
-	const re = /\w+=\[{['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?},{/gm
-	const markers: number[] = []
+	const Re = /\w+=\[{['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?,['\w()]+:.+?},{/gm
+	const Markers: number[] = []
 
-	for (const match of source.matchAll(re)) {
-		if (!match.index) {
+	for (const Match of source.matchAll(Re)) {
+		if (!Match.index) {
 			continue
 		}
 
-		markers.push(match.index)
+		Markers.push(Match.index)
 	}
 
-	const ast = parse(source, {
+	const AST = parse(source, {
 		ecmaVersion: 'latest',
 		sourceType: 'script',
 	})
-	const injectionMarkers: Array<{
+	const InjectionMarkers: Array<{
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		id: string;
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		start: number;
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		declarationStart: number;
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		end: number;
 	}> = []
 
-	walker.full(ast, node => {
-		if (!markers.includes(node.start)) {
+	walker.full(AST, TargetedNode => {
+		if (!Markers.includes(TargetedNode.start)) {
 			return
 		}
 
-		if (node.type === 'VariableDeclarator') {
-			const id = source.slice(node.start, node.end).split('=')[0]
-			const marker = injectionMarkers.find(marker => marker.id === id)
+		if (TargetedNode.type === 'VariableDeclarator') {
+			const Id = source.slice(TargetedNode.start, TargetedNode.end).split('=')[0]
+			const Marker = InjectionMarkers.find(Marker => Marker.id === Id)
 
-			if (!marker) {
+			if (!Marker) {
 				return
 			}
 
-			marker.declarationStart = node.start
-			marker.end = node.end
-		} else if (node.type === 'Identifier') {
-			const id = source.slice(node.start, node.end)
+			Marker.declarationStart = TargetedNode.start
+			Marker.end = TargetedNode.end
+		} else if (TargetedNode.type === 'Identifier') {
+			const Id = source.slice(TargetedNode.start, TargetedNode.end)
 
-			injectionMarkers.push({
-				id,
-				start: node.start,
-				declarationStart: node.end,
-				end: node.end,
+			InjectionMarkers.push({
+				id: Id,
+				start: TargetedNode.start,
+				declarationStart: TargetedNode.end,
+				end: TargetedNode.end,
 			})
 		}
 	})
 
-	const secret = (crypto.getRandomValues(new Uint32Array(1))[0] * crypto.getRandomValues(new Uint32Array(1))[0]).toString(36).slice(2)
-	const header = `const ${secret} = (id, source) => {
+	const Secret = (crypto.getRandomValues(new Uint32Array(1))[0] * crypto.getRandomValues(new Uint32Array(1))[0]).toString(36).slice(2)
+	const Header = `const ${Secret} = (id, source) => {
 	const el = document.createElement('code')
-	el.setAttribute('data-${secret}', id)
+	el.setAttribute('data-${Secret}', id)
 	el.textContent = JSON.stringify(source)
 	document.body.appendChild(el)
 };
 `
 
-	let scriptable = (' ' + source).slice(1)
+	let Scriptable = (' ' + source).slice(1)
 
-	for (const marker of injectionMarkers.reverse()) {
-		scriptable = scriptable.slice(0, marker.start) + `
-${scriptable.slice(marker.start, marker.end)},
-_${secret}=${secret}('${marker.id}', ${marker.id})` + scriptable.slice(marker.end)
+	for (const Marker of InjectionMarkers.reverse()) {
+		Scriptable = Scriptable.slice(0, Marker.start) + `
+${Scriptable.slice(Marker.start, Marker.end)},
+_${Secret}=${Secret}('${Marker.id}', ${Marker.id})` + Scriptable.slice(Marker.end)
 	}
 
-	scriptable = header + scriptable
+	Scriptable = Header + Scriptable
 
-	const browser = await chromium.launch({
+	const Browser = await chromium.launch({
 		headless: false,
 	})
-	const context = await browser.newContext()
-	await context.setOffline(true)
+	const Context = await Browser.newContext()
+	await Context.setOffline(true)
 
-	const page = await context.newPage()
-	await page.goto('about:blank')
+	const Page = await Context.newPage()
+	await Page.goto('about:blank')
 
-	const raws: string[] = await page.evaluate(`(() => {
+	const Raws: string[] = await Page.evaluate(`(() => {
 		try {
-			${scriptable}
+			${Scriptable}
 		} catch (e) {}
 
 		const data = []
 
-		for (const el of document.querySelectorAll('[data-${secret}]')) {
+		for (const el of document.querySelectorAll('[data-${Secret}]')) {
 			data.push(el.textContent)
 		}
 
 		return data
 	})()`)
 
-	await browser.close()
+	await Browser.close()
 
-	const keys: KeyEntry[] = []
+	const Keys: KeyEntry[] = []
 
-	for (const raw of raws) {
-		keys.push(...JSON.parse(raw) as KeyEntry[])
+	for (const Raw of Raws) {
+		Keys.push(...JSON.parse(Raw) as KeyEntry[])
 	}
 
-	return keys
+	return Keys
 }
 
-export const decode = (payload: string, keyStore: KeyEntry[]) => {
-	const id = payload.slice(0, 4)
-	const key = keyStore.find(store => store.id === id)
+export const Decode = (Payload: string, KeyStore: KeyEntry[]) => {
+	const Id = Payload.slice(0, 4)
+	const Key = KeyStore.find(Store => Store.id === Id)
 
-	if (!key) {
+	if (!Key) {
 		throw new Error('DEFUSER_ZTINYWAVE_KEY_NOT_FOUND')
 	}
 
-	const ra = String.fromCharCode(key.reserved1)
-	const rb = String.fromCharCode(key.reserved2)
+	const Ra = String.fromCharCode(Key.reserved1)
+	const Rb = String.fromCharCode(Key.reserved2)
 
-	const unwrap = (input: string, output: string, char: string) => {
-		const index = output.indexOf(char)
+	const Unwrap = (Input: string, Output: string, Char: string) => {
+		const Index = Output.indexOf(Char)
 
-		if (index >= 0) {
-			return input[index]
+		if (Index >= 0) {
+			return Input[Index]
 		}
 
-		return char
+		return Char
 	}
 
-	let mode = 0
+	let Mode = 0
 
-	const data = payload
+	const Data = Payload
 		.slice(4)
 		.split('')
-		.map(char => {
-			if (!mode) {
-				if (char === ra) {
-					mode = 1
+		.map(Char => {
+			if (!Mode) {
+				if (Char === Ra) {
+					Mode = 1
 
 					return ''
 				}
 
-				if (char === rb) {
-					mode = 2
+				if (Char === Rb) {
+					Mode = 2
 
 					return ''
 				}
 			}
 
-			if (mode === 1) {
-				mode = 0
+			if (Mode === 1) {
+				Mode = 0
 
-				if (key.reserved1Output.includes(char)) {
-					return unwrap(key.reserved1Input, key.reserved1Output, char)
+				if (Key.reserved1Output.includes(Char)) {
+					return Unwrap(Key.reserved1Input, Key.reserved1Output, Char)
 				}
 
-				return unwrap(key.input, key.output, char) + char
+				return Unwrap(Key.input, Key.output, Char) + Char
 			}
 
-			if (mode === 2) {
-				mode = 0
+			if (Mode === 2) {
+				Mode = 0
 
-				if (key.reserved2Output.includes(char)) {
-					return unwrap(key.reserved2Input, key.reserved2Output, char)
+				if (Key.reserved2Output.includes(Char)) {
+					return Unwrap(Key.reserved2Input, Key.reserved2Output, Char)
 				}
 
-				return unwrap(key.input, key.output, char) + char
+				return Unwrap(Key.input, Key.output, Char) + Char
 			}
 
-			return unwrap(key.input, key.output, char)
+			return Unwrap(Key.input, Key.output, Char)
 		})
 		.join('')
 
-	return JSON.parse(data) as Data
+	return JSON.parse(Data) as Data
 }
