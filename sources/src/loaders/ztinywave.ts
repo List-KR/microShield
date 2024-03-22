@@ -72,7 +72,7 @@ const Decode = (Payload: string, ScriptURL: string) => {
 		.join('')
 
 	if (Data.includes('resources://') && Key.remoteResourceToken) {
-		Debug('downloading remote resource from Ad-Shield is required', Data)
+		Debug('downloading remote resource from Ad-Shield is required', {Id: Key.id, data: Data})
 		const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
 		Data = Data.replace(/resources:\/\/[a-zA-Z0-9-.]+/, (`https://${ScriptHostname}/resources/${/(?<=resources:\/\/)[a-zA-Z0-9-.]+/.exec(Data) as unknown as string}?token=${Key.remoteResourceToken}`))
 	}
