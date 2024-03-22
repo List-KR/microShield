@@ -107,8 +107,8 @@
 // @match        *://*.apkmirror.com/*
 // @match        *://uttranews.com/*
 // @match        *://*.uttranews.com/*
-// @match        *://fntimes.com/
-// @match        *://*.fntimes.com/
+// @match        *://fntimes.com/*
+// @match        *://*.fntimes.com/*
 // @match        *://javatpoint.com/*
 // @match        *://*.javatpoint.com/*
 // @match        *://text-compare.com/*
