@@ -11,7 +11,7 @@ const Decode = (Payload: string, ScriptURL: string) => {
 	const Key = ZCache.source.find(Store => Store.id === Id)
 
 	if (!Key) {
-		throw new Error('DEFUSER_TINYWAVE_KEY_NOT_FOUND')
+		throw new Error('DEFUSER_ZTINYWAVE_KEY_NOT_FOUND')
 	}
 
 	const Ra = String.fromCharCode(Key.reserved1)
@@ -134,7 +134,7 @@ const Extract = async () => {
 	}
 
 	if (!source) {
-		throw new Error('DEFUSER_SHORTWAVE_TARGET_NOT_FOUND')
+		throw new Error('DEFUSER_ZTINYWAVE_TARGET_NOT_FOUND')
 	}
 
 	return Decode(source.data, source.script)
