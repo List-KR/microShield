@@ -8,18 +8,20 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		project: '../tsconfig.json'
 	},
-	plugins: ['@typescript-eslint'],
+	plugins: ['@typescript-eslint', '@stylistic'],
 	rules: {
-		'@typescript-eslint/naming-convention': ['warn', {
+		'@typescript-eslint/naming-convention': ['error', {
 			selector: ['variableLike', 'parameterProperty', 'classProperty', 'typeProperty'],
 			format: ['PascalCase']
 		}],
 		'@typescript-eslint/prefer-nullish-coalescing': 'off',
 		'new-cap': 'off',
     'no-var': 'off',
-		'comma-dangle': 'off',
-		indent: ['off', 'tab'],
-		semi: ['error', 'never'],
+		'@stylistic/indent': ['off', 'tab'],
+		'@stylistic/semi': ['error', 'never'],
+		'@stylistic/comma-dangle': ['error', 'never'],
+		'@stylistic/comma-spacing': ['error', { before: false, after: true }],
+		'@stylistic/quotes': ['error', 'single'],
 		'@typescript-eslint/no-unused-vars': 'off'
 	},
 	ignorePatterns: ['dist', 'node_modules', '.eslintrc.cjs']
