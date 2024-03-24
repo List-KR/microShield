@@ -141,8 +141,6 @@ const Extract = async () => {
 }
 
 export const Tinywave = async () => {
-	Debug('run')
-
 	const Payload = await Extract()
 
 	Debug('payload', Payload)
