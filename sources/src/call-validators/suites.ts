@@ -1,7 +1,7 @@
 import {type GetCallStack} from '../utils.js'
 import {AdShieldCallAnalyzer} from './analyzers.js'
 
-export type ValidatorFunction = (callStack: ReturnType<typeof GetCallStack>) => boolean;
+export type ValidatorFunction = (callStack: ReturnType<typeof GetCallStack>) => boolean
 
 export const HasOriginOfAdShield: ValidatorFunction = ({Trace}) => AdShieldCallAnalyzer.analyze(Trace[Trace.length - 1])
 

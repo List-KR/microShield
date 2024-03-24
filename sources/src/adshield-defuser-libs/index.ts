@@ -3,5 +3,5 @@ import * as baseshower from './baseshower.js'
 
 export {
 	basera1n,
-	baseshower,
+	baseshower
 }

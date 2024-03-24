@@ -1,4 +1,4 @@
-type Analyzer = (line: string) => boolean;
+type Analyzer = (line: string) => boolean
 
 class MemoizedCallAnalyzer {
 	private readonly Cache: Map<string, boolean>

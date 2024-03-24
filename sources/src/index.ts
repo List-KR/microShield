@@ -5,7 +5,7 @@ import {AdShieldOriginCheck, AdShieldStrictCheck} from './call-validators/suites
 import {AdShieldCallAnalyzer, KnownAdShieldOrigins} from './call-validators/analyzers.js'
 import {IsAdShieldObj} from './obj-validators/index.js'
 
-type unsafeWindow = typeof window;
+type unsafeWindow = typeof window
 // eslint-disable-next-line @typescript-eslint/naming-convention
 declare const unsafeWindow: unsafeWindow
 
@@ -30,7 +30,7 @@ const Bootstrap = () => {
 		},
 		setPrototypeOf(Target, V) {
 			return false
-		},
+		}
 	})
 	Win.EventTarget.prototype.addEventListener = MakeProxy(Win.EventTarget.prototype.addEventListener, 'EventTarget.prototype.addEventListener')
 	// Prevent messaging to inline
@@ -50,7 +50,7 @@ const Bootstrap = () => {
 			}
 
 			return Payload
-		},
+		}
 	})
 
 	// Local Storage
@@ -66,7 +66,7 @@ const Bootstrap = () => {
 			}
 
 			return Reflect.apply(Target, ThisArg, Args) as unknown
-		},
+		}
 	})
 
 	// Network/XHR
@@ -78,7 +78,7 @@ const Bootstrap = () => {
 			}
 
 			return Reflect.construct(Target, Args, NewTarget) as XMLHttpRequest
-		},
+		}
 	})
 
 	// Error prototype
@@ -98,7 +98,7 @@ const Bootstrap = () => {
 			},
 			set() {
 				throw new Error('Overriding JSON.parse is not allowed!')
-			},
+			}
 		})
 
 		void DocumentReady(document).then(() => {
@@ -119,7 +119,7 @@ const Bootstrap = () => {
 
 			Observer.observe(document.documentElement ?? document.body, {
 				childList: true,
-				subtree: true,
+				subtree: true
 			})
 
 			document.head.insertAdjacentHTML('afterbegin', '<style>iframe[src="about:blank"]{display:none!important}</style>')
