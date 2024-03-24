@@ -4,7 +4,7 @@ import {chromium} from 'playwright'
 import cryptoRandomString from 'crypto-random-string'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export type Data = Array<{tags: string}>;
+export type Data = Array<{tags: string}>
 
 export type KeyEntry = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention
@@ -25,7 +25,7 @@ export type KeyEntry = {
 	reserved2Input: string;
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	reserved2Output: string;
-};
+}
 
 /**
  * The code below is highly un-optimized.
@@ -49,7 +49,7 @@ export const getKeys__Node__ = async (source: string) => {
 
 	const AST = parse(source, {
 		ecmaVersion: 'latest',
-		sourceType: 'script',
+		sourceType: 'script'
 	})
 	const InjectionMarkers: Array<{
 		// eslint-disable-next-line @typescript-eslint/naming-convention
@@ -84,7 +84,7 @@ export const getKeys__Node__ = async (source: string) => {
 				id: Id,
 				start: TargetedNode.start,
 				declarationStart: TargetedNode.end,
-				end: TargetedNode.end,
+				end: TargetedNode.end
 			})
 		}
 	})
@@ -109,7 +109,7 @@ _${Secret}=${Secret}('${Marker.id}', ${Marker.id})` + Scriptable.slice(Marker.en
 	Scriptable = Header + Scriptable
 
 	const Browser = await chromium.launch({
-		headless: false,
+		headless: false
 	})
 	const Context = await Browser.newContext()
 	await Context.setOffline(true)

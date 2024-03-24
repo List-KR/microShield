@@ -1,7 +1,7 @@
 // We need to refactor this function for easier future use
 const KnownAdShieldPropertyNames = [
 	['inventories', (Obj: unknown) => Array.isArray(Obj) && Object.getOwnPropertyNames(Obj[0]).includes('originalAds')],
-	['key', (Obj: unknown) => typeof Obj === 'string' && Obj.startsWith('as')],
+	['key', (Obj: unknown) => typeof Obj === 'string' && Obj.startsWith('as')]
 ] as const
 
 export const IsAdShieldObj = (Obj: unknown) => {

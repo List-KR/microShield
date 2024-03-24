@@ -2,7 +2,7 @@ import * as Cache from '../__generated__/ztinywave.cache.js'
 import {DocumentReady, CreateDebug} from '../utils.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-type Data = Array<{tags: string}>;
+type Data = Array<{tags: string}>
 
 const Debug = CreateDebug('[microShield:tinywave]')
 
@@ -119,7 +119,7 @@ const Extract = async () => {
 			if (Script && Data) {
 				source = {
 					script: Script,
-					data: Data,
+					data: Data
 				}
 			}
 		}

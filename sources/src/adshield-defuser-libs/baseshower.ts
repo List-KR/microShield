@@ -1,16 +1,16 @@
 export type Tag = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	tags: string;
-};
+}
 
 export type Text = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	text_id: string;
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	text_value: string;
-};
+}
 
-export type Payload = Tag | Text;
+export type Payload = Tag | Text
 
 // @ts-expect-error Known properties
 export const IsTag = (Payload: Payload): Payload is Tag => typeof Payload.tags === 'string'

@@ -1,7 +1,7 @@
 import {KnownAdShieldOrigins} from './call-validators/analyzers.js'
 import {AdShieldOriginCheck, AdShieldStrictCheck} from './call-validators/suites.js'
 
-type unsafeWindow = typeof window;
+type unsafeWindow = typeof window
 // eslint-disable-next-line @typescript-eslint/naming-convention
 declare const unsafeWindow: unsafeWindow
 
@@ -11,7 +11,7 @@ const Win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window
 export const CreateDebug = (Namespace: string) => new Proxy(console.debug, {
 	apply(Target, ThisArg, Args) {
 		Reflect.apply(Target, ThisArg, [`${Namespace}`, ...Args as unknown[]])
-	},
+	}
 })
 
 const Debug = CreateDebug('[microShield:__utils__]')
@@ -49,7 +49,7 @@ export const GetCallStack = () => {
 
 		return {
 			Trace,
-			Raw,
+			Raw
 		}
 	}
 
@@ -67,7 +67,7 @@ export const GetCallStack = () => {
 
 	return {
 		Trace,
-		Raw,
+		Raw
 	}
 }
 
@@ -96,7 +96,7 @@ export const MakeProxy = <F extends Function>(F: F, Name = F.name) => {
 			}
 
 			return Reflect.setPrototypeOf(Target, Value)
-		},
+		}
 	})
 
 	return ProxyInstance
@@ -139,7 +139,7 @@ export const MakeProxyError = <F extends Function>(F: F, Name = F.name) => {
 			}
 
 			return Reflect.setPrototypeOf(Target, Value)
-		},
+		}
 	})
 
 	return ProxyInstance
@@ -180,7 +180,7 @@ export const MakeUnsafeProxy = <F extends Function>(F: F, Name = F.name) => {
 			}
 
 			return Reflect.setPrototypeOf(Target, Value)
-		},
+		}
 	})
 
 	return ProxyInstance
@@ -208,7 +208,7 @@ export const MakeInlineProxy = <F extends Function>(F: F, Name = F.name) => {
 			}
 
 			return Reflect.setPrototypeOf(Target, Value)
-		},
+		}
 	})
 
 	return ProxyInstance
