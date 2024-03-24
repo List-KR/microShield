@@ -1,4 +1,4 @@
-import * as Cache from '../__generated__/ztinywave.cache.js'
+import * as ZCache from '../__generated__/ztinywave.cache.js'
 import {DocumentReady, CreateDebug} from '../utils.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -8,7 +8,7 @@ const Debug = CreateDebug('[microShield:tinywave]')
 
 const Decode = (Payload: string, ScriptURL: string) => {
 	const Id = Payload.slice(0, 4)
-	const Key = Cache.source.find(Store => Store.id === Id)
+	const Key = ZCache.source.find(Store => Store.id === Id)
 
 	if (!Key) {
 		throw new Error('DEFUSER_TINYWAVE_KEY_NOT_FOUND')
@@ -141,6 +141,8 @@ const Extract = async () => {
 }
 
 export const Tinywave = async () => {
+	Debug('run')
+
 	const Payload = await Extract()
 
 	Debug('payload', Payload)
