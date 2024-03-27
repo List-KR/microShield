@@ -73,8 +73,6 @@
 // @match        *://*.thesaurus.net/*
 // @match        *://forexlive.com/*
 // @match        *://*.forexlive.com/*
-// @match        *://thephoblographer.com/*
-// @match        *://*.thephoblographer.com/*
 // @match        *://tweaksforgeeks.com/*
 // @match        *://*.tweaksforgeeks.com/*
 // @match        *://alle-tests.nl/*
