@@ -58,7 +58,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create a Release
-        uses: List-KR/semver-release@2.1.2
+        uses: List-KR/semver-release@2.1.3
     needs: [eslint, build]
   jsdelivrpurge:
     name: Purge jsDelivr cache
