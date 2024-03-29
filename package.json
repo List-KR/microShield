@@ -36,7 +36,8 @@
   "dependencies": {
     "@types/node": "^20.11.26",
     "buffer": "^6.0.3",
-    "crypto-random-string": "^5.0.0"
+    "crypto-random-string": "^5.0.0",
+    "parse-domain": "^8.0.2"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^1.7.0",
