@@ -74,7 +74,15 @@ const Decode = (Payload: string, ScriptURL: string) => {
 	if (Data.includes('resources://') && Key.remoteResourceToken) {
 		Debug('downloading remote resource from Ad-Shield is required', {Id: Key.id, data: Data})
 		const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
-		Data = Data.replace(/resources:\/\/[a-zA-Z0-9-.]+/, (`https://${ScriptHostname}/resources/${/(?<=resources:\/\/)[a-zA-Z0-9-.]+/.exec(Data) as unknown as string}?token=${Key.remoteResourceToken}`))
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		const DataTags: Array<{tags: string}> = JSON.parse(Data)
+		DataTags.map(DataTagsObject => {
+			const DecodedCssString = DataTagsObject.tags
+			const Keyword = /(?<=resources:\/\/)[a-zA-Z0-9._-]+/.exec(DecodedCssString)?.[0] || ''
+			const Token = typeof Key.remoteResourceToken === 'object' ? Key.remoteResourceToken[Keyword] || Key.remoteResourceToken['*'] : Key.remoteResourceToken
+			DataTagsObject.tags = DecodedCssString.replace(/resources:\/\/[a-zA-Z0-9._-]+/, `https://${ScriptHostname}/resources/${Keyword}?token=${Token}`)
+		})
+		Data = JSON.stringify(DataTags)
 	}
 
 	return JSON.parse(Data) as Data

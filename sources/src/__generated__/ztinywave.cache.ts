@@ -1,5 +1,18 @@
 /* eslint-disable */
-export const source = [
+export type SourceType = {
+  id: string
+  input: string
+  output: string
+  reserved1: number
+  reserved1Input: string
+  reserved1Output: string
+  reserved2: number
+  reserved2Input: string
+  reserved2Output: string
+  remoteResourceToken?: string | Record<string, string>
+}[]
+
+export const source: SourceType = [
   {
     "id": "kynb",
     "input": "0Nm}ubC9L6k{7(\"nx>s=Ko]IBw/ySgf%W",
@@ -98,7 +111,9 @@ export const source = [
     "reserved2": 104,
     "reserved2Input": "Qj^ NCUv54le\"VMm_30GL",
     "reserved2Output": "bixqrhwn9zjm54o12fe0s",
-    "remoteResourceToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MTE1MDE1MTUsImlhdCI6MTcxMTQxNTExNX0.4-9KleMFfsJdzfNh4XKdZl9CitDHwT5RQPYbOdhFVbk&20240313"
+    "remoteResourceToken": {
+      "*": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MTE4MTg4NTMsImlhdCI6MTcxMTczMjQ1M30.YbMSKb4oXEP5z8_67JQahfybjN6WeBHNJIWAAUXiizU&20240313"
+    }
   },
   {
     "id": "svmm",
