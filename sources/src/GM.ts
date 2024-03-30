@@ -9,11 +9,4 @@ export type GM = {
 			version: string
 		}
 	}
-	xmlHttpRequest(XMLHttpRequestDetails: {url: string, method?: 'GET' | 'POST', responseType: 'text', onload?: (response: {
-		status: number,
-		statusText: string,
-		readyState: number,
-		response: string,
-		responseText: string
-		}) => void}): {abort(): void}
 }
