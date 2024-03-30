@@ -1,8 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-interface XMLHttpRequestDetails extends XMLHttpRequest{
-	anonymous?: boolean
-}
-
 export type GM = {
 	getValue(key: string, defaultValue: undefined): Promise<string | undefined>
 	setValue(key: string, value: string): Promise<void>
@@ -13,7 +9,7 @@ export type GM = {
 			version: string
 		}
 	}
-	xmlHttpRequest(XMLHttpRequestDetails: XMLHttpRequestDetails, onload?: (
+	xmlHttpRequest(XMLHttpRequestDetails: {url: string, method?: 'GET' | 'POST'}, onload?: (
 		status: number,
 		statusText: string,
 		readyState: number,
