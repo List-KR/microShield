@@ -14,6 +14,6 @@ export type GM = {
 		statusText: string,
 		readyState: number,
 		response: string,
-		responseText?: string
+		responseText: string
 		}) => void}): {abort(): void}
 }
