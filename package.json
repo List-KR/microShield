@@ -35,7 +35,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/node": "^20.11.26",
-    "buffer": "^6.0.3",
     "crypto-random-string": "^5.0.0",
     "parse-domain": "^8.0.2"
   },
