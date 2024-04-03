@@ -53,7 +53,19 @@ const IsCacheExpired = async () => {
   return ShouldRemoved
 }
 
+const CheckBlank = (Key: string) => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const KeyArray = JSON.parse(Key) as Array<{tags: string}>
+  const NewKeyArray = KeyArray.filter((Value) => !Value.tags.includes('about:blank'))
+  return JSON.stringify(NewKeyArray)
+}
+
 export const CreateCacheItem = async (Key: string, ScriptHostname: string) => {
+  Key = CheckBlank(Key)
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  if ((JSON.parse(Key) as Array<{tags: string}>).length === 0) {
+    return
+  }
   await GM.setValue(GetDomain(), JSON.stringify({
     Cache: Key,
     ScriptHostname,
