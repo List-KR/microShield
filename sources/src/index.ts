@@ -1,4 +1,3 @@
-import {BaseDrop} from './loaders/basedrop.js'
 import {Tinywave} from './loaders/ztinywave.js'
 import {DocumentReady, GetCallStack, MakeProxy, MakeProxyError, MakeUnsafeProxy, MakeInlineProxy} from './utils.js'
 import {AdShieldOriginCheck, AdShieldStrictCheck} from './call-validators/suites.js'
@@ -126,7 +125,6 @@ const Bootstrap = () => {
 		})
 	}
 
-	void BaseDrop()
 	void Tinywave()
 }
 

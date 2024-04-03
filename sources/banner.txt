@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      3.22.0
+// @version      3.23.0
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
@@ -118,6 +118,10 @@
 // @description:ko     microShield는 AdGuard, uBlock Origin, Brave 와 ABP가 애드쉴드에 널리 저항할 수 있도록 합니다.
 //
 // @grant        unsafeWindow
+// @grant        GM.getValue
+// @grant        GM.setValue
+// @grant        GM.deleteValue
+// @grant        GM.listValues
 // @run-at       document-start
 // ==/UserScript==
 // Original Srouce Code:
