@@ -1,4 +1,6 @@
 import * as ZtinywaveCache from '../cache/ztinywave.js'
+import * as Ztinywaved from './ztinywaved.js'
+import * as ZtinywaveRemoted from './ztinywave-remoted.js'
 import {DocumentReady, CreateDebug} from '../utils.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -6,7 +8,7 @@ type Data = Array<{tags: string}>
 
 const Debug = CreateDebug('[microShield:tinywave]')
 
-const Decode = (Payload: string, ScriptURL: string) => {
+const Decode = async (Payload: string, ScriptURL: string) => {
 	const Id = Payload.slice(0, 4)
 	const Key = ZtinywaveCache.source.find(Store => Store.id === Id)
 
@@ -71,20 +73,13 @@ const Decode = (Payload: string, ScriptURL: string) => {
 		})
 		.join('')
 
-	if (Data.includes('resources://') && Key.remoteResourceToken) {
+	const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
+	await Ztinywaved.CreateCacheItem(Data, ScriptHostname)
+	if (Data.includes('resources://')) {
 		Debug('downloading remote resource from Ad-Shield is required', {Id: Key.id, data: Data})
-		const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
-		// eslint-disable-next-line @typescript-eslint/naming-convention
-		const DataTags: Array<{tags: string}> = JSON.parse(Data)
-		DataTags.map(DataTagsObject => {
-			const DecodedCssString = DataTagsObject.tags
-			const Keyword = /(?<=resources:\/\/)[a-zA-Z0-9._-]+/.exec(DecodedCssString)?.[0] || ''
-			const Token = typeof Key.remoteResourceToken === 'object' ? Key.remoteResourceToken[Keyword] || Key.remoteResourceToken['*'] : Key.remoteResourceToken
-			DataTagsObject.tags = DecodedCssString.replace(/resources:\/\/[a-zA-Z0-9._-]+/, `https://${ScriptHostname}/resources/${Keyword}?token=${Token}`)
-		})
-		Data = JSON.stringify(DataTags)
+		const Token = await ZtinywaveRemoted.GetAcessToken(ScriptHostname)
+		Data = ZtinywaveRemoted.ReplaceResourceURLs(Data, Token, ScriptHostname)
 	}
-
 	return JSON.parse(Data) as Data
 }
 
@@ -145,10 +140,13 @@ const Extract = async () => {
 		throw new Error('DEFUSER_SHORTWAVE_TARGET_NOT_FOUND')
 	}
 
-	return Decode(source.data, source.script)
+	return await Decode(source.data, source.script)
 }
 
 export const Tinywave = async () => {
+	// If Ztinywaved.WindowLoad fails, it will return 1. Otherwise, it will return 0.
+	await Ztinywaved.WindowLoad()
+	
 	const Payload = await Extract()
 
 	Debug('payload', Payload)

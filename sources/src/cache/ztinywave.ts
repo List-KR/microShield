@@ -9,7 +9,6 @@ export type SourceType = {
   reserved2: number
   reserved2Input: string
   reserved2Output: string
-  remoteResourceToken?: string | Record<string, string>
 }[]
 
 export const source: SourceType = [
@@ -110,10 +109,7 @@ export const source: SourceType = [
     "reserved1Output": "phm21v9cw4b73yglnfxotazsuj8qrk650i",
     "reserved2": 104,
     "reserved2Input": "Qj^ NCUv54le\"VMm_30GL",
-    "reserved2Output": "bixqrhwn9zjm54o12fe0s",
-    "remoteResourceToken": {
-      "*": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MTE4MTg4NTMsImlhdCI6MTcxMTczMjQ1M30.YbMSKb4oXEP5z8_67JQahfybjN6WeBHNJIWAAUXiizU&20240313"
-    }
+    "reserved2Output": "bixqrhwn9zjm54o12fe0s"
   },
   {
     "id": "svmm",
@@ -146,7 +142,6 @@ export const source: SourceType = [
     "reserved1Output": "ou7ercvw9l01yghnfip685bzxqtak3sjm4",
     "reserved2": 57,
     "reserved2Input": "=6a0G>POo37nv?x&1`]2t",
-    "reserved2Output": "crxmjf7yhgt6o3p8l09iv",
-    "remoteResourceToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MTE1MDE1MTUsImlhdCI6MTcxMTQxNTExNX0.4-9KleMFfsJdzfNh4XKdZl9CitDHwT5RQPYbOdhFVbk&20240313",
+    "reserved2Output": "crxmjf7yhgt6o3p8l09iv"
   }
 ];
