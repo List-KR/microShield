@@ -74,7 +74,7 @@ const Decode = async (Payload: string, ScriptURL: string) => {
 		.join('')
 
 	const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
-	await Ztinywaved.CreateCacheItem(Data, ScriptHostname)
+	// await Ztinywaved.CreateCacheItem(Data, ScriptHostname)
 	if (Data.includes('resources://')) {
 		Debug('downloading remote resource from Ad-Shield is required', {Id: Key.id, data: Data})
 		const Token = await ZtinywaveRemoted.GetAcessToken(ScriptHostname)
@@ -145,7 +145,7 @@ const Extract = async () => {
 
 export const Tinywave = async () => {
 	// If Ztinywaved.WindowLoad fails, it will return 1. Otherwise, it will return 0.
-	await Ztinywaved.WindowLoad()
+	// await Ztinywaved.WindowLoad()
 	
 	const Payload = await Extract()
 
