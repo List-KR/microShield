@@ -154,6 +154,15 @@ const IsEvalFunction = (CallStacks: string[]) => {
 	return ShouldDisable
 }
 
+const IsScriptElementFunction = (CallStacks: string[]) => {
+	const CallStack = CallStacks.join('\n')
+	let ShouldDisable = false
+	ShouldDisable ||= ((CallStack.match(new RegExp(`${location.href}:[0-9]+:[0-9]+`, 'ig'))?.length ?? -1) >= 2) && (CallStack.includes('NodeList.forEach') ?? false) // Chromium Browser
+	ShouldDisable ||= ((CallStack.match(new RegExp(`onload\\/<\\/<(\\/<)?@${location.href}:[0-9]+:[0-9]+`, 'gi'))?.length ?? -1) >= 2) && ((CallStack.match(new RegExp(`promise callback\\*onload@${location.href}:[0-9]+:[0-9]+`, 'gi'))?.length ?? -1) >= 1) // Firefox Browser
+	ShouldDisable ||= (CallStack.includes('@[native code]') ?? false) && ((CallStack.match(new RegExp(`@${location.href}:[0-9]+:[0-9]+`, 'gi'))?.length ?? -1) >= 2) && (CallStack.includes('forEach@[native code]') ?? false) // Safari Browser
+	return ShouldDisable
+}
+
 // Function makeProxy + eval
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const MakeUnsafeProxy = <F extends Function>(F: F, Name = F.name) => {
@@ -161,7 +170,7 @@ export const MakeUnsafeProxy = <F extends Function>(F: F, Name = F.name) => {
 		apply(Target, ThisArg, Args) {
 			const CallStack = GetCallStack()
 
-			if (IsEvalFunction(CallStack.Raw) || AdShieldOriginCheck(CallStack)) {
+			if (IsEvalFunction(CallStack.Raw) || AdShieldOriginCheck(CallStack) || IsScriptElementFunction(CallStack.Raw)) {
 				Debug(`apply name=${Name} Args=`, Args, 'stack=', CallStack.Raw)
 
 				throw new Error('microShield')
