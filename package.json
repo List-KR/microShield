@@ -34,7 +34,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/node": "^20.11.26",
+    "@types/node": "^20.12.4",
     "crypto-random-string": "^5.0.0",
     "parse-domain": "^8.0.2"
   },
@@ -43,11 +43,11 @@
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "acorn-walk": "^8.3.2",
-    "esbuild": "^0.20.1",
+    "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "playwright": "^1.42.1",
-    "pnpm": "^8.15.4",
-    "typescript": "^5.4.2",
-    "typescript-eslint": "^7.2.0"
+    "pnpm": "^8.15.6",
+    "typescript": "^5.4.4",
+    "typescript-eslint": "^7.5.0"
   }
 }
