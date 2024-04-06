@@ -1,3 +1,4 @@
+import cryptoRandomString from 'crypto-random-string'
 import {AdshieldKeywords, IsAdShieldCall} from '../adshield/validators.js'
 import {Config} from '../config.js'
 import {GenerateCallStack} from './call-stack.js'
@@ -12,7 +13,7 @@ type Fomulate = ((...args: any[]) => any) & Function
 
 const Debug = CreateDebug('secret')
 
-export const Secret = (Date.now() * Math.random()).toString(36)
+export const Secret = cryptoRandomString({length: 20})
 
 export type ProtectedFunctionCreationOptions = Partial<{
 	Name: string;
