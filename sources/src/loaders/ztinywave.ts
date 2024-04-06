@@ -143,13 +143,13 @@ export const Tinywave = async () => {
 			if (Item.tags) {
 				if (Item.tags.includes('resources://')) {
 					PrivateEntities.push({
-						type: EntityTypes.Head,
-						html: Item.tags
+						Type: EntityTypes.Head,
+						Html: Item.tags
 					})
 				} else {
 					PublicEntities.push({
-						type: EntityTypes.Head,
-						html: Item.tags
+						Type: EntityTypes.Head,
+						Html: Item.tags
 					})
 				}
 			}
@@ -160,9 +160,9 @@ export const Tinywave = async () => {
 		const Token = await GetResourceToken(Source.Script)
 
 		for (const Entity of PrivateEntities) {
-			if (Entity.type === EntityTypes.Head) {
+			if (Entity.Type === EntityTypes.Head) {
 				// eslint-disable-next-line no-await-in-loop
-				Entity.html = await ResolveResourceUrls(Entity.html, Token)
+				Entity.Html = await ResolveResourceUrls(Entity.Html, Token)
 			}
 		}
 
