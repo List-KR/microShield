@@ -1,5 +1,5 @@
 export const CreateDebug = (Namespace: string) => {
-	const Header = `[asdefuser:${Namespace}]`
+	const Header = `[microShield:${Namespace}]`
 
 	return new Proxy(console.debug, {
 		apply(Target, ThisArg, ArgArray) {
