@@ -1,19 +1,20 @@
-import * as ZtinywaveCache from '../cache/ztinywave.js'
-import * as Ztinywaved from './ztinywaved.js'
-import * as ZtinywaveRemoted from './ztinywave-remoted.js'
-import {DocumentReady, CreateDebug} from '../utils.js'
+import * as cache from '../cache/ztinywave.js'
+import {GetResourceToken, ResolveResourceUrls} from '../adshield/resources.js'
+import {type Entity, EntityTypes, InsertEntities, PutCachedEntities, TryCachedEntities} from '../utils/entities.js'
+import {DocumentReady} from '../utils/frame.js'
+import {CreateDebug} from '../utils/logger.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type Data = Array<{tags: string}>
 
-const Debug = CreateDebug('[microShield:tinywave]')
+const Debug = CreateDebug('ztinywave')
 
-const Decode = async (Payload: string, ScriptURL: string) => {
+const Decode = (Payload: string) => {
 	const Id = Payload.slice(0, 4)
-	const Key = ZtinywaveCache.source.find(Store => Store.id === Id)
+	const Key = cache.source.find(Store => Store.id === Id)
 
 	if (!Key) {
-		throw new Error('DEFUSER_TINYWAVE_KEY_NOT_FOUND')
+		throw new Error('DEFUSER_ZTINYWAVE_KEY_NOT_FOUND')
 	}
 
 	const Ra = String.fromCharCode(Key.reserved1)
@@ -31,7 +32,7 @@ const Decode = async (Payload: string, ScriptURL: string) => {
 
 	let Mode = 0
 
-	let Data = Payload
+	const Data = Payload
 		.slice(4)
 		.split('')
 		.map(Char => {
@@ -73,83 +74,104 @@ const Decode = async (Payload: string, ScriptURL: string) => {
 		})
 		.join('')
 
-	const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
-	await Ztinywaved.CreateCacheItem(Data, ScriptHostname)
-	if (Data.includes('resources://')) {
-		Debug('downloading remote resource from Ad-Shield is required', {Id: Key.id, data: Data})
-		const Token = await ZtinywaveRemoted.GetAcessToken(ScriptHostname)
-		Data = ZtinywaveRemoted.ReplaceResourceURLs(Data, Token, ScriptHostname)
-	}
 	return JSON.parse(Data) as Data
 }
 
-const Restore = (Data: Data) => {
-	Debug('restore')
-
-	let Failed = 0
-
-	for (const Entry of Data) {
-		try {
-			if (Entry.tags) {
-				document.head.insertAdjacentHTML('beforeend', Entry.tags)
-			}
-		} catch (error) {
-			Debug('restore error=', error)
-
-			Failed++
-		}
-	}
-
-	Debug(`restore total=${Data.length} failed=${Failed}`)
-}
-
 const Extract = async () => {
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	let source: {
-		// eslint-disable-next-line @typescript-eslint/naming-convention
-		script: string;
-		// eslint-disable-next-line @typescript-eslint/naming-convention
-		data: string;
-	} | undefined
+	const Sources: Array<{
+		Script: string;
+		Data: string;
+	}> = []
 
 	const Pick = () => {
-		const Target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
+		const Targets: NodeListOf<HTMLScriptElement> = document.querySelectorAll('script[data]:not([data=""]),script[wp-data]:not([wp-data=""])')!
 
-		if (Target) {
+		for (const Target of Targets) {
 			const Script = Target.getAttribute('src')
 			const Data = Target.getAttribute('data')
 
 			if (Script && Data) {
-				source = {
-					script: Script,
-					data: Data
-				}
+				Sources.push({
+					Script,
+					Data
+				})
 			}
 		}
 	}
 
 	Pick()
 
-	if (!source) {
+	if (Sources.length === 0) {
 		await DocumentReady(document)
 
 		Pick()
 	}
 
-	if (!source) {
-		throw new Error('DEFUSER_SHORTWAVE_TARGET_NOT_FOUND')
+	if (Sources.length === 0) {
+		throw new Error('DEFUSER_ZTINYWAVE_TARGET_NOT_FOUND')
 	}
 
-	return await Decode(source.data, source.script)
+	return Sources
 }
 
 export const Tinywave = async () => {
-	// If Ztinywaved.WindowLoad fails, it will return 1. Otherwise, it will return 0.
-	await Ztinywaved.WindowLoad()
-	
-	const Payload = await Extract()
+	const IsCachedEntitiesPassed = await TryCachedEntities()
+		.catch((Errors: Error) => {
+			Debug('Failed to initialise cached entities', Errors)
 
-	Debug('payload', Payload)
+			return false
+		})
 
-	Restore(Payload)
+	if (IsCachedEntitiesPassed) {
+		return
+	}
+
+	const Entities: Entity[] = []
+
+	const Sources = await Extract()
+	const SourcesResolves = Sources.map(async Source => {
+		Debug('source', Source)
+
+		const Payload = Decode(Source.Data)
+
+		Debug('payload', Payload)
+
+		const PublicEntities: Entity[] = []
+		const PrivateEntities: Entity[] = []
+
+		for (const Item of Payload) {
+			if (Item.tags) {
+				if (Item.tags.includes('resources://')) {
+					PrivateEntities.push({
+						Type: EntityTypes.Head,
+						Html: Item.tags
+					})
+				} else {
+					PublicEntities.push({
+						Type: EntityTypes.Head,
+						Html: Item.tags
+					})
+				}
+			}
+		}
+
+		void InsertEntities(PublicEntities)
+
+		const Token = await GetResourceToken(Source.Script)
+
+		for (const Entity of PrivateEntities) {
+			if (Entity.Type === EntityTypes.Head) {
+				// eslint-disable-next-line no-await-in-loop
+				Entity.Html = await ResolveResourceUrls(Entity.Html, Token)
+			}
+		}
+
+		void InsertEntities(PrivateEntities)
+
+		Entities.push(...PublicEntities, ...PrivateEntities)
+	})
+
+	Debug('sources resolves', await Promise.allSettled(SourcesResolves))
+
+	PutCachedEntities(Entities)
 }
