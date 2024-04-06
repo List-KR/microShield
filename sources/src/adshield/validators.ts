@@ -1,4 +1,5 @@
 import cryptoRandomString from 'crypto-random-string'
+import {JustifyCallStack} from '../utils/call-stack.js'
 import {HasSubstringSetsInString} from '../utils/string.js'
 
 export const AdshieldDomains = [
@@ -26,12 +27,16 @@ const AdshieldDomainsize = AdshieldDomains.length
 // eslint-disable-next-line no-bitwise
 export const GetRandomAdShieldHost = () => AdshieldDomains[(Number(cryptoRandomString({length: 16, type: 'numeric'})) * 0.0000000000000001 * AdshieldDomainsize) >>> 0]
 
-export const IsAdShieldCall = (LastLine: string) => {
-	if (HasSubstringSetsInString(LastLine, AdshieldDomains)) {
+export const IsAdShieldCall = (Trace = JustifyCallStack()) => {
+	if (Trace.length === 0) {
+		return false
+	}
+
+	if (HasSubstringSetsInString(Trace[Trace.length - 1], AdshieldDomains)) {
 		return true
 	}
 
-	const Url = new URL(LastLine)
+	const Url = new URL(Trace[Trace.length - 1])
 
 	if (Url.hostname !== location.hostname && Url.pathname === '/loader.min.js') {
 		return true
