@@ -5,6 +5,12 @@ import {GenerateCallStack} from './call-stack.js'
 import {CreateDebug} from './logger.js'
 import {HasSubstringSetsInString} from './string.js'
 
+type unsafeWindow = typeof window
+// eslint-disable-next-line @typescript-eslint/naming-convention
+declare const unsafeWindow: unsafeWindow
+
+const Win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 type ArbitaryObject = object
 
@@ -102,12 +108,12 @@ export const ProtectDescriptors = <T extends ArbitaryObject, K extends keyof T>(
 		ProtectedDescriptors.add(DefineProperties)
 		ProtectedDescriptors.add(DefineProperty)
 
-		Object.defineProperty(window.Object, 'defineProperty', {
+		Object.defineProperty(Win.Object, 'defineProperty', {
 			get() {
 				return DefineProperty
 			}
 		})
-		Object.defineProperties(window.Object, {
+		Object.defineProperties(Win.Object, {
 			defineProperty: {
 				get() {
 					return DefineProperty

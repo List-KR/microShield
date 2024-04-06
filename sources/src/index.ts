@@ -6,40 +6,47 @@ import {ProtectFunctionDescriptors} from './utils/secret.js'
 import {ProtectStorageApis} from './utils/storage.js'
 import {HasSubstringSetsInString} from './utils/string.js'
 
+type unsafeWindow = typeof window
+// eslint-disable-next-line @typescript-eslint/naming-convention
+declare const unsafeWindow: unsafeWindow
+
 const Hook = () => {
+	// eslint-disable-next-line no-negated-condition
+	const Win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window
+
 	// Pollusions
-	ProtectFunctionDescriptors(window, 'Error')
+	ProtectFunctionDescriptors(Win, 'Error')
 
 	// Messaging
-	ProtectFunctionDescriptors(window.EventTarget.prototype, 'addEventListener')
-	ProtectFunctionDescriptors(window.MessagePort.prototype, 'postMessage')
+	ProtectFunctionDescriptors(Win.EventTarget.prototype, 'addEventListener')
+	ProtectFunctionDescriptors(Win.MessagePort.prototype, 'postMessage')
 
 	// Breakage
-	ProtectFunctionDescriptors(window.Element.prototype, 'remove')
-	ProtectFunctionDescriptors(window.Element.prototype, 'removeChild')
-	ProtectFunctionDescriptors(window.Element.prototype, 'insertAdjacentElement')
-	ProtectFunctionDescriptors(window.Element.prototype, 'insertAdjacentHTML')
+	ProtectFunctionDescriptors(Win.Element.prototype, 'remove')
+	ProtectFunctionDescriptors(Win.Element.prototype, 'removeChild')
+	ProtectFunctionDescriptors(Win.Element.prototype, 'insertAdjacentElement')
+	ProtectFunctionDescriptors(Win.Element.prototype, 'insertAdjacentHTML')
 
 	// Timer
-	ProtectFunctionDescriptors(window, 'setInterval')
-	ProtectFunctionDescriptors(window, 'setTimeout')
+	ProtectFunctionDescriptors(Win, 'setInterval')
+	ProtectFunctionDescriptors(Win, 'setTimeout')
 
 	// Scripting
-	ProtectFunctionDescriptors(window.Element.prototype, 'setAttribute', {CheckArguments: true})
-	ProtectFunctionDescriptors(window.Element.prototype, 'setAttributeNS', {CheckArguments: true})
-	ProtectFunctionDescriptors(window.document, 'createElement')
-	ProtectFunctionDescriptors(window.document, 'createElementNS')
-	ProtectFunctionDescriptors(window, 'alert', {CheckArguments: true})
-	ProtectFunctionDescriptors(window, 'confirm', {CheckArguments: true})
-	ProtectFunctionDescriptors(window, 'atob', {CheckOutputs: true})
-	ProtectFunctionDescriptors(window, 'decodeURI')
-	ProtectFunctionDescriptors(window, 'decodeURIComponent')
+	ProtectFunctionDescriptors(Win.Element.prototype, 'setAttribute', {CheckArguments: true})
+	ProtectFunctionDescriptors(Win.Element.prototype, 'setAttributeNS', {CheckArguments: true})
+	ProtectFunctionDescriptors(Win.document, 'createElement')
+	ProtectFunctionDescriptors(Win.document, 'createElementNS')
+	ProtectFunctionDescriptors(Win, 'alert', {CheckArguments: true})
+	ProtectFunctionDescriptors(Win, 'confirm', {CheckArguments: true})
+	ProtectFunctionDescriptors(Win, 'atob', {CheckOutputs: true})
+	ProtectFunctionDescriptors(Win, 'decodeURI')
+	ProtectFunctionDescriptors(Win, 'decodeURIComponent')
 
 	// Storage
 	ProtectStorageApis()
 
 	// Networking
-	ProtectFunctionDescriptors(window, 'fetch', {CheckArguments: true})
+	ProtectFunctionDescriptors(Win, 'fetch', {CheckArguments: true})
 }
 
 const Observe = () => {
