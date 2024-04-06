@@ -82,6 +82,8 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 	}
 })
 
+export const UnprotectedFetch = fetch
+
 export const ProtectedDescriptors = new Set<unknown>()
 
 export const ProtectDescriptors = <T extends ArbitaryObject, K extends keyof T>(O: T, Key: K, NewProperty: T[K]) => {
