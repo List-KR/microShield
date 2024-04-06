@@ -1,7 +1,7 @@
 import cryptoRandomString from 'crypto-random-string'
 import {AdshieldKeywords, IsAdShieldCall} from '../adshield/validators.js'
 import {Config} from '../config.js'
-import {GenerateCallStack, JustifyCallStack} from './call-stack.js'
+import {GenerateCallStack} from './call-stack.js'
 import {CreateDebug} from './logger.js'
 import {HasSubstringSetsInString} from './string.js'
 
@@ -41,14 +41,7 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 			throw new Error()
 		}
 
-		const JustifiedCallStack = JustifyCallStack()
-		const LastLine = JustifiedCallStack[JustifiedCallStack.length - 1]
-
-		if (LastLine === undefined || LastLine.startsWith('chrome') || LastLine.startsWith('webkit') || LastLine.startsWith('moz')) {
-			return false
-		}
-
-		if (IsAdShieldCall(LastLine)) {
+		if (IsAdShieldCall()) {
 			E()
 		}
 
@@ -88,6 +81,8 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 		throw new Error()
 	}
 })
+
+export const UnprotectedFetch = fetch
 
 export const ProtectedDescriptors = new Set<unknown>()
 
