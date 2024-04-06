@@ -1,7 +1,7 @@
 import cryptoRandomString from 'crypto-random-string'
 import {AdshieldKeywords, IsAdShieldCall} from '../adshield/validators.js'
 import {Config} from '../config.js'
-import {GenerateCallStack} from './call-stack.js'
+import {GenerateCallStack, JustifyCallStack} from './call-stack.js'
 import {CreateDebug} from './logger.js'
 import {HasSubstringSetsInString} from './string.js'
 
@@ -41,7 +41,14 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 			throw new Error()
 		}
 
-		if (IsAdShieldCall()) {
+		const JustifiedCallStack = JustifyCallStack()
+		const LastLine = JustifiedCallStack[JustifiedCallStack.length - 1]
+
+		if (LastLine === undefined || LastLine.startsWith('chrome') || LastLine.startsWith('webkit') || LastLine.startsWith('moz')) {
+			return false
+		}
+
+		if (IsAdShieldCall(LastLine)) {
 			E()
 		}
 
@@ -82,8 +89,6 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 	}
 })
 
-export const UnprotectedFetch = fetch
-
 export const ProtectedDescriptors = new Set<unknown>()
 
 export const ProtectDescriptors = <T extends ArbitaryObject, K extends keyof T>(O: T, Key: K, NewProperty: T[K]) => {
@@ -107,24 +112,18 @@ export const ProtectDescriptors = <T extends ArbitaryObject, K extends keyof T>(
 			]
 		})
 
-		ProtectedDescriptors.add(DefineProperties)
 		ProtectedDescriptors.add(DefineProperty)
+		ProtectedDescriptors.add(DefineProperties)
 
 		Object.defineProperty(Win.Object, 'defineProperty', {
-			get() {
-				return DefineProperty
-			}
+			value: DefineProperty
 		})
 		Object.defineProperties(Win.Object, {
 			defineProperty: {
-				get() {
-					return DefineProperty
-				}
+				value: DefineProperty
 			},
 			defineProperties: {
-				get() {
-					return DefineProperties
-				}
+				value: DefineProperties
 			}
 		})
 	}
