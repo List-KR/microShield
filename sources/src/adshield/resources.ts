@@ -1,8 +1,7 @@
-import {UnprotectedFetch} from '../utils/secret.js'
 import {GetRandomAdShieldHost} from './validators.js'
 
 export const GetCachableHtml = async (Url: string) => {
-	const ResponseRaw = await UnprotectedFetch(Url, {
+	const ResponseRaw = await fetch(Url, {
 		cache: 'force-cache'
 	})
 	const Text = await ResponseRaw.text()
@@ -15,7 +14,7 @@ export const GetCachableHtml = async (Url: string) => {
 }
 
 export const GetResourceToken = async (ScriptUrl: string) => {
-	const ResponseRaw = await UnprotectedFetch(ScriptUrl, {
+	const ResponseRaw = await fetch(ScriptUrl, {
 		cache: 'force-cache'
 	})
 	const Text = await ResponseRaw.text()

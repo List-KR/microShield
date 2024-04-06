@@ -169,6 +169,8 @@ export const Tinywave = async () => {
 		void InsertEntities(PrivateEntities)
 
 		Entities.push(...PublicEntities, ...PrivateEntities)
+
+		return Entities
 	})
 
 	Debug('sources resolves', await Promise.allSettled(SourcesResolves))

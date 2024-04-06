@@ -62,6 +62,19 @@ export const TryCachedEntities = async () => {
 	if ((Date.now() - Data.CreatedAt) > 1000 * 60 * 60 * 24 * 30) {
 		throw new Error('The cached entities are too old!')
 	}
+	
+	const TotalEntityLength = Data.Entities.reduce((State, Entity) => {
+		if (Entity.Type === EntityTypes.Head) {
+			return State + Entity.Html.length
+		}
+
+		return State
+	}, 0)
+
+	if (!TotalEntityLength) {
+		throw new Error('The cached entities has no content!')
+	}
+
 
 	Debug('restoring cached entities data=', Data)
 
