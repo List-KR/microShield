@@ -3,11 +3,17 @@ import {JustifyCallStack} from '../utils/call-stack.js'
 import {HasSubstringSetsInString} from '../utils/string.js'
 
 export const AdshieldDomains = [
-	'css-load.com',
 	'07c225f3.online',
+	'css-load.com',
+	'html-load.com',
 	'content-loader.com',
+	'22d2d4d9-0c15-4a3a-9562-384f2c100146.xyz',
+	'f97ae142.online',
+	'html-load.cc',
 	'error-report.com',
-	'html-load.com'
+	'2aeabdd4-3280-4f03-bc92-1890494f28be.xyz',
+	'e1577bbd-2a7e-4bee-b2fe-12a6406689e5.xyz',
+	'fadeb9a7-2417-4a51-8d99-0421a5622cbe.xyz'
 ]
 
 export const AdshieldKeywords = [
