@@ -36,7 +36,7 @@ export const IsAdShieldCall = (Trace = JustifyCallStack()) => {
 		return true
 	}
 
-	const Url = new URL(Trace[Trace.length - 1])
+	const Url = new URL(Trace[Trace.length - 1].includes('<anonymous>') ? 'https://microShield.local' : Trace[Trace.length - 1])
 
 	if (Url.hostname !== location.hostname && Url.pathname === '/loader.min.js') {
 		return true
