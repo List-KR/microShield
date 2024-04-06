@@ -1,9 +1,9 @@
-export const hasSubstringSetsInString = (text: string, substrings: string[]) => {
-	for (const substring of substrings) {
-		if (text.includes(substring)) {
-			return true;
+export const HasSubstringSetsInString = (Text: string, Substrings: string[]) => {
+	for (const Substring of Substrings) {
+		if (Text.includes(Substring)) {
+			return true
 		}
 	}
 
-	return false;
-};
+	return false
+}

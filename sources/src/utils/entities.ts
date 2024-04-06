@@ -1,82 +1,82 @@
-import {createDebug} from './logger.js';
-import {pull, push} from './storage.js';
+import {CreateDebug} from './logger.js'
+import {Pull, Push} from './storage.js'
 
-const debug = createDebug('entities');
+const Debug = CreateDebug('entities')
 
 export const enum EntityTypes {
 	Text = 0,
-	Head,
+	Head
 }
 
 export type TextEntity = {
-	type: EntityTypes.Text;
-	selector: string;
-	textContent: string;
-};
+	Type: EntityTypes.Text;
+	Selector: string;
+	TextContent: string;
+}
 
 export type HeadEntity = {
-	type: EntityTypes.Head;
-	html: string;
-};
+	Type: EntityTypes.Head;
+	Html: string;
+}
 
 export type Entity = TextEntity
-| HeadEntity;
+| HeadEntity
 
-export const insertTextEntity = (entity: TextEntity) => {
-	const node = document.querySelector(entity.selector);
+export const InsertTextEntity = (Entity: TextEntity) => {
+	const SelectedNode = document.querySelector(Entity.Selector)
 
-	if (!node) {
-		throw new Error('The target node was not found in the frame!');
+	if (!SelectedNode) {
+		throw new Error('The target node was not found in the frame!')
 	}
 
-	node.before(entity.textContent);
-	node.remove();
-};
+	SelectedNode.before(Entity.TextContent)
+	SelectedNode.remove()
+}
 
-export const insertHeadEntity = (entity: HeadEntity) => {
-	document.head.insertAdjacentHTML('beforeend', entity.html);
-};
+export const InsertHeadEntity = (Entity: HeadEntity) => {
+	document.head.insertAdjacentHTML('beforeend', Entity.Html)
+}
 
-export const insertEntity = async (entity: Entity) => {
-	if (entity.type === EntityTypes.Head) {
-		insertHeadEntity(entity);
-	} else if (entity.type === EntityTypes.Text) {
-		insertTextEntity(entity);
+export const InsertEntity = async (Entity: Entity) => {
+	if (Entity.Type === EntityTypes.Head) {
+		InsertHeadEntity(Entity)
+	} else if (Entity.Type === EntityTypes.Text) {
+		InsertTextEntity(Entity)
 	}
-};
+}
 
-export const insertEntities = async (entities: Entity[]) => Promise.allSettled(entities.map(async entity => insertEntity(entity)));
+export const InsertEntities = async (Entities: Entity[]) => Promise.allSettled(Entities.map(async Entity => InsertEntity(Entity)))
 
-export const tryCachedEntities = async () => {
-	const json = pull('entity-cache-rev2');
+export const TryCachedEntities = async () => {
+	const Json = Pull('entity-cache-rev2')
 
-	if (!json) {
-		throw new Error('The cached entities does not exist on this browser!');
-	}
-
-	const data = JSON.parse(json) as {
-		entities: Entity[];
-		createdAt: number;
-	};
-
-	if ((Date.now() - data.createdAt) > 1000 * 60 * 60 * 24 * 30) {
-		throw new Error('The cached entities are too old!');
+	if (!Json) {
+		throw new Error('The cached entities does not exist on this browser!')
 	}
 
-	debug('restoring cached entities data=', data);
-
-	await insertEntities(data.entities);
-
-	return true;
-};
-
-export const putCachedEntities = (entities: Entity[]) => {
-	if (entities.length === 0) {
-		return;
+	const Data = JSON.parse(Json) as {
+		Entities: Entity[];
+		CreatedAt: number;
 	}
 
-	push('entity-cache-rev2', JSON.stringify({
-		entities,
-		createdAt: Date.now(),
-	}));
-};
+	if ((Date.now() - Data.CreatedAt) > 1000 * 60 * 60 * 24 * 30) {
+		throw new Error('The cached entities are too old!')
+	}
+
+	Debug('restoring cached entities data=', Data)
+
+	await InsertEntities(Data.Entities)
+
+	return true
+}
+
+export const PutCachedEntities = (Entity: Entity[]) => {
+	if (Entity.length === 0) {
+		return
+	}
+
+	Push('entity-cache-rev2', JSON.stringify({
+		Entity,
+		CreatedAt: Date.now()
+	}))
+}

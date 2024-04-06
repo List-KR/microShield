@@ -1,39 +1,39 @@
-import {justifyCallStack} from '../utils/call-stack.js';
-import {hasSubstringSetsInString} from '../utils/string.js';
+import {JustifyCallStack} from '../utils/call-stack.js'
+import {HasSubstringSetsInString} from '../utils/string.js'
 
-export const adshieldDomains = [
+export const AdshieldDomains = [
 	'css-load.com',
 	'07c225f3.online',
 	'content-loader.com',
 	'error-report.com',
-	'html-load.com',
-];
+	'html-load.com'
+]
 
-export const adshieldKeywords = [
-	...adshieldDomains,
+export const AdshieldKeywords = [
+	...AdshieldDomains,
 	'failed to load website',
-	'blocking software',
-];
+	'blocking software'
+]
 
-const adshieldDomainSize = adshieldDomains.length;
+const AdshieldDomainsize = AdshieldDomains.length
 
 // eslint-disable-next-line no-bitwise
-export const getRandomAdShieldHost = () => adshieldDomains[(Math.random() * adshieldDomainSize) >>> 0];
+export const GetRandomAdShieldHost = () => AdshieldDomains[(Math.random() * AdshieldDomainsize) >>> 0]
 
-export const isAdShieldCall = (trace = justifyCallStack()) => {
-	if (trace.length === 0) {
-		return false;
+export const IsAdShieldCall = (Trace = JustifyCallStack()) => {
+	if (Trace.length === 0) {
+		return false
 	}
 
-	if (hasSubstringSetsInString(trace[trace.length - 1], adshieldDomains)) {
-		return true;
+	if (HasSubstringSetsInString(Trace[Trace.length - 1], AdshieldDomains)) {
+		return true
 	}
 
-	const url = new URL(trace[trace.length - 1]);
+	const Url = new URL(Trace[Trace.length - 1])
 
-	if (url.hostname !== location.hostname && url.pathname === '/loader.min.js') {
-		return true;
+	if (Url.hostname !== location.hostname && Url.pathname === '/loader.min.js') {
+		return true
 	}
 
-	return false;
-};
+	return false
+}

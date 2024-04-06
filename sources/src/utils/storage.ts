@@ -1,26 +1,26 @@
-import {protectFunctionDescriptors, secret} from './secret.js';
+import {ProtectFunctionDescriptors, Secret} from './secret.js'
 
-const protectedPrefix = 'asdf-';
+const ProtectedPrefix = 'asdf-'
 
-export const protectStorageApis = () => {
-	protectFunctionDescriptors(window.Storage.prototype, 'setItem', {
-		checkArgumentFunctions: [
-			argArray => !(argArray[0] as string).startsWith(protectedPrefix) || argArray[2] === secret,
-		],
-	});
-	protectFunctionDescriptors(window.Storage.prototype, 'removeItem', {
-		checkArgumentFunctions: [
-			argArray => !(argArray[0] as string).startsWith(protectedPrefix) || argArray[1] === secret,
-		],
-	});
-	protectFunctionDescriptors(window.Storage.prototype, 'clear');
-};
+export const ProtectStorageApis = () => {
+	ProtectFunctionDescriptors(window.Storage.prototype, 'setItem', {
+		CheckArgumentFunctions: [
+			ArgArray => !(ArgArray[0] as string).startsWith(ProtectedPrefix) || ArgArray[2] === Secret
+		]
+	})
+	ProtectFunctionDescriptors(window.Storage.prototype, 'removeItem', {
+		CheckArgumentFunctions: [
+			ArgArray => !(ArgArray[0] as string).startsWith(ProtectedPrefix) || ArgArray[1] === Secret
+		]
+	})
+	ProtectFunctionDescriptors(window.Storage.prototype, 'clear')
+}
 
-export const pull = (key: string): string | undefined =>
+export const Pull = (Key: string): string | undefined =>
 // @ts-expect-error secret is used to validate internal calls
-	localStorage.getItem(protectedPrefix + key, secret);
+	localStorage.getItem(ProtectedPrefix + Key, Secret)
 
-export const push = (key: string, value: string): void => {
+export const Push = (Key: string, Value: string): void => {
 	// @ts-expect-error secret is used to validate internal calls
-	localStorage.setItem(protectedPrefix + key, value, secret);
-};
+	localStorage.setItem(ProtectedPrefix + Key, Value, Secret)
+}

@@ -1,181 +1,177 @@
-import * as cache from '../cache/ztinywave.js';
-import {getResourceToken, predefinedToken, resolveResourceUrls} from '../adshield/resources.js';
-import {type Entity, EntityTypes, insertEntities, putCachedEntities, tryCachedEntities} from '../utils/entities.js';
-import {documentReady} from '../utils/frame.js';
-import {createDebug} from '../utils/logger.js';
+import * as cache from '../cache/ztinywave.js'
+import {GetResourceToken, ResolveResourceUrls} from '../adshield/resources.js'
+import {type Entity, EntityTypes, InsertEntities, PutCachedEntities, TryCachedEntities} from '../utils/entities.js'
+import {DocumentReady} from '../utils/frame.js'
+import {CreateDebug} from '../utils/logger.js'
 
-type Data = Array<{tags: string}>;
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type Data = Array<{tags: string}>
 
-const debug = createDebug('ztinywave');
+const Debug = CreateDebug('ztinywave')
 
-const decode = (payload: string) => {
-	const id = payload.slice(0, 4);
-	const key = cache.source.find(store => store.id === id);
+const Decode = (Payload: string) => {
+	const Id = Payload.slice(0, 4)
+	const Key = cache.source.find(Store => Store.id === Id)
 
-	if (!key) {
-		throw new Error('DEFUSER_ZTINYWAVE_KEY_NOT_FOUND');
+	if (!Key) {
+		throw new Error('DEFUSER_ZTINYWAVE_KEY_NOT_FOUND')
 	}
 
-	const ra = String.fromCharCode(key.reserved1);
-	const rb = String.fromCharCode(key.reserved2);
+	const Ra = String.fromCharCode(Key.reserved1)
+	const Rb = String.fromCharCode(Key.reserved2)
 
-	const unwrap = (input: string, output: string, char: string) => {
-		const index = output.indexOf(char);
+	const Unwrap = (Input: string, Output: string, Char: string) => {
+		const Index = Output.indexOf(Char)
 
-		if (index >= 0) {
-			return input[index];
+		if (Index >= 0) {
+			return Input[Index]
 		}
 
-		return char;
-	};
+		return Char
+	}
 
-	let mode = 0;
+	let Mode = 0
 
-	const data = payload
+	const Data = Payload
 		.slice(4)
 		.split('')
-		.map(char => {
-			if (!mode) {
-				if (char === ra) {
-					mode = 1;
+		.map(Char => {
+			if (!Mode) {
+				if (Char === Ra) {
+					Mode = 1
 
-					return '';
+					return ''
 				}
 
-				if (char === rb) {
-					mode = 2;
+				if (Char === Rb) {
+					Mode = 2
 
-					return '';
+					return ''
 				}
 			}
 
-			if (mode === 1) {
-				mode = 0;
+			if (Mode === 1) {
+				Mode = 0
 
-				if (key.reserved1Output.includes(char)) {
-					return unwrap(key.reserved1Input, key.reserved1Output, char);
+				if (Key.reserved1Output.includes(Char)) {
+					return Unwrap(Key.reserved1Input, Key.reserved1Output, Char)
 				}
 
-				return unwrap(key.input, key.output, char) + char;
+				return Unwrap(Key.input, Key.output, Char) + Char
 			}
 
-			if (mode === 2) {
-				mode = 0;
+			if (Mode === 2) {
+				Mode = 0
 
-				if (key.reserved2Output.includes(char)) {
-					return unwrap(key.reserved2Input, key.reserved2Output, char);
+				if (Key.reserved2Output.includes(Char)) {
+					return Unwrap(Key.reserved2Input, Key.reserved2Output, Char)
 				}
 
-				return unwrap(key.input, key.output, char) + char;
+				return Unwrap(Key.input, Key.output, Char) + Char
 			}
 
-			return unwrap(key.input, key.output, char);
+			return Unwrap(Key.input, Key.output, Char)
 		})
-		.join('');
+		.join('')
 
-	return JSON.parse(data) as Data;
-};
+	return JSON.parse(Data) as Data
+}
 
-const extract = async () => {
-	const sources: Array<{
-		script: string;
-		data: string;
-	}> = [];
+const Extract = async () => {
+	const Sources: Array<{
+		Script: string;
+		Data: string;
+	}> = []
 
-	const pick = () => {
-		const targets: NodeListOf<HTMLScriptElement> = document.querySelectorAll('script[data]:not([data=""]),script[wp-data]:not([wp-data=""])')!;
+	const Pick = () => {
+		const Targets: NodeListOf<HTMLScriptElement> = document.querySelectorAll('script[data]:not([data=""]),script[wp-data]:not([wp-data=""])')!
 
-		for (const target of targets) {
-			const script = target.getAttribute('src');
-			const data = target.getAttribute('data');
+		for (const Target of Targets) {
+			const Script = Target.getAttribute('src')
+			const Data = Target.getAttribute('data')
 
-			if (script && data) {
-				sources.push({
-					script,
-					data,
-				});
+			if (Script && Data) {
+				Sources.push({
+					Script,
+					Data
+				})
 			}
 		}
-	};
-
-	pick();
-
-	if (sources.length === 0) {
-		await documentReady(document);
-
-		pick();
 	}
 
-	if (sources.length === 0) {
-		throw new Error('DEFUSER_ZTINYWAVE_TARGET_NOT_FOUND');
+	Pick()
+
+	if (Sources.length === 0) {
+		await DocumentReady(document)
+
+		Pick()
 	}
 
-	return sources;
-};
-
-export const tinywave = async () => {
-	const isCachedEntitiesPassed = await tryCachedEntities()
-		.catch((error: Error) => {
-			debug('Failed to initialise cached entities', error);
-
-			return false;
-		});
-
-	if (isCachedEntitiesPassed) {
-		return;
+	if (Sources.length === 0) {
+		throw new Error('DEFUSER_ZTINYWAVE_TARGET_NOT_FOUND')
 	}
 
-	const entities: Entity[] = [];
+	return Sources
+}
 
-	const sources = await extract();
-	const sourcesResolves = sources.map(async source => {
-		debug('source', source);
+export const Tinywave = async () => {
+	const IsCachedEntitiesPassed = await TryCachedEntities()
+		.catch((Errors: Error) => {
+			Debug('Failed to initialise cached entities', Errors)
 
-		const payload = decode(source.data);
+			return false
+		})
 
-		debug('payload', payload);
+	if (IsCachedEntitiesPassed) {
+		return
+	}
 
-		const publicEntities: Entity[] = [];
-		const privateEntities: Entity[] = [];
+	const Entities: Entity[] = []
 
-		for (const item of payload) {
-			if (item.tags) {
-				if (item.tags.includes('resources://')) {
-					privateEntities.push({
+	const Sources = await Extract()
+	const SourcesResolves = Sources.map(async Source => {
+		Debug('source', Source)
+
+		const Payload = Decode(Source.Data)
+
+		Debug('payload', Payload)
+
+		const PublicEntities: Entity[] = []
+		const PrivateEntities: Entity[] = []
+
+		for (const Item of Payload) {
+			if (Item.tags) {
+				if (Item.tags.includes('resources://')) {
+					PrivateEntities.push({
 						type: EntityTypes.Head,
-						html: item.tags,
-					});
+						html: Item.tags
+					})
 				} else {
-					publicEntities.push({
+					PublicEntities.push({
 						type: EntityTypes.Head,
-						html: item.tags,
-					});
+						html: Item.tags
+					})
 				}
 			}
 		}
 
-		void insertEntities(publicEntities);
+		void InsertEntities(PublicEntities)
 
-		const token = await getResourceToken(source.script)
-			.catch(e => {
-				debug('DEFUSER_ZTINYWAVE_RESOURCE_TOKEN_NOT_FOUND', e);
+		const Token = await GetResourceToken(Source.Script)
 
-				return predefinedToken;
-			});
-
-		for (const entity of privateEntities) {
-			if (entity.type === EntityTypes.Head) {
+		for (const Entity of PrivateEntities) {
+			if (Entity.type === EntityTypes.Head) {
 				// eslint-disable-next-line no-await-in-loop
-				entity.html = await resolveResourceUrls(entity.html, token);
+				Entity.html = await ResolveResourceUrls(Entity.html, Token)
 			}
 		}
 
-		void insertEntities(privateEntities);
+		void InsertEntities(PrivateEntities)
 
-		entities.push(...publicEntities, ...privateEntities);
-	});
+		Entities.push(...PublicEntities, ...PrivateEntities)
+	})
 
-	debug('sources resolves', await Promise.allSettled(sourcesResolves));
+	Debug('sources resolves', await Promise.allSettled(SourcesResolves))
 
-	putCachedEntities(entities);
-};
+	PutCachedEntities(Entities)
+}

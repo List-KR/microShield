@@ -1,9 +1,9 @@
-export const createDebug = (namespace: string) => {
-	const header = `[asdefuser:${namespace}]`;
+export const CreateDebug = (Namespace: string) => {
+	const Header = `[asdefuser:${Namespace}]`
 
 	return new Proxy(console.debug, {
-		apply(target, thisArg, argArray) {
-			Reflect.apply(target, thisArg, [header, ...argArray as unknown[]]);
-		},
-	});
-};
+		apply(Target, ThisArg, ArgArray) {
+			Reflect.apply(Target, ThisArg, [Header, ...ArgArray as unknown[]])
+		}
+	})
+}

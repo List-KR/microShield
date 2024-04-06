@@ -1,17 +1,17 @@
-export const isMainFrame = () => {
+export const IsMainFrame = () => {
 	try {
-		return window.self === window.top;
+		return window.self === window.top
 	} catch (_e) {
-		return false;
+		return false
 	}
-};
+}
 
-export const documentReady = async (doc = document) => {
-	if (doc.readyState === 'loading') {
-		return new Promise<void>(resolve => {
-			doc.addEventListener('readystatechange', () => {
-				resolve();
-			});
-		});
+export const DocumentReady = async (Doc = document) => {
+	if (Doc.readyState === 'loading') {
+		return new Promise<void>(Resolve => {
+			Doc.addEventListener('readystatechange', () => {
+				Resolve()
+			})
+		})
 	}
-};
+}

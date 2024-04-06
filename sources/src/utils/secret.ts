@@ -1,145 +1,146 @@
-import {adshieldKeywords, isAdShieldCall} from '../adshield/validators.js';
-import {config} from '../config.js';
-import {generateCallStack} from './call-stack.js';
-import {createDebug} from './logger.js';
-import {hasSubstringSetsInString} from './string.js';
+import {AdshieldKeywords, IsAdShieldCall} from '../adshield/validators.js'
+import {Config} from '../config.js'
+import {GenerateCallStack} from './call-stack.js'
+import {CreateDebug} from './logger.js'
+import {HasSubstringSetsInString} from './string.js'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type ArbitaryObject = object;
+type ArbitaryObject = object
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Fomulate = ((...args: any[]) => any) & Function;
+// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
+type Fomulate = ((...args: any[]) => any) & Function
 
-const debug = createDebug('secret');
+const Debug = CreateDebug('secret')
 
-export const secret = (Date.now() * Math.random()).toString(36);
+export const Secret = (Date.now() * Math.random()).toString(36)
 
 export type ProtectedFunctionCreationOptions = Partial<{
-	name: string;
-	checkArguments: boolean;
-	checkOutputs: boolean;
-	checkArgumentFunctions: Array<(argArray: any[]) => boolean>;
-}>;
+	Name: string;
+	CheckArguments: boolean;
+	CheckOutputs: boolean;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	CheckArgumentFunctions: Array<(argArray: any[]) => boolean>;
+}>
 
-const pprintCall = (name?: string, wasBlocked?: boolean, v?: unknown) => {
-	debug(wasBlocked ? '-' : '+', 'name=' + name, 'v=', v, 'stack=', generateCallStack());
-};
+const PprintCall = (Name?: string, WasBlocked?: boolean, V?: unknown) => {
+	Debug(WasBlocked ? '-' : '+', 'name=' + Name, 'v=', V, 'stack=', GenerateCallStack())
+}
 
-export const protectFunction = <F extends Fomulate>(f: F, options: ProtectedFunctionCreationOptions) => new Proxy(f, {
-	apply(target, thisArg, argArray) {
-		const e = () => {
-			pprintCall(options.name, true, argArray);
+export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunctionCreationOptions) => new Proxy(F, {
+	apply(Target, ThisArg, ArgArray) {
+		const E = () => {
+			PprintCall(Options.Name, true, ArgArray)
 
-			throw new Error();
-		};
-
-		if (isAdShieldCall()) {
-			e();
+			throw new Error()
 		}
 
-		if (options.checkArguments) {
-			for (const arg of argArray.filter(arg => typeof arg === 'string') as string[]) {
-				if (hasSubstringSetsInString(arg, adshieldKeywords)) {
-					e();
+		if (IsAdShieldCall()) {
+			E()
+		}
+
+		if (Options.CheckArguments) {
+			for (const Arg of ArgArray.filter(Arg => typeof Arg === 'string') as string[]) {
+				if (HasSubstringSetsInString(Arg, AdshieldKeywords)) {
+					E()
 				}
 			}
 		}
 
-		if (options.checkArgumentFunctions) {
-			for (const checkFunction of options.checkArgumentFunctions) {
-				if (!checkFunction(argArray)) {
-					e();
+		if (Options.CheckArgumentFunctions) {
+			for (const CheckFunction of Options.CheckArgumentFunctions) {
+				if (!CheckFunction(ArgArray)) {
+					E()
 				}
 			}
 		}
 
-		if (options.checkOutputs) {
-			const output = Reflect.apply(target, thisArg, argArray) as string;
+		if (Options.CheckOutputs) {
+			const Output = Reflect.apply(Target, ThisArg, ArgArray) as string
 
-			if (hasSubstringSetsInString(output.toLowerCase(), adshieldKeywords)) {
-				e();
+			if (HasSubstringSetsInString(Output.toLowerCase(), AdshieldKeywords)) {
+				E()
 			}
 		}
 
-		if (config.debug) {
-			pprintCall(options.name, false, argArray);
+		if (Config.Debug) {
+			PprintCall(Options.Name, false, ArgArray)
 		}
 
-		return Reflect.apply(target, thisArg, argArray) as unknown;
+		return Reflect.apply(Target, ThisArg, ArgArray) as unknown
 	},
-	setPrototypeOf(target, v) {
-		pprintCall(options.name, true, v);
+	setPrototypeOf(Target, V) {
+		PprintCall(Options.Name, true, V)
 
-		throw new Error();
-	},
-});
+		throw new Error()
+	}
+})
 
-export const protectedDescriptors = new Set<unknown>();
+export const ProtectedDescriptors = new Set<unknown>()
 
-export const protectDescriptors = <T extends ArbitaryObject, K extends keyof T>(o: T, key: K, newProperty: T[K]) => {
-	if (protectedDescriptors.size === 0) {
-		const defineProperty = protectFunction(Object.defineProperty, {
-			checkArgumentFunctions: [
-				argArray => !protectedDescriptors.has(argArray[0][argArray[1]]),
-			],
-		});
-		const defineProperties = protectFunction(Object.defineProperties, {
-			checkArgumentFunctions: [
-				argArray => {
-					for (const targetProperty of Object.keys(argArray[1] as ArbitaryObject) as K[]) {
-						if (protectedDescriptors.has(argArray[0][targetProperty])) {
-							return false;
+export const ProtectDescriptors = <T extends ArbitaryObject, K extends keyof T>(O: T, Key: K, NewProperty: T[K]) => {
+	if (ProtectedDescriptors.size === 0) {
+		const DefineProperty = ProtectFunction(Object.defineProperty, {
+			CheckArgumentFunctions: [
+				ArgArray => !ProtectedDescriptors.has(ArgArray[0][ArgArray[1]])
+			]
+		})
+		const DefineProperties = ProtectFunction(Object.defineProperties, {
+			CheckArgumentFunctions: [
+				ArgArray => {
+					for (const TargetProperty of Object.keys(ArgArray[1] as ArbitaryObject) as K[]) {
+						if (ProtectedDescriptors.has(ArgArray[0][TargetProperty])) {
+							return false
 						}
 					}
 
-					return true;
-				},
-			],
-		});
+					return true
+				}
+			]
+		})
 
-		protectedDescriptors.add(defineProperties);
-		protectedDescriptors.add(defineProperty);
+		ProtectedDescriptors.add(DefineProperties)
+		ProtectedDescriptors.add(DefineProperty)
 
 		Object.defineProperty(window.Object, 'defineProperty', {
 			get() {
-				return defineProperty;
-			},
-		});
+				return DefineProperty
+			}
+		})
 		Object.defineProperties(window.Object, {
 			defineProperty: {
 				get() {
-					return defineProperty;
-				},
+					return DefineProperty
+				}
 			},
 			defineProperties: {
 				get() {
-					return defineProperties;
-				},
-			},
-		});
+					return DefineProperties
+				}
+			}
+		})
 	}
 
-	Object.defineProperty(o, key, {
-		value: newProperty,
-	});
+	Object.defineProperty(O, Key, {
+		value: NewProperty
+	})
 
-	protectedDescriptors.add(newProperty);
-};
+	ProtectedDescriptors.add(NewProperty)
+}
 
 type ExtractFunctionPropertyNames<T extends ArbitaryObject> = {
 	[P in keyof T]: T[P] extends Fomulate ? P : never
-}[keyof T];
+}[keyof T]
 
-export const protectFunctionDescriptors = <T extends ArbitaryObject, K extends ExtractFunctionPropertyNames<T>>(o: T, key: K, options?: ProtectedFunctionCreationOptions) => {
-	const property = o[key] as T[K] & Fomulate;
+export const ProtectFunctionDescriptors = <T extends ArbitaryObject, K extends ExtractFunctionPropertyNames<T>>(O: T, Key: K, Options?: ProtectedFunctionCreationOptions) => {
+	const Property = O[Key] as T[K] & Fomulate
 
-	if (options === undefined) {
-		options = {};
+	if (Options === undefined) {
+		Options = {}
 	}
 
-	if (options.name === undefined) {
-		options.name = property.name;
+	if (Options.Name === undefined) {
+		Options.Name = Property.name
 	}
 
-	protectDescriptors(o, key, protectFunction(property, options) as T[K]);
-};
+	ProtectDescriptors(O, Key, ProtectFunction(Property, Options) as T[K])
+}

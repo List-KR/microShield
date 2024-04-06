@@ -1,60 +1,60 @@
-export const generateCallStack = () => {
-	const e = new Error();
+export const GenerateCallStack = () => {
+	const E = new Error()
 
-	if (!e.stack) {
-		throw new Error('Stack trace is not available!');
+	if (!E.stack) {
+		throw new Error('Stack trace is not available!')
 	}
 
-	return e.stack;
-};
+	return E.stack
+}
 
-export const parseCallStack = (stack = generateCallStack()) => {
-	if (stack.includes('@')) {
-		const raw = stack.split('\n').slice(2);
-		const trace: string[] = [];
+export const ParseCallStack = (Stack = GenerateCallStack()) => {
+	if (Stack.includes('@')) {
+		const Raw = Stack.split('\n').slice(2)
+		const Trace: string[] = []
 
 		if (navigator.userAgent.includes('Firefox/')) {
-			raw.splice(-1, 1);
+			Raw.splice(-1, 1)
 		}
 
-		for (const line of raw) {
-			const start = line.indexOf('@') + 1;
-			const lastColon = line.lastIndexOf(':');
-			const dump = lastColon < 0 ? line.slice(start) : line.slice(start, line.lastIndexOf(':', lastColon - 1));
+		for (const Line of Raw) {
+			const Start = Line.indexOf('@') + 1
+			const LastColon = Line.lastIndexOf(':')
+			const Dump = LastColon < 0 ? Line.slice(Start) : Line.slice(Start, Line.lastIndexOf(':', LastColon - 1))
 
-			trace.push(dump);
+			Trace.push(Dump)
 		}
 
-		return trace;
+		return Trace
 	}
 
-	const raw = stack.slice(6).split('\n').slice(2);
-	const trace: string[] = [];
+	const Raw = Stack.slice(6).split('\n').slice(2)
+	const Trace: string[] = []
 
-	for (const line of raw) {
-		const dump = line.slice(
-			(line.indexOf('(') + 1) || line.indexOf('at') + 3,
-			line.lastIndexOf(':', line.lastIndexOf(':') - 1),
-		);
+	for (const Line of Raw) {
+		const Dump = Line.slice(
+			(Line.indexOf('(') + 1) || Line.indexOf('at') + 3,
+			Line.lastIndexOf(':', Line.lastIndexOf(':') - 1),
+		)
 
-		trace.push(dump);
+		Trace.push(Dump)
 	}
 
-	return trace;
-};
+	return Trace
+}
 
-export const justifyCallStack = (stack = parseCallStack()) => {
-	let skipLines = 0;
+export const JustifyCallStack = (Stack = ParseCallStack()) => {
+	let SkipLines = 0
 
-	for (const line of stack) {
-		const index = line.indexOf('://');
+	for (const Line of Stack) {
+		const Index = Line.indexOf('://')
 
-		if (index === 5 || index === 4) {
-			break;
+		if (Index === 5 || Index === 4) {
+			break
 		}
 
-		skipLines++;
+		SkipLines++
 	}
 
-	return stack.slice(skipLines);
-};
+	return Stack.slice(SkipLines)
+}
