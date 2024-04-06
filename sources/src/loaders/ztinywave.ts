@@ -1,155 +1,181 @@
-import * as ZtinywaveCache from '../cache/ztinywave.js'
-import * as Ztinywaved from './ztinywaved.js'
-import * as ZtinywaveRemoted from './ztinywave-remoted.js'
-import {DocumentReady, CreateDebug} from '../utils.js'
+import * as cache from '../cache/ztinywave.js';
+import {getResourceToken, predefinedToken, resolveResourceUrls} from '../adshield/resources.js';
+import {type Entity, EntityTypes, insertEntities, putCachedEntities, tryCachedEntities} from '../utils/entities.js';
+import {documentReady} from '../utils/frame.js';
+import {createDebug} from '../utils/logger.js';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-type Data = Array<{tags: string}>
+type Data = Array<{tags: string}>;
 
-const Debug = CreateDebug('[microShield:tinywave]')
+const debug = createDebug('ztinywave');
 
-const Decode = async (Payload: string, ScriptURL: string) => {
-	const Id = Payload.slice(0, 4)
-	const Key = ZtinywaveCache.source.find(Store => Store.id === Id)
+const decode = (payload: string) => {
+	const id = payload.slice(0, 4);
+	const key = cache.source.find(store => store.id === id);
 
-	if (!Key) {
-		throw new Error('DEFUSER_TINYWAVE_KEY_NOT_FOUND')
+	if (!key) {
+		throw new Error('DEFUSER_ZTINYWAVE_KEY_NOT_FOUND');
 	}
 
-	const Ra = String.fromCharCode(Key.reserved1)
-	const Rb = String.fromCharCode(Key.reserved2)
+	const ra = String.fromCharCode(key.reserved1);
+	const rb = String.fromCharCode(key.reserved2);
 
-	const Unwrap = (Input: string, Output: string, Char: string) => {
-		const Index = Output.indexOf(Char)
+	const unwrap = (input: string, output: string, char: string) => {
+		const index = output.indexOf(char);
 
-		if (Index >= 0) {
-			return Input[Index]
+		if (index >= 0) {
+			return input[index];
 		}
 
-		return Char
-	}
+		return char;
+	};
 
-	let Mode = 0
+	let mode = 0;
 
-	let Data = Payload
+	const data = payload
 		.slice(4)
 		.split('')
-		.map(Char => {
-			if (!Mode) {
-				if (Char === Ra) {
-					Mode = 1
+		.map(char => {
+			if (!mode) {
+				if (char === ra) {
+					mode = 1;
 
-					return ''
+					return '';
 				}
 
-				if (Char === Rb) {
-					Mode = 2
+				if (char === rb) {
+					mode = 2;
 
-					return ''
+					return '';
 				}
 			}
 
-			if (Mode === 1) {
-				Mode = 0
+			if (mode === 1) {
+				mode = 0;
 
-				if (Key.reserved1Output.includes(Char)) {
-					return Unwrap(Key.reserved1Input, Key.reserved1Output, Char)
+				if (key.reserved1Output.includes(char)) {
+					return unwrap(key.reserved1Input, key.reserved1Output, char);
 				}
 
-				return Unwrap(Key.input, Key.output, Char) + Char
+				return unwrap(key.input, key.output, char) + char;
 			}
 
-			if (Mode === 2) {
-				Mode = 0
+			if (mode === 2) {
+				mode = 0;
 
-				if (Key.reserved2Output.includes(Char)) {
-					return Unwrap(Key.reserved2Input, Key.reserved2Output, Char)
+				if (key.reserved2Output.includes(char)) {
+					return unwrap(key.reserved2Input, key.reserved2Output, char);
 				}
 
-				return Unwrap(Key.input, Key.output, Char) + Char
+				return unwrap(key.input, key.output, char) + char;
 			}
 
-			return Unwrap(Key.input, Key.output, Char)
+			return unwrap(key.input, key.output, char);
 		})
-		.join('')
+		.join('');
 
-	const ScriptHostname = new URL(ScriptURL.startsWith('//') ? `https:${ScriptURL}` : ScriptURL).hostname
-	await Ztinywaved.CreateCacheItem(Data, ScriptHostname)
-	if (Data.includes('resources://')) {
-		Debug('downloading remote resource from Ad-Shield is required', {Id: Key.id, data: Data})
-		const Token = await ZtinywaveRemoted.GetAcessToken(ScriptHostname)
-		Data = ZtinywaveRemoted.ReplaceResourceURLs(Data, Token, ScriptHostname)
-	}
-	return JSON.parse(Data) as Data
-}
+	return JSON.parse(data) as Data;
+};
 
-const Restore = (Data: Data) => {
-	Debug('restore')
-
-	let Failed = 0
-
-	for (const Entry of Data) {
-		try {
-			if (Entry.tags) {
-				document.head.insertAdjacentHTML('beforeend', Entry.tags)
-			}
-		} catch (error) {
-			Debug('restore error=', error)
-
-			Failed++
-		}
-	}
-
-	Debug(`restore total=${Data.length} failed=${Failed}`)
-}
-
-const Extract = async () => {
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	let source: {
-		// eslint-disable-next-line @typescript-eslint/naming-convention
+const extract = async () => {
+	const sources: Array<{
 		script: string;
-		// eslint-disable-next-line @typescript-eslint/naming-convention
 		data: string;
-	} | undefined
+	}> = [];
 
-	const Pick = () => {
-		const Target: HTMLScriptElement = document.querySelector('script[data]:not([data=""])')!
+	const pick = () => {
+		const targets: NodeListOf<HTMLScriptElement> = document.querySelectorAll('script[data]:not([data=""]),script[wp-data]:not([wp-data=""])')!;
 
-		if (Target) {
-			const Script = Target.getAttribute('src')
-			const Data = Target.getAttribute('data')
+		for (const target of targets) {
+			const script = target.getAttribute('src');
+			const data = target.getAttribute('data');
 
-			if (Script && Data) {
-				source = {
-					script: Script,
-					data: Data
+			if (script && data) {
+				sources.push({
+					script,
+					data,
+				});
+			}
+		}
+	};
+
+	pick();
+
+	if (sources.length === 0) {
+		await documentReady(document);
+
+		pick();
+	}
+
+	if (sources.length === 0) {
+		throw new Error('DEFUSER_ZTINYWAVE_TARGET_NOT_FOUND');
+	}
+
+	return sources;
+};
+
+export const tinywave = async () => {
+	const isCachedEntitiesPassed = await tryCachedEntities()
+		.catch((error: Error) => {
+			debug('Failed to initialise cached entities', error);
+
+			return false;
+		});
+
+	if (isCachedEntitiesPassed) {
+		return;
+	}
+
+	const entities: Entity[] = [];
+
+	const sources = await extract();
+	const sourcesResolves = sources.map(async source => {
+		debug('source', source);
+
+		const payload = decode(source.data);
+
+		debug('payload', payload);
+
+		const publicEntities: Entity[] = [];
+		const privateEntities: Entity[] = [];
+
+		for (const item of payload) {
+			if (item.tags) {
+				if (item.tags.includes('resources://')) {
+					privateEntities.push({
+						type: EntityTypes.Head,
+						html: item.tags,
+					});
+				} else {
+					publicEntities.push({
+						type: EntityTypes.Head,
+						html: item.tags,
+					});
 				}
 			}
 		}
-	}
 
-	Pick()
+		void insertEntities(publicEntities);
 
-	if (!source) {
-		await DocumentReady(document)
+		const token = await getResourceToken(source.script)
+			.catch(e => {
+				debug('DEFUSER_ZTINYWAVE_RESOURCE_TOKEN_NOT_FOUND', e);
 
-		Pick()
-	}
+				return predefinedToken;
+			});
 
-	if (!source) {
-		throw new Error('DEFUSER_SHORTWAVE_TARGET_NOT_FOUND')
-	}
+		for (const entity of privateEntities) {
+			if (entity.type === EntityTypes.Head) {
+				// eslint-disable-next-line no-await-in-loop
+				entity.html = await resolveResourceUrls(entity.html, token);
+			}
+		}
 
-	return await Decode(source.data, source.script)
-}
+		void insertEntities(privateEntities);
 
-export const Tinywave = async () => {
-	// If Ztinywaved.WindowLoad fails, it will return 1. Otherwise, it will return 0.
-	await Ztinywaved.WindowLoad()
-	
-	const Payload = await Extract()
+		entities.push(...publicEntities, ...privateEntities);
+	});
 
-	Debug('payload', Payload)
+	debug('sources resolves', await Promise.allSettled(sourcesResolves));
 
-	Restore(Payload)
-}
+	putCachedEntities(entities);
+};
