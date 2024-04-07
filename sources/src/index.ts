@@ -1,5 +1,6 @@
 import {AdshieldKeywords} from './adshield/validators.js'
 import {Tinywave} from './loaders/ztinywave.js'
+import {BaseDrop} from './loaders/basedrop.js'
 import {DocumentReady} from './utils/frame.js'
 import {CreateDebug} from './utils/logger.js'
 import {ProtectFunctionDescriptors} from './utils/secret.js'
@@ -72,6 +73,7 @@ const Observe = () => {
 const Bootstrap = () => {
 	Hook()
 	void Tinywave()
+	void BaseDrop()
 
 	void DocumentReady()
 		.then(() => {
