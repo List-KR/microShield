@@ -90,7 +90,7 @@ export const ProtectDescriptors = <T extends ArbitaryObject, K extends keyof T>(
 	if (ProtectedDescriptors.size === 0) {
 		const DefineProperty = ProtectFunction(Object.defineProperty, {
 			CheckArgumentFunctions: [
-				ArgArray => !ProtectedDescriptors.has(ArgArray[0][ArgArray[1]])
+				// ArgArray => !ProtectedDescriptors.has(ArgArray[0][ArgArray[1]])
 			]
 		})
 		const DefineProperties = ProtectFunction(Object.defineProperties, {
