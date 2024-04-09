@@ -30,7 +30,7 @@ const Hook = () => {
 
 	// Timer
 	ProtectFunctionDescriptors(Win, 'setInterval')
-	ProtectFunctionDescriptors(Win, 'setTimeout')
+	ProtectFunctionDescriptors(Win, 'setTimeout', {CheckArguments: true})
 
 	// Scripting
 	ProtectFunctionDescriptors(Win.Element.prototype, 'setAttribute', {CheckArguments: true})
