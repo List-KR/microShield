@@ -17,7 +17,9 @@ export const AdshieldDomains = [
 	'error-report.com',
 	'2aeabdd4-3280-4f03-bc92-1890494f28be.xyz',
 	'e1577bbd-2a7e-4bee-b2fe-12a6406689e5.xyz',
-	'fadeb9a7-2417-4a51-8d99-0421a5622cbe.xyz'
+	'fadeb9a7-2417-4a51-8d99-0421a5622cbe.xyz',
+	'8bf6c3e9-3f4f-40db-89b3-58248f943ce3.online',
+	'b714b1e8-4b7d-4ce9-a248-48fd5472aa0b.online'
 ]
 
 export const AdshieldKeywords = [
