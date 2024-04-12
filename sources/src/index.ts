@@ -55,7 +55,8 @@ const Observe = () => {
 	const Observer = new MutationObserver(Mutations => {
 		for (const Mutation of Mutations) {
 			for (const AddedNode of Mutation.addedNodes) {
-				if (AddedNode instanceof HTMLElement && HasSubstringSetsInString(AddedNode.innerHTML, AdshieldKeywords)) {
+				const Matched = AddedNode instanceof HTMLElement && HasSubstringSetsInString(AddedNode.innerHTML, AdshieldKeywords)
+				if ((Matched && location.hostname !== 'text-compare.com') || (Matched && location.hostname === 'text-compare.com' && AddedNode.className !== 'text-compare')) {
 					AddedNode.remove()
 
 					Debug(AddedNode)
