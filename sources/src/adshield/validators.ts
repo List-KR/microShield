@@ -28,7 +28,8 @@ export const AdshieldDomains = [
 	'safe-load.xyz',
 	'da29e6b8-f018-490f-b25f-39a887fc95e7.xyz',
 	'81ac.xyz',
-	'e076.xyz'
+	'e076.xyz',
+	'b59c.xyz'
 ]
 
 export const AdshieldKeywords = [
