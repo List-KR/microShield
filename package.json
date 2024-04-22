@@ -34,18 +34,18 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/node": "^20.12.4",
+    "@types/node": "^20.12.7",
     "crypto-random-string": "^5.0.0",
     "parse-domain": "^8.0.2"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^1.7.0",
+    "@stylistic/eslint-plugin": "^1.7.2",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
-    "pnpm": "^8.15.6",
-    "typescript": "^5.4.4",
-    "typescript-eslint": "^7.5.0"
+    "pnpm": "^9.0.5",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.7.0"
   }
 }
