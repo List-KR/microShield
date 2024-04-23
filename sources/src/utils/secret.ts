@@ -24,6 +24,7 @@ export const Secret = cryptoRandomString({length: 20})
 export type ProtectedFunctionCreationOptions = Partial<{
 	Name: string;
 	CheckArguments: boolean;
+	CheckErrorStack: string[]
 	CheckOutputs: boolean;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	CheckArgumentFunctions: Array<(argArray: any[]) => boolean>;
@@ -54,6 +55,14 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 
 			for (const Arg of ArgArray.filter(Arg => typeof Arg === 'function') as Fomulate[]) {
 				if (HasSubstringSetsInString(Arg.toString(), AdshieldKeywords)) {
+					E()
+				}
+			}
+		}
+
+		if (Options.CheckErrorStack && HasSubstringSetsInString(location.hostname, Options.CheckErrorStack)) {
+			for (const Arg of ArgArray.filter(Arg => Arg instanceof Error) as Error[]) {
+				if (HasSubstringSetsInString(Arg.stack ?? '', [...AdshieldKeywords, 'microShield'])) {
 					E()
 				}
 			}
