@@ -48,7 +48,7 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 
 		if (Options.CheckArguments) {
 			for (const Arg of ArgArray.filter(Arg => typeof Arg === 'string') as string[]) {
-				if (HasSubstringSetsInString(Arg, AdshieldKeywords, true)) {
+				if (HasSubstringSetsInString(Arg, AdshieldKeywords)) {
 					E()
 				}
 			}
@@ -58,11 +58,17 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 					E()
 				}
 			}
+
+			for (const Arg of ArgArray.filter(Arg => Arg instanceof URL) as URL[]) {
+				if (HasSubstringSetsInString(Arg.href, AdshieldKeywords)) {
+					E()
+				}
+			}
 		}
 
 		if (Options.CheckErrorStack && HasSubstringSetsInString(location.hostname, Options.CheckErrorStack)) {
 			for (const Arg of ArgArray.filter(Arg => Arg instanceof Error) as Error[]) {
-				if (HasSubstringSetsInString(Arg.stack ?? '', [...AdshieldKeywords, 'microShield', `@[native code]\nE@${location.href}:`])) {
+				if (HasSubstringSetsInString(Arg.stack ?? '', [...AdshieldKeywords, 'microShield', `@[native code]\nE@${location.protocol}//${location.hostname + location.pathname}:`])) {
 					E()
 				}
 			}
