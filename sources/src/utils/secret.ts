@@ -58,6 +58,12 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 					E()
 				}
 			}
+
+			for (const Arg of ArgArray.filter(Arg => Arg instanceof URL) as URL[]) {
+				if (HasSubstringSetsInString(Arg.href, AdshieldKeywords)) {
+					E()
+				}
+			}
 		}
 
 		if (Options.CheckErrorStack && HasSubstringSetsInString(location.hostname, Options.CheckErrorStack)) {
