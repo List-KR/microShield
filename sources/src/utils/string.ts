@@ -1,6 +1,6 @@
-export const HasSubstringSetsInString = (Text: string, Substrings: string[], CaseInsensitive?: boolean) => {
+export const HasSubstringSetsInString = (Text: string, Substrings: string[]) => {
 	for (const Substring of Substrings) {
-		if ((CaseInsensitive ? Text.toLowerCase() : Text).includes(Substring)) {
+		if (Text.includes(Substring)) {
 			return true
 		}
 	}
