@@ -42,6 +42,7 @@ const Hook = () => {
 	ProtectFunctionDescriptors(Win, 'atob', {CheckOutputs: true})
 	ProtectFunctionDescriptors(Win, 'decodeURI')
 	ProtectFunctionDescriptors(Win, 'decodeURIComponent')
+	ProtectFunctionDescriptors(Win.console, 'log', {CheckErrorStack: ['jjang0u.com']})
 
 	// Storage
 	ProtectStorageApis()

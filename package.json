@@ -1,13 +1,13 @@
 {
   "name": "microshield",
-  "version": "4.2.19",
+  "version": "4.2.20",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "pnpm bundle",
     "shortwave:cache": "OUTPUT=$(readlink -f ./sources/src/__generated__/shortwave.cache.ts) node sources/scripts/generateShortwaveCache.mjs",
     "ztinywave:cache": "OUTPUT=$(readlink -f ./sources/src/__generated__/ztinywave.cache.ts) node sources/scripts/generateTinywaveCache.mjs",
-    "bundle": "esbuild sources/src/index.ts --bundle --minify --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield.user.js",
+    "bundle": "esbuild sources/src/index.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield.user.js",
     "debug": "esbuild sources/src/index.ts --bundle --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-debug.user.js",
     "lint": "tsc && eslint sources --ext .ts"
   },
