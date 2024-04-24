@@ -48,7 +48,7 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 
 		if (Options.CheckArguments) {
 			for (const Arg of ArgArray.filter(Arg => typeof Arg === 'string') as string[]) {
-				if (HasSubstringSetsInString(Arg, AdshieldKeywords)) {
+				if (HasSubstringSetsInString(Arg, AdshieldKeywords, true)) {
 					E()
 				}
 			}
