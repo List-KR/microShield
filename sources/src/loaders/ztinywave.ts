@@ -115,7 +115,7 @@ const Extract = async () => {
 }
 
 export const Tinywave = async () => {
-	const IsCachedEntitiesPassed = await TryCachedEntities()
+	/*const IsCachedEntitiesPassed = await TryCachedEntities()
 		.catch((Errors: Error) => {
 			Debug('Failed to initialise cached entities', Errors)
 
@@ -124,7 +124,7 @@ export const Tinywave = async () => {
 
 	if (IsCachedEntitiesPassed) {
 		return
-	}
+	}*/
 
 	const Entities: Entity[] = []
 
@@ -175,5 +175,5 @@ export const Tinywave = async () => {
 
 	Debug('sources resolves', await Promise.allSettled(SourcesResolves))
 
-	PutCachedEntities(Entities)
+	// PutCachedEntities(Entities)
 }
