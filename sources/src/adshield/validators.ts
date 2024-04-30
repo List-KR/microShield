@@ -38,7 +38,9 @@ export const AdshieldDomains = [
 	'7fc8.site',
 	'295c.site',
 	'3a2e.site',
-	'58e0.site'
+	'58e0.site',
+	'bbd8.site',
+	'ca3d.site'
 ]
 
 export const AdshieldKeywords = [
