@@ -33,7 +33,13 @@ export const InsertTextEntity = (Entity: TextEntity) => {
 	SelectedNode.remove()
 }
 
+const IsInstailledInAdGuardCoreLib = new Error().stack?.includes('local.adguard.org')
+
 export const InsertHeadEntity = (Entity: HeadEntity) => {
+	if (IsInstailledInAdGuardCoreLib && location.hostname.includes('etoday.co.kr')) {
+		document.querySelectorAll('.sticky-body-spacer, .sticky-body-spacer_sub').forEach(Element => Element.classList.remove('sticky-body-spacer', 'sticky-body-spacer_sub'))
+	}
+
 	document.head.insertAdjacentHTML('beforeend', Entity.Html)
 }
 
