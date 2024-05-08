@@ -1,7 +1,7 @@
 const HardcodedEntities = [
   {
     'domain': 'mydaily.co.kr',
-    'css': ['.header_top > .header_right { 180px !important; }']
+    'css': ['.header_top > .header_right { width: 180px !important; }']
   }
 ]
 
