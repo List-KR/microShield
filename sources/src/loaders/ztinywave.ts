@@ -170,12 +170,13 @@ export const Tinywave = async () => {
 
 		void InsertEntities(PublicEntities)
 
-		const Token = await GetResourceToken(Source.Script)
-
-		for (const Entity of PrivateEntities) {
-			if (Entity.Type === EntityTypes.Head) {
-				// eslint-disable-next-line no-await-in-loop
-				Entity.Html = await ResolveResourceUrls(Entity.Html, Token)
+		if (!location.hostname.includes(Source.Script)) {
+			const Token = await GetResourceToken(Source.Script)
+			for (const Entity of PrivateEntities) {
+				if (Entity.Type === EntityTypes.Head) {
+					// eslint-disable-next-line no-await-in-loop
+					Entity.Html = await ResolveResourceUrls(Entity.Html, Token)
+				}
 			}
 		}
 
