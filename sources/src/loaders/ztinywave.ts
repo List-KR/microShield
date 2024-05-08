@@ -130,16 +130,27 @@ export const Tinywave = async () => {
 	const Entities: Entity[] = []
 
 	const Sources = await Extract()
+	const LoadedHardcoded = LoadHardcoded()
+	if (LoadedHardcoded?.domain) {
+		for (const Item of LoadedHardcoded.css) {
+			Sources.push({
+				Script: LoadedHardcoded.domain,
+				Data: `<style>${Item}</style>`
+			})
+		}
+	}
 	const SourcesResolves = Sources.map(async Source => {
 		Debug('source', Source)
 
-		const Payload = Decode(Source.Data)
+		let Payload = [{tags: Source.Data}]
+		if (!(Source.Data.startsWith('<link') || Source.Data.startsWith('<style'))) {
+			Payload = Decode(Source.Data)
+		}
 
 		Debug('payload', Payload)
 
 		const PublicEntities: Entity[] = []
 		const PrivateEntities: Entity[] = []
-		const HardcodedEntities: Entity[] = []
 
 		for (const Item of Payload) {
 			if (Item.tags) {
@@ -154,16 +165,6 @@ export const Tinywave = async () => {
 						Html: Item.tags
 					})
 				}
-			}
-		}
-
-		const LoadedHardcoded = LoadHardcoded()
-		if (LoadedHardcoded?.domain) {
-			for (const Item of LoadedHardcoded.css) {
-				HardcodedEntities.push({
-					Type: EntityTypes.Head,
-					Html: `<style>${Item}</style>`
-				})
 			}
 		}
 
