@@ -3,6 +3,7 @@ import {GetResourceToken, ResolveResourceUrls} from '../adshield/resources.js'
 import {type Entity, EntityTypes, InsertEntities, PutCachedEntities, TryCachedEntities} from '../utils/entities.js'
 import {DocumentReady} from '../utils/frame.js'
 import {CreateDebug} from '../utils/logger.js'
+import {LoadHardcoded} from '../cache/ztinywave-hardcode.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type Data = Array<{tags: string}>
@@ -129,10 +130,22 @@ export const Tinywave = async () => {
 	const Entities: Entity[] = []
 
 	const Sources = await Extract()
+	const LoadedHardcoded = LoadHardcoded()
+	if (LoadedHardcoded?.domain) {
+		for (const Item of LoadedHardcoded.css) {
+			Sources.push({
+				Script: LoadedHardcoded.domain,
+				Data: `<style>${Item}</style>`
+			})
+		}
+	}
 	const SourcesResolves = Sources.map(async Source => {
 		Debug('source', Source)
 
-		const Payload = Decode(Source.Data)
+		let Payload = [{tags: Source.Data}]
+		if (!(Source.Data.startsWith('<link') || Source.Data.startsWith('<style'))) {
+			Payload = Decode(Source.Data)
+		}
 
 		Debug('payload', Payload)
 
@@ -157,12 +170,13 @@ export const Tinywave = async () => {
 
 		void InsertEntities(PublicEntities)
 
-		const Token = await GetResourceToken(Source.Script)
-
-		for (const Entity of PrivateEntities) {
-			if (Entity.Type === EntityTypes.Head) {
-				// eslint-disable-next-line no-await-in-loop
-				Entity.Html = await ResolveResourceUrls(Entity.Html, Token)
+		if (!location.hostname.includes(Source.Script)) {
+			const Token = await GetResourceToken(Source.Script)
+			for (const Entity of PrivateEntities) {
+				if (Entity.Type === EntityTypes.Head) {
+					// eslint-disable-next-line no-await-in-loop
+					Entity.Html = await ResolveResourceUrls(Entity.Html, Token)
+				}
 			}
 		}
 
