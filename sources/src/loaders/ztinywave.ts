@@ -3,6 +3,7 @@ import {GetResourceToken, ResolveResourceUrls} from '../adshield/resources.js'
 import {type Entity, EntityTypes, InsertEntities, PutCachedEntities, TryCachedEntities} from '../utils/entities.js'
 import {DocumentReady} from '../utils/frame.js'
 import {CreateDebug} from '../utils/logger.js'
+import {LoadHardcoded} from '../cache/ztinywave-hardcode.js'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type Data = Array<{tags: string}>
@@ -138,6 +139,7 @@ export const Tinywave = async () => {
 
 		const PublicEntities: Entity[] = []
 		const PrivateEntities: Entity[] = []
+		const HardcodedEntities: Entity[] = []
 
 		for (const Item of Payload) {
 			if (Item.tags) {
@@ -152,6 +154,16 @@ export const Tinywave = async () => {
 						Html: Item.tags
 					})
 				}
+			}
+		}
+
+		const LoadedHardcoded = LoadHardcoded()
+		if (LoadedHardcoded?.domain) {
+			for (const Item of LoadedHardcoded.css) {
+				HardcodedEntities.push({
+					Type: EntityTypes.Head,
+					Html: `<style>${Item}</style>`
+				})
 			}
 		}
 
