@@ -42,10 +42,10 @@
     "@stylistic/eslint-plugin": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
-    "esbuild": "^0.21.2",
+    "esbuild": "^0.21.3",
     "eslint": "^8.57.0",
-    "pnpm": "^9.1.1",
+    "pnpm": "^9.1.2",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.9.0"
+    "typescript-eslint": "^7.10.0"
   }
 }
