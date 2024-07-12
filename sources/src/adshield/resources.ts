@@ -26,7 +26,7 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 	const Match = /eyJ[\w-]*\.eyJ[\w-]*\.[\w-]*/.exec(Text)
 
 	if (Match === null) {
-		const ResponseHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('asdf')))).map(Block =>Block.toString(16).padStart(2, '0')).join('')
+		const ResponseHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(Text)))).map(Block =>Block.toString(16).padStart(2, '0')).join('')
 		try {
 			return await GetResourceTokenFromCDN(ResponseHash)
 		}
