@@ -23,7 +23,7 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 	const Match = /eyJ[\w-]*\.eyJ[\w-]*\.[\w-]*/.exec(Text)
 
 	if (Match === null) {
-		throw new Error('Failed to match predefined token in the script!')
+		return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MjEyODcxNjQsImlhdCI6MTcyMTIwMDc2NH0.QA2UD-FsX0zEV4ROiWy_QjCS4oIurkuQ5baCgQJyYGg&20240313'
 	}
 
 	return Match[0]
