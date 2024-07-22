@@ -23,7 +23,7 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 	const Match = /eyJ[\w-]*\.eyJ[\w-]*\.[\w-]*/.exec(Text)
 
 	if (Match === null) {
-		return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MjEzODAxMjYsImlhdCI6MTcyMTI5MzcyNn0.JlbJUXErq5odjoYjC2zzNUYVXTOmS6kkmyEizxDQSHk&20240313'
+		return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MjE3MTMzNzYsImlhdCI6MTcyMTYyNjk3Nn0.s5W0rGNt-vbfVLz3bLCCOPzoI1OlmUkmhHJGHXvxH2c&20240620'
 	}
 
 	return Match[0]
