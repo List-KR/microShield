@@ -171,6 +171,17 @@
 // @match        *://*.flatpanelshd.com/*
 // @match        *://sportsseoul.com/*
 // @match        *://*.sportsseoul.com/*
+// @match        *://gloria.hr/*
+// @match        *://*.gloria.hr/*
+// @match        *://videogamemods.com/*
+// @match        *://*.videogamemods.com/*
+// @match        *://adintrend.tv/*
+// @match        *://ark-unity.com/*
+// @match        *://*.ark-unity.com/*
+// @match        *://cool-style.com.tw/*
+// @match        *://*.cool-style.com.tw/*
+// @match        *://dziennik.pl/*
+// @match        *://*.dziennik.pl/*
 //
 // @description        microShield allows AdGuard, uBlock Origin, Brave and ABP to resist against Ad-Shield widely.
 // @description:ko     microShield는 AdGuard, uBlock Origin, Brave 와 ABP가 애드쉴드에 널리 저항할 수 있도록 합니다.
