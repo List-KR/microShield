@@ -41,7 +41,8 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 const GetResourceTokenFromRemote = async (Body: string) => {
 	const XHR = await GM.xmlHttpRequest({
 		url: 'https://microshield.piquark6046.dev/token',
-		data: Body
+		data: Body,
+		method: 'POST'
 	})
 	if (XHR.status !== 200) {
 		throw new Error('Failed to fetch token!')
