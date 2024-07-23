@@ -9,4 +9,20 @@ export type GM = {
 			version: string
 		}
 	}
+	xmlHttpRequest({
+		method,
+		url,
+		headers,
+		responseType,
+		data
+	}: {
+		method?: string,
+		url: string,
+		headers?: Record<string, string>,
+		responseType?: 'text' | 'json',
+		data?: string
+	}): Promise<{
+		status: number
+		response: string
+	}>
 }
