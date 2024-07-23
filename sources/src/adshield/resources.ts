@@ -1,5 +1,8 @@
 import {UnprotectedFetch} from '../utils/secret.js'
 import {GetRandomAdShieldHost} from './validators.js'
+import type {GM} from '../GM.js'
+
+declare const GM: GM
 
 export const GetCachableHtml = async (Url: string) => {
 	const ResponseRaw = await UnprotectedFetch(Url, {
@@ -23,10 +26,37 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 	const Match = /eyJ[\w-]*\.eyJ[\w-]*\.[\w-]*/.exec(Text)
 
 	if (Match === null) {
-		return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiIiwiZW1haWwiOiIiLCJleHAiOjE3MjE3MTMzNzYsImlhdCI6MTcyMTYyNjk3Nn0.s5W0rGNt-vbfVLz3bLCCOPzoI1OlmUkmhHJGHXvxH2c&20240620'
+		const ResponseHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(Text)))).map(Block =>Block.toString(16).padStart(2, '0')).join('')
+		try {
+			return await GetResourceTokenFromCDN(ResponseHash)
+		}
+		catch {
+			return await GetResourceTokenFromRemote(Text)
+		}
 	}
 
 	return Match[0]
+}
+
+const GetResourceTokenFromRemote = async (Body: string) => {
+	const XHR = await GM.xmlHttpRequest({
+		url: 'https://microshield.piquark6046.dev/token',
+		data: Body
+	})
+	if (XHR.status !== 200) {
+		throw new Error('Failed to fetch token!')
+	}
+	return XHR.response
+}
+
+const GetResourceTokenFromCDN = async (Hash: string) => {
+	const XHR = await GM.xmlHttpRequest({
+		url: `https://cdn.jsdelivr.net/gh/List-KR/microShield-token@main/${Hash}`
+	})
+	if (XHR.status !== 200) {
+		throw new Error('Failed to fetch token!')
+	}
+	return XHR.response
 }
 
 export const ResolveResourceUrls = async (Html: string, Token: string) => {
