@@ -51,8 +51,9 @@ const GetResourceTokenFromRemote = async (Body: string) => {
 }
 
 const GetResourceTokenFromCDN = async (Hash: string) => {
+	const CurrentDate = new Date()
 	const XHR = await GM.xmlHttpRequest({
-		url: `https://cdn.jsdelivr.net/gh/List-KR/microShield-token@main/${Hash}`
+		url: `https://cdn.jsdelivr.net/gh/List-KR/microShield-token@main/${CurrentDate.getUTCFullYear()}/${CurrentDate.getUTCMonth()}/${CurrentDate.getUTCDate()}/${Hash}`
 	})
 	if (XHR.status !== 200) {
 		throw new Error('Failed to fetch token!')
