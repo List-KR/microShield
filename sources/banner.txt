@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      4.6.4
+// @version      4.6.5
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
@@ -182,6 +182,8 @@
 // @match        *://*.cool-style.com.tw/*
 // @match        *://dziennik.pl/*
 // @match        *://*.dziennik.pl/*
+// @match        *://eurointegration.com.ua/*
+// @match        *://*.eurointegration.com.ua/*
 //
 // @description        microShield allows AdGuard, uBlock Origin, Brave and ABP to resist against Ad-Shield widely.
 // @description:ko     microShield는 AdGuard, uBlock Origin, Brave 와 ABP가 애드쉴드에 널리 저항할 수 있도록 합니다.
