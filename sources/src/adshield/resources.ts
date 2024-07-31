@@ -27,27 +27,10 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 
 	if (Match === null) {
 		const ResponseHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(Text)))).map(Block =>Block.toString(16).padStart(2, '0')).join('')
-		try {
-			return await GetResourceTokenFromCDN(ResponseHash)
-		}
-		catch {
-			return await GetResourceTokenFromRemote(Text)
-		}
+		return await GetResourceTokenFromCDN(ResponseHash)
 	}
 
 	return Match[0]
-}
-
-const GetResourceTokenFromRemote = async (Body: string) => {
-	const XHR = await GM.xmlHttpRequest({
-		url: 'https://microshield.piquark6046.dev/token',
-		data: Body,
-		method: 'POST'
-	})
-	if (XHR.status !== 200) {
-		throw new Error('Failed to fetch token!')
-	}
-	return XHR.response
 }
 
 const GetResourceTokenFromCDN = async (Hash: string) => {
