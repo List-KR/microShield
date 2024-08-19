@@ -46,6 +46,6 @@
     "eslint": "^9.9.0",
     "pnpm": "^9.1.2",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^7.10.0"
+    "typescript-eslint": "^8.1.0"
   }
 }
