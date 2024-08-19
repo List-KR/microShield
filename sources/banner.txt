@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      4.6.11
+// @version      4.7.0
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
@@ -190,12 +190,22 @@
 // @match        *://*.onlinegdb.com/*
 // @match        *://winfuture.de/*
 // @match        *://*.winfuture.de/*
+// @match        *//hoyme.jp/*
+// @match        *//*.hoyme.jp/*
+// @match        *://pravda.com.ua/*
+// @match        *://*.pravda.com.ua/*
+// @match        *://freemcserver.net/*
+// @match        *://*.freemcserver.net/*
 //
 // @description        microShield allows AdGuard, uBlock Origin, Brave and ABP to resist against Ad-Shield widely.
 // @description:ko     microShield는 AdGuard, uBlock Origin, Brave 와 ABP가 애드쉴드에 널리 저항할 수 있도록 합니다.
 // @description:ja     microShieldはAdGuard、uBlock Origin、Brave、ABPの環境でAd-Shieldを広範囲に回避します。
 //
 // @grant        GM.xmlHttpRequest
+// @grant        GM.getValue
+// @grant        GM.setValue
+// @grant        GM.listValues
+// @grant        GM.deleteValue
 // @run-at       document-start
 // ==/UserScript==
 // Original Srouce Code:

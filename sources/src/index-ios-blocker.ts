@@ -12,7 +12,7 @@ type unsafeWindow = typeof window
 declare const unsafeWindow: unsafeWindow
 
 const Hook = () => {
-	// eslint-disable-next-line no-negated-condition
+	 
 	const Win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window
 
 	// Pollusions

@@ -1,6 +1,6 @@
 {
   "name": "microshield",
-  "version": "4.6.11",
+  "version": "4.7.0",
   "description": "",
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "bundle:iosblocker": "esbuild sources/src/index-ios-blocker.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-ios-blocker.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-ios-blocker.user.js",
     "bundle:iosrecovery": "esbuild sources/src/index-ios-recovery.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-ios-recovery.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-ios-recovery.user.js",
     "debug": "esbuild sources/src/index.ts --bundle --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./microShield-debug.user.js",
-    "lint": "tsc && eslint sources --ext .ts"
+    "lint": "tsc --noEmit && eslint sources"
   },
   "keywords": [],
   "author": {
@@ -36,18 +36,16 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
+    "@list-kr/microshield-token-parser": "^1.0.2",
     "@types/node": "^20.12.12",
     "crypto-random-string": "^5.0.0",
     "parse-domain": "^8.0.2"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^2.1.0",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
-    "@typescript-eslint/parser": "^7.1.1",
     "esbuild": "^0.21.3",
-    "eslint": "^8.57.0",
+    "eslint": "^9.9.0",
     "pnpm": "^9.1.2",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "^7.10.0"
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.1.0"
   }
 }
