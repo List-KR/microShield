@@ -6,6 +6,7 @@ import {CreateDebug} from './utils/logger.js'
 import {ProtectFunctionDescriptors} from './utils/secret.js'
 import {ProtectStorageApis} from './utils/storage.js'
 import {HasSubstringSetsInString} from './utils/string.js'
+import { CheckVersion } from './utils/ucache.js'
 
 type unsafeWindow = typeof window
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -82,5 +83,5 @@ const Bootstrap = () => {
 	// 		Observe()
 	// 	})
 }
-
+CheckVersion()
 Bootstrap()

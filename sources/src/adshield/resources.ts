@@ -1,6 +1,7 @@
 import {UnprotectedFetch} from '../utils/secret.js'
 import {GetRandomAdShieldHost} from './validators.js'
 import type {GM} from '../GM.js'
+import { AdvancedExtractor } from '@list-kr/microshield-token-parser'
 
 declare const GM: GM
 
@@ -27,7 +28,18 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 
 	if (Match === null) {
 		const ResponseHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(Text)))).map(Block =>Block.toString(16).padStart(2, '0')).join('')
-		return await GetResourceTokenFromCDN(ResponseHash)
+		try {
+			return await GetResourceTokenFromCDN(ResponseHash)
+		}
+		catch {
+			if (await GM.getValue(ResponseHash, null) === null) {
+				const Token = new AdvancedExtractor(Text).GetToken()
+				await GM.setValue(ResponseHash, Token)
+				return Token
+			} else {
+				return await GM.getValue(ResponseHash, null)
+			}
+		}
 	}
 
 	return Match[0]

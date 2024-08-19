@@ -196,6 +196,10 @@
 // @description:ja     microShieldはAdGuard、uBlock Origin、Brave、ABPの環境でAd-Shieldを広範囲に回避します。
 //
 // @grant        GM.xmlHttpRequest
+// @grant        GM.getValue
+// @grant        GM.setValue
+// @grant        GM.listValues
+// @grant        GM.deleteValue
 // @run-at       document-start
 // ==/UserScript==
 // Original Srouce Code:
