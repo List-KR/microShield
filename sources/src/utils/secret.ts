@@ -116,6 +116,10 @@ export const ProtectDescriptors = <T extends ArbitaryObject, K extends keyof T>(
 		const DefineProperties = ProtectFunction(Object.defineProperties, {
 			CheckArgumentFunctions: [
 				ArgArray => {
+					if (location.hostname.includes('raenonx.cc')) {
+						return true
+					}
+
 					for (const TargetProperty of Object.keys(ArgArray[1] as ArbitaryObject) as K[]) {
 						if (ProtectedDescriptors.has(ArgArray[0][TargetProperty])) {
 							return false
