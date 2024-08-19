@@ -11,10 +11,9 @@ declare const unsafeWindow: unsafeWindow
 
 const Win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type ArbitaryObject = object
 
-// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-function-type
 type Fomulate = ((...args: any[]) => any) & Function
 
 const Debug = CreateDebug('secret')

@@ -97,7 +97,7 @@ export const AdshieldKeywords = [
 
 const AdshieldDomainsize = AdshieldHostableDomains.length
 
-// eslint-disable-next-line no-bitwise
+ 
 export const GetRandomAdShieldHost = () => AdshieldHostableDomains[(Number(cryptoRandomString({length: 16, type: 'numeric'})) * 0.0000000000000001 * AdshieldDomainsize) >>> 0]
 
 export const IsAdShieldCall = (Trace = JustifyCallStack()) => {

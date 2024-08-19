@@ -61,13 +61,12 @@ export const ResolveResourceUrls = async (Html: string, Token: string) => {
 	const Host = GetRandomAdShieldHost()
 
 	let NewHtml = ''
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	let Matches: RegExpExecArray | null = null
 
 	while ((Matches = Pattern.exec(Html)) !== null) {
 		const Url = 'https://' + Host + '/resources/' + Matches[1].slice(12 /* 'resources://'.length */) + '?token=' + Token
 
-		// eslint-disable-next-line no-await-in-loop
+		 
 		NewHtml += await GetCachableHtml(Url)
 			.catch(Errors => {
 				console.error(Errors)
