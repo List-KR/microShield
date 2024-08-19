@@ -175,7 +175,7 @@ export const Tinywave = async () => {
 			for (const Entity of PrivateEntities) {
 				if (Entity.Type === EntityTypes.Head) {
 					// eslint-disable-next-line no-await-in-loop
-					Entity.Html = await ResolveResourceUrls(Entity.Html, Token)
+					Entity.Html = await ResolveResourceUrls(Entity.Html, Token as string)
 				}
 			}
 		}
