@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield-ios-blocker.user.js
 // @license      Apache-2.0
 //
-// @version      4.7.5
+// @version      4.7.6
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
