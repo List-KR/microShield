@@ -1,6 +1,6 @@
 {
   "name": "microshield",
-  "version": "4.7.8",
+  "version": "4.7.9",
   "description": "",
   "type": "module",
   "scripts": {
@@ -36,16 +36,16 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@list-kr/microshield-token-parser": "^1.0.5",
-    "@types/node": "^20.12.12",
+    "@list-kr/microshield-token-parser": "^1.0.6",
+    "@types/node": "^20.16.1",
     "crypto-random-string": "^5.0.0",
-    "parse-domain": "^8.0.2"
+    "parse-domain": "^8.2.2"
   },
   "devDependencies": {
-    "esbuild": "^0.21.3",
-    "eslint": "^9.9.0",
-    "pnpm": "^9.1.2",
+    "esbuild": "^0.21.5",
+    "eslint": "^9.9.1",
+    "pnpm": "^9.8.0",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.1.0"
+    "typescript-eslint": "^8.2.0"
   }
 }
