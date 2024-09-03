@@ -1,7 +1,7 @@
 import {UnprotectedFetch} from '../utils/secret.js'
 import {GetRandomAdShieldHost} from './validators.js'
 import type {GM} from '../GM.js'
-import { AdvancedExtractor } from '@list-kr/microshield-token-parser'
+import { TokenExtractor } from '@list-kr/microshield-token-parser'
 
 declare const GM: GM
 
@@ -33,7 +33,7 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 		}
 		catch {
 			if (await GM.getValue(ResponseHash, null) === null) {
-				const Token = new AdvancedExtractor(Text).GetToken()
+				const Token = new TokenExtractor(Text).GetToken()
 				await GM.setValue(ResponseHash, Token)
 				return Token
 			} else {
