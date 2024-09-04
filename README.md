@@ -6,7 +6,7 @@ microShield blocks Ad-Shield advertisement and anti-adblock script.
 
 microShield userscript is managed by the adblock community and AdGuard.
 
-한국어: https://community.list-kr.com/docs/AdGuard/Userscripts/microShield
+한국어: https://list-kr-community.pages.dev/docs/AdGuard/Userscripts/microShield
 
 > [!IMPORTANT]
 > microShield userscript maintainer recommends using one of the following adblockers with microShield userscript:
