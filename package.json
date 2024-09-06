@@ -36,7 +36,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@list-kr/microshield-token-parser": "^2.0.2",
+    "@list-kr/microshield-token-parser": "^2.0.3",
     "@types/node": "^22.5.4",
     "crypto-random-string": "^5.0.0",
     "parse-domain": "^8.2.2"
