@@ -1,6 +1,6 @@
 {
   "name": "microshield",
-  "version": "4.8.0",
+  "version": "4.9.0",
   "description": "",
   "type": "module",
   "scripts": {
@@ -36,8 +36,8 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@list-kr/microshield-token-parser": "^2.0.1",
-    "@types/node": "^22.5.2",
+    "@list-kr/microshield-token-parser": "^2.0.2",
+    "@types/node": "^22.5.4",
     "crypto-random-string": "^5.0.0",
     "parse-domain": "^8.2.2"
   },
