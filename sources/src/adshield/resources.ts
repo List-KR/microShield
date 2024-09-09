@@ -28,32 +28,16 @@ export const GetResourceToken = async (ScriptUrl: string) => {
 
 	if (Match === null) {
 		const ResponseHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(Text)))).map(Block =>Block.toString(16).padStart(2, '0')).join('')
-		try {
-			return await GetResourceTokenFromCDN(ResponseHash)
-		}
-		catch {
-			if (await GM.getValue(ResponseHash, null) === null) {
-				const Token = new TokenExtractor(Text).GetToken()
-				await GM.setValue(ResponseHash, Token)
-				return Token
-			} else {
-				return await GM.getValue(ResponseHash, null)
-			}
+		if (await GM.getValue(ResponseHash, null) === null) {
+			const Token = new TokenExtractor(Text).GetToken()
+			await GM.setValue(ResponseHash, Token)
+			return Token
+		} else {
+			return await GM.getValue(ResponseHash, null)
 		}
 	}
 
 	return Match[0]
-}
-
-const GetResourceTokenFromCDN = async (Hash: string) => {
-	const CurrentDate = new Date()
-	const XHR = await GM.xmlHttpRequest({
-		url: `https://cdn.jsdelivr.net/gh/List-KR/microShield-token@latest/${CurrentDate.getUTCFullYear()}/${CurrentDate.getUTCMonth()}/${CurrentDate.getUTCDate()}/${Hash}.token`
-	})
-	if (XHR.status !== 200) {
-		throw new Error('Failed to fetch token!')
-	}
-	return XHR.response
 }
 
 export const ResolveResourceUrls = async (Html: string, Token: string) => {
