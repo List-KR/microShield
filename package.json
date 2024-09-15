@@ -20,6 +20,10 @@
     "email": "piquark6046@proton.me",
     "url": "https://github.com/PiQuark6046"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/List-KR/microShield"
+  },
   "contributors": [
     {
       "name": "HoJeong Go",
