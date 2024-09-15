@@ -4,8 +4,8 @@
 // @namespace    https://github.com/List-KR/microShield
 // @homepageURL  https://github.com/List-KR/microShield
 // @supportURL   https://github.com/List-KR/microShield/issues
-// @updateURL    https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield-ios-blocker.user.js
-// @downloadURL  https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield-ios-blocker.user.js
+// @updateURL    https://cdn.jsdelivr.net/npm/@list-kr/microShield@latest/dist/microShield-ios-blocker.user.js
+// @downloadURL  https://cdn.jsdelivr.net/npm/@list-kr/microShield@latest/dist/microShield-ios-blocker.user.js
 // @license      Apache-2.0
 //
 // @version      4.10.5
