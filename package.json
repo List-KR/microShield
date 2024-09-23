@@ -1,6 +1,6 @@
 {
   "name": "@list-kr/microshield",
-  "version": "4.10.7",
+  "version": "4.11.0",
   "description": "",
   "type": "module",
   "scripts": {
@@ -14,7 +14,9 @@
     "lint": "tsc --noEmit && eslint sources"
   },
   "keywords": [],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "author": {
     "name": "PiQuark6046",
     "email": "piquark6046@proton.me",
@@ -44,6 +46,7 @@
     "@list-kr/microshield-token-parser": "^2.0.3",
     "@types/node": "^22.5.4",
     "crypto-random-string": "^5.0.0",
+    "error-stack-parser": "^2.1.4",
     "parse-domain": "^8.2.2"
   },
   "devDependencies": {

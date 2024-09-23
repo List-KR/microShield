@@ -1,9 +1,11 @@
 import cryptoRandomString from 'crypto-random-string'
+import * as ErrorStackParser from 'error-stack-parser'
 import {AdshieldKeywords, IsAdShieldCall} from '../adshield/validators.js'
 import {Config} from '../config.js'
 import {GenerateCallStack} from './call-stack.js'
 import {CreateDebug} from './logger.js'
 import {HasSubstringSetsInString} from './string.js'
+import {MatchSpecificSeq} from './sequence.js'
 
 type unsafeWindow = typeof window
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -27,21 +29,39 @@ export type ProtectedFunctionCreationOptions = Partial<{
 	CheckOutputs: boolean;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	CheckArgumentFunctions: Array<(argArray: any[]) => boolean>;
+	ReturnAs: 'Banned' | 'Undefined' | string
 }>
 
 const PprintCall = (Name?: string, WasBlocked?: boolean, V?: unknown) => {
 	Debug(WasBlocked ? '-' : '+', 'name=' + Name, 'v=', V, 'stack=', GenerateCallStack())
 }
 
+let StackTraces: ReturnType<typeof ErrorStackParser.parse>[] = []
+
 export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunctionCreationOptions) => new Proxy(F, {
 	apply(Target, ThisArg, ArgArray) {
+		let ReturnAs: 'Banned' | 'Undefined' | 'Normal' | string = 'Normal'
+		const ErrorInstance = new Error()
 		const E = () => {
 			PprintCall(Options.Name, true, ArgArray)
 
-			throw new Error()
+			if (typeof Options.ReturnAs !== 'undefined' &&
+				MatchSpecificSeq(ErrorStackParser.parse(ErrorInstance), [/[A-Za-z]{1,3}/, undefined, /[A-Za-z]{1,3}/, /Generator\./, /Generator\./])) {
+					ReturnAs = Options.ReturnAs
+			} else {
+				ReturnAs = 'Banned'
+			}
+
+			if (ReturnAs === 'Banned') {
+				throw new Error()
+			}
 		}
 
 		if (IsAdShieldCall()) {
+			E()
+		}
+
+		if (StackTraces.some(StackTrace => JSON.stringify(ErrorStackParser.parse(ErrorInstance)) === JSON.stringify(StackTrace))) {
 			E()
 		}
 
@@ -93,7 +113,13 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 			PprintCall(Options.Name, false, ArgArray)
 		}
 
-		return Reflect.apply(Target, ThisArg, ArgArray) as unknown
+		if (ReturnAs === 'Normal') {
+			return Reflect.apply(Target, ThisArg, ArgArray)
+		} else if (ReturnAs === 'Undefined') {
+			return undefined
+		} else {
+			return ReturnAs
+		}
 	},
 	setPrototypeOf(Target, V) {
 		PprintCall(Options.Name, true, V)
