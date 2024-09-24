@@ -19,12 +19,12 @@ microShield 유저스크립트는 AdGuard와 애드블록 커뮤니티에 의해
 ### 빠른 시작
 iOS 디바이스에 설치하시는게 아니라시면, 아래 URL를 클릭하여 설치해주세요:
 
-https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
+https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
 
 iOS 디바이스에 설치하사고자 하시면, 아래 URL를 모두 클릭하여 설치해주세요:
 
-https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield-ios-blocker.user.js
+https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-blocker.user.js
 
-https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield-ios-recovery.user.js
+https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-recovery.user.js
 
 ### 설치하는 방법

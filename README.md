@@ -21,7 +21,7 @@ microShield userscript is managed by the adblock community and AdGuard.
 ### Quick Start
 Just click the following URL to detect this userscript.
 
-https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
+https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
 
 ### How to install
 - [Violentmonkey](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/) (Recommended if you cannot access AdGuard Premium) - Browser extension
@@ -30,7 +30,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
     3. Click `Install from URL` button.
     4. Input the following URL:
     ```
-    https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
+    https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
     ```
     5. Click `OK` button.
     6. Confirm metadata of the userscript and click `Confirm installation`.
@@ -41,7 +41,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
     2. Go to `Utilities` tab.
     3. Input the following URL into `Install from URL`:
         ```
-        https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
+        https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
         ```
     4. Click `Install` button.
     5. Confirm metadata of the userscript and click `Install`.
@@ -64,7 +64,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
     3. Click `Add extension`.
     4. Input the following URL:
         ```
-        https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
+        https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
         ```
     5. Click `Install`.
     6. Confirm metadata of the userscript and click `Install`.
@@ -76,7 +76,7 @@ https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
     2. Touch `New extension`.
     3. Input the following URL:
         ```
-        https://cdn.jsdelivr.net/gh/List-KR/microShield@latest/microShield.user.js
+        https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
         ```
     4. Touch `Next`.
     5. Confirm metadata of the userscript and touch `Add`.
