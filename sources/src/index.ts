@@ -41,7 +41,6 @@ const Hook = () => {
 	ProtectFunctionDescriptors(Win, 'alert', {CheckArguments: true})
 	ProtectFunctionDescriptors(Win, 'confirm', {CheckArguments: true, ReturnAs: 'Undefined'})
 	ProtectFunctionDescriptors(Win, 'atob', {CheckOutputs: true, ReturnAs: 'error-report.com'})
-	ProtectFunctionDescriptors(Win.location, 'reload')
 	ProtectFunctionDescriptors(Win, 'decodeURI', {ReturnAs: 'Undefined'})
 	ProtectFunctionDescriptors(Win, 'decodeURIComponent', {ReturnAs: 'Undefined'})
 	ProtectFunctionDescriptors(Win.Promise.prototype, 'catch')
