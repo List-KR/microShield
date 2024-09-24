@@ -93,7 +93,8 @@ export const AdshieldKeywords = [
 	...AdshieldDomains,
 	'failed to load website',
 	'blocking software',
-	'bad filtering rule'
+	'bad filtering rule',
+	'잘못된 애드블록 필터로'
 ]
 
 const AdshieldDomainsize = AdshieldHostableDomains.length
