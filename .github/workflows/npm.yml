@@ -34,7 +34,7 @@ jobs:
       actions: read
     steps:
       - name: Purge jsdelivr cache
-        uses: List-KR/jsdelivr-purge-npm@1.0.0
+        uses: List-KR/jsdelivr-purge-npm@1.0.1
         with:
           package: '@list-kr/microshield'
           disttag: 'latest'
