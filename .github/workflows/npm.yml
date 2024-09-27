@@ -38,3 +38,4 @@ jobs:
         with:
           package: '@list-kr/microshield'
           disttag: 'latest'
+    needs: [publish]
