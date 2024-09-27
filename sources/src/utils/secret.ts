@@ -48,6 +48,9 @@ export const ProtectFunction = <F extends Fomulate>(F: F, Options: ProtectedFunc
 			if (typeof Options.ReturnAs !== 'undefined' &&
 				MatchSpecificSeq(ErrorStackParser.parse(ErrorInstance), [/[A-Za-z]{1,3}/, undefined, /[A-Za-z]{1,3}/, /Generator\./, /Generator\./])) {
 					ReturnAs = Options.ReturnAs
+			} else if (typeof Options.ReturnAs !== 'undefined' &&
+				MatchSpecificSeq(ErrorStackParser.parse(ErrorInstance), [/[A-Za-z]{1,3}/, /\/</, /[A-Za-z]{1,3}/, /\/</, /\/</])) {
+					ReturnAs = Options.ReturnAs
 			} else {
 				ReturnAs = 'Banned'
 			}
