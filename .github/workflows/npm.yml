@@ -26,3 +26,8 @@ jobs:
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Purge cache
+        uses: List-KR/jsdelivr-purge-npm@1.0.0
+        with:
+          package: '@list-kr/microshield'
+          disttag: 'latest'
