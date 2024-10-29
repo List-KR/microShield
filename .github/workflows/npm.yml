@@ -33,6 +33,10 @@ jobs:
       contents: read
       actions: read
     steps:
+      - name: Set up NodeJS LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
       - name: Purge jsdelivr cache
         uses: List-KR/jsdelivr-purge-npm@1.0.2
         with:
