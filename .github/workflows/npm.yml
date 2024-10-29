@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: 'lts/*'
       - name: Purge jsdelivr cache
-        uses: List-KR/jsdelivr-purge-npm@1.0.2
+        uses: List-KR/jsdelivr-purge-npm@1.0.3
         with:
           package: '@list-kr/microshield'
           disttag: 'latest'
