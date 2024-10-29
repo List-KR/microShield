@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      4.12.2
+// @version      4.12.3
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
@@ -93,8 +93,6 @@
 // @match        *://*.etnews.com/*
 // @match        *://iusm.co.kr/*
 // @match        *://*.iusm.co.kr/*
-// @match        *://meeco.kr/*
-// @match        *://*.meeco.kr/*
 // @match        *://etoland.co.kr/*
 // @match        *://*.etoland.co.kr/*
 // @match        *://picrew.me/*
