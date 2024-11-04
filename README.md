@@ -23,6 +23,12 @@ Just click the following URL to detect this userscript.
 
 https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
 
+For Userscripts on iOS and Safari, please click the all following URLs instead of the above URL:
+
+- https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-blocker.user.js
+- ttps://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-recovery.user.js
+
+
 ### How to install
 - [Violentmonkey](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/) (Recommended if you cannot access AdGuard Premium) - Browser extension
     1. Open `Dashboard`.
