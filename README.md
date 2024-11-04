@@ -26,7 +26,7 @@ https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.j
 For Userscripts on iOS and Safari, please click the all following URLs instead of the above URL:
 
 - https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-blocker.user.js
-- ttps://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-recovery.user.js
+- https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-recovery.user.js
 
 
 ### How to install
