@@ -8,6 +8,10 @@ microShield userscript is managed by the adblock community and AdGuard.
 
 한국어: https://list-kr-community.pages.dev/docs/AdGuard/Userscripts/microShield
 
+> [!CAUTION]
+> The microShield userscript is outdated and no longer be maintained. Please remove it and install [tinyShield userscript](https://github.com/List-KR/tinyShield) instead.
+
+
 > [!IMPORTANT]
 > microShield userscript maintainer recommends using one of the following adblockers with microShield userscript:
 > - AdGuard
