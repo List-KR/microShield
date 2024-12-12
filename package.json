@@ -1,15 +1,15 @@
 {
   "name": "@list-kr/microshield",
-  "version": "4.12.9",
+  "version": "4.12.10",
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "pnpm bundle && pnpm bundle:iosblocker && pnpm bundle:iosrecovery",
+    "build": "npm run bundle && npm run bundle:iosblocker && npm run bundle:iosrecovery",
     "shortwave:cache": "OUTPUT=$(readlink -f ./sources/src/__generated__/shortwave.cache.ts) node sources/scripts/generateShortwaveCache.mjs",
     "ztinywave:cache": "OUTPUT=$(readlink -f ./sources/src/__generated__/ztinywave.cache.ts) node sources/scripts/generateTinywaveCache.mjs",
     "bundle": "esbuild sources/src/index.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./dist/microShield.user.js",
-    "bundle:iosblocker": "esbuild sources/src/index-ios-blocker.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-ios-blocker.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./dist/microShield-ios-blocker.user.js",
-    "bundle:iosrecovery": "esbuild sources/src/index-ios-recovery.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-ios-recovery.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./dist/microShield-ios-recovery.user.js",
+    "bundle:iosblocker": "esbuild sources/src/index.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-ios-blocker.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./dist/microShield-ios-blocker.user.js",
+    "bundle:iosrecovery": "esbuild sources/src/index.ts --bundle --minify-whitespace --minify-syntax --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner-ios-recovery.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./dist/microShield-ios-recovery.user.js",
     "debug": "esbuild sources/src/index.ts --bundle --define:global=window --inject:./sources/esbuild.inject.ts --banner:js=\"$(cat ./sources/banner.txt)\" --target=es2022,chrome109,safari16,firefox115 --outfile=./dist/microShield-debug.user.js",
     "lint": "tsc --noEmit && eslint sources"
   },
@@ -43,17 +43,12 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@list-kr/microshield-token-parser": "^2.0.3",
-    "@types/node": "^22.5.4",
-    "crypto-random-string": "^5.0.0",
-    "error-stack-parser": "^2.1.4",
-    "parse-domain": "^8.2.2"
+    "@types/node": "^22.10.2"
   },
   "devDependencies": {
-    "esbuild": "^0.23.1",
-    "eslint": "^9.9.1",
-    "pnpm": "^9.9.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.4.0"
+    "esbuild": "^0.24.0",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.0"
   }
 }

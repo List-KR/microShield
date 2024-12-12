@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield.user.js
 // @license      Apache-2.0
 //
-// @version      4.12.9
+// @version      4.12.10
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
@@ -263,7 +263,7 @@
 // @grant        GM.listValues
 // @grant        GM.deleteValue
 // @grant        unsafeWindow
-// @run-at       document-start
+// @run-at       document-end
 // ==/UserScript==
 // Original Srouce Code:
 // Libraries: please see 'https://github.com/List-KR/microShield/package.json'.

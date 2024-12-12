@@ -8,7 +8,7 @@
 // @downloadURL  https://cdn.jsdelivr.net/npm/@list-kr/microshield@latest/dist/microShield-ios-blocker.user.js
 // @license      Apache-2.0
 //
-// @version      4.12.9
+// @version      4.12.10
 // @author       PiQuark6046 and contributors
 //
 // @match        *://ygosu.com/*
@@ -259,7 +259,7 @@
 // @description:ja     microShieldはAdGuard、uBlock Origin、Brave、ABPの環境でAd-Shieldを広範囲に回避します。
 //
 // @grant        none
-// @run-at       document-start
+// @run-at       document-end
 // ==/UserScript==
 // Original Srouce Code:
 // Libraries: please see 'https://github.com/List-KR/microShield/package.json'.
